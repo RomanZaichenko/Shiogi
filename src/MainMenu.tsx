@@ -6,11 +6,11 @@ function MainMenu() {
     return (
         <main className='menu'>
             <h1 className="menu-title">Shiogi</h1>
-            <MenuButton buttonName="Play" />
-            <MenuButton buttonName="Settings" />
-            <MenuButton buttonName="Rules" />
-            <MenuButton buttonName="Exit" />
-            <MenuButton buttonName="Profile" />
+            <MenuButton buttonName={"Player"}/>
+            <MenuButton buttonName={"Settings"}/>
+            <MenuButton buttonName={"Rules"}/>
+            <MenuButton buttonName={"Profile"}/>
+            <MenuButton buttonName={"Exit"}/>
         </main>
 
     );
