@@ -1,14 +1,26 @@
 import './styles/MainMenu.css'
 import MenuButton from "./MenuButton.tsx";
-import * as React from "react";
+import {useEffect, useState} from "react";
 
 
 function MainMenu() {
-    const [hidden, setHidden] = React.useState(false);
+    const [hidden, setHidden] = useState(false);
+    const menuElement = document.getElementById('menu');
+
+    useEffect(() => {
+        if (hidden) {
+            menuElement.style.opacity = 0;
+        }
+        else {
+            if (menuElement){
+                menuElement.style.opacity = 1;
+            }
+        }
+    })
 
     return (
-        <main className='menu'>
-            <h1 className="menu-title">Shiogi</h1>
+        <main id='menu'>
+            <h1 id="menu-title">Shiogi</h1>
             <MenuButton buttonName={"Play"} clickHandler={() => {
                 setHidden(true);
             }}/>
