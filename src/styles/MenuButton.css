@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+.menu-button {
+    @apply w-[250px] h-[60px] border-none rounded-[10px] text-xl
+    bg-[linear-gradient(to_right,#77530a,#ffd277,#77530a,#77530a,#ffd277,#77530a)]
+    [background-size:250%] bg-left text-[#ffd277] relative flex items-center justify-center cursor-pointer
+    duration-1000 overflow-hidden mb-[15px]
+}
+
+.menu-button:before {
+    @apply absolute content-[var(--button-content)] text-[#ffd277] flex items-center justify-center w-[97%] h-[90%]
+    rounded-[8px] duration-1000 bg-[rgba(0,_0,_0,_0.842)] [background-size:200%]
+}
+
+.menu-button:hover {
+    @apply bg-right duration-1000
+}
+
+.menu-button:active {
+    @apply scale-[0.95]
+}
+
+.menu-button:hover:before {
+    @apply bg-right duration-1000
+}
