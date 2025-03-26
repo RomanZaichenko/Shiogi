@@ -9,11 +9,11 @@ function MainMenu() {
 
     useEffect(() => {
         if (hidden) {
-            menuElement.style.opacity = 0;
+            menuElement.style.opacity = "0";
         }
         else {
             if (menuElement){
-                menuElement.style.opacity = 1;
+                menuElement.style.opacity = "1";
             }
         }
     })
