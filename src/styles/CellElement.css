@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+.cell {
+    @apply size-17 border border-solid border-black inline-block
+    bg-gradient-to-r from-[#eacda3] to-[#d6ae7b];
+
+}
+
+.figure {
+    @apply max-w-[70px] max-h-[80px];
+}

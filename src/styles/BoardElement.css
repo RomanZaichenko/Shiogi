@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+#board {
+    @apply flex flex-col ml-[31vw] mt-[5vh];
+}

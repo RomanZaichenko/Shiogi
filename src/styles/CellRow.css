@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+.cell-row {
+    @apply flex flex-row;
+}

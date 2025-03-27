@@ -2,13 +2,13 @@ import './styles/MainMenu.css'
 import MenuButton from "./MenuButton.tsx";
 import {useEffect, useState, useRef} from "react";
 
-interface MainMenuProps {
+interface IMainMenuProps {
     gameAreaDisplay: boolean;
     setGameAreaDisplay: (value: boolean) => void;
 }
 
 
-function MainMenu(props: MainMenuProps) {
+function MainMenu(props: IMainMenuProps) {
     const [hidden, setHidden] = useState(false);
     const menuElement = useRef<HTMLDivElement>(null);
 

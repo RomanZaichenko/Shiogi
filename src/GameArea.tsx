@@ -1,15 +1,12 @@
-import {Board} from "./classes/Board.ts";
 import './styles/GameArea.css'
+import BoardElement from "./BoardElement.tsx";
 
 
 function GameArea() {
 
-    const board = Board.instance;
-    const coords = board.coordinates;
-
     return (
         <main id="game-area">
-
+            <BoardElement/>
         </main>
     );
 }
