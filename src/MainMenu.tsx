@@ -1,43 +1,46 @@
 import './styles/MainMenu.css'
 import MenuButton from "./MenuButton.tsx";
-import {useEffect, useState} from "react";
+import {useEffect, useState, useRef} from "react";
+
+interface MainMenuProps {
+    gameAreaDisplay: boolean;
+    setGameAreaDisplay: (value: boolean) => void;
+}
 
 
-function MainMenu() {
+function MainMenu(props: MainMenuProps) {
     const [hidden, setHidden] = useState(false);
-    const menuElement = document.getElementById('menu');
+    const menuElement = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (hidden) {
-            menuElement.style.opacity = "0";
+        if (menuElement.current) {
+           menuElement.current.id = hidden ? "menu-hidden" : "menu-visible";
         }
-        else {
-            if (menuElement){
-                menuElement.style.opacity = "1";
-            }
-        }
-    })
+    }, [hidden])
 
     return (
-        <main id='menu'>
-            <h1 id="menu-title">Shiogi</h1>
-            <MenuButton buttonName={"Play"} clickHandler={() => {
-                setHidden(true);
-            }}/>
-            <MenuButton buttonName={"Profile"} clickHandler={() => {
-                setHidden(true);
-            }}/>
-            <MenuButton buttonName={"Rules"} clickHandler={() => {
-                setHidden(true);
-            }}/>
-            <MenuButton buttonName={"Settings"} clickHandler={() => {
-                setHidden(true);
-            }}/>
-            <MenuButton buttonName={"Exit"} clickHandler={() => {
-                setHidden(true);
-            }}/>
-        </main>
+        <>
+            <main id='menu' ref={menuElement}>
+                <h1 id="menu-title">Shiogi</h1>
+                <MenuButton buttonName={"Play"} clickHandler={() => {
+                    setHidden(true);
+                    props.setGameAreaDisplay(true);
+                }}/>
+                <MenuButton buttonName={"Profile"} clickHandler={() => {
+                    setHidden(true);
+                }}/>
+                <MenuButton buttonName={"Rules"} clickHandler={() => {
+                    setHidden(true);
+                }}/>
+                <MenuButton buttonName={"Settings"} clickHandler={() => {
+                    setHidden(true);
+                }}/>
+                <MenuButton buttonName={"Exit"} clickHandler={() => {
+                    setHidden(true);
+                }}/>
 
+            </main>
+        </>
     );
 }
 
