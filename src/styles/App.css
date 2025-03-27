@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+body {
+    @apply bg-gradient-to-r from-[#434343] to-black;
+    font-family:var(--font-rowdies);
+    @apply h-screen w-screen;
+}

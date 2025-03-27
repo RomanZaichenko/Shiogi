@@ -7,12 +7,17 @@
 }
 
 body {
-    @apply bg-gradient-to-r from-[#434343] to-black;
     font-family:var(--font-rowdies);
 }
 
-#menu {
+
+
+#menu-visible {
     @apply flex flex-col items-center justify-center w-full h-full;
+}
+
+#menu-hidden {
+    @apply hidden;
 }
 
 #menu-title {
