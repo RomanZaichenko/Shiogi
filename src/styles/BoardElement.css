@@ -3,3 +3,7 @@
 #board {
     @apply flex flex-col ml-[31vw] mt-[5vh];
 }
+
+#numbers {
+    @apply flex flex-row justify-around text-white text-xs pr-[0.9rem];
+}

@@ -11,17 +11,22 @@ function CellRow(props: ICellRowProps) {
     const coords = props.coordinates;
     let column = 0;
     return(
-        <div className="cell-row">
-            <CellElement cell={coords[props.row][column++]} />
-            <CellElement cell={coords[props.row][column++]} />
-            <CellElement cell={coords[props.row][column++]} />
-            <CellElement cell={coords[props.row][column++]} />
-            <CellElement cell={coords[props.row][column++]} />
-            <CellElement cell={coords[props.row][column++]} />
-            <CellElement cell={coords[props.row][column++]} />
-            <CellElement cell={coords[props.row][column++]} />
-            <CellElement cell={coords[props.row][column++]} />
-        </div>
+        <>
+            <div className="row-container">
+                <div className="cell-row">
+                    <CellElement cell={coords[props.row][column++]} />
+                    <CellElement cell={coords[props.row][column++]} />
+                    <CellElement cell={coords[props.row][column++]} />
+                    <CellElement cell={coords[props.row][column++]} />
+                    <CellElement cell={coords[props.row][column++]} />
+                    <CellElement cell={coords[props.row][column++]} />
+                    <CellElement cell={coords[props.row][column++]} />
+                    <CellElement cell={coords[props.row][column++]} />
+                    <CellElement cell={coords[props.row][column++]} />
+                </div>
+                <p className="row-number">{props.row+1}</p>
+            </div>
+        </>
     )
 }
 

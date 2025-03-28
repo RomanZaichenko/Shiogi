@@ -3,3 +3,13 @@
 .cell-row {
     @apply flex flex-row;
 }
+
+.row-container {
+    @apply flex flex-row;
+}
+
+.row-number {
+    @apply text-white text-xs mt-[2.2em] ml-[5px];
+}
+
+
