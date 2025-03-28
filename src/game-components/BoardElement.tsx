@@ -1,6 +1,6 @@
 import CellRow from "./CellRow.tsx";
-import {Board} from "./classes/Board.ts";
-import './styles/BoardElement.css'
+import {Board} from "../classes/Board.ts";
+import '../styles/BoardElement.css'
 
 function BoardElement() {
     const board = Board.instance;
@@ -20,7 +20,7 @@ function BoardElement() {
                 <p>2</p>
                 <p>1</p>
             </div>
-            
+
             <CellRow row={row++} coordinates={coords}/>
             <CellRow row={row++} coordinates={coords}/>
             <CellRow row={row++} coordinates={coords}/>

@@ -19,6 +19,10 @@ class Board {
         }
         return Board.#instance;
     }
+
+    public initiateGame() {
+        
+    }
 }
 
 export { Board };

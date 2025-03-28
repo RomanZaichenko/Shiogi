@@ -1,17 +1,15 @@
-import {Cell} from "./classes/Cell.ts";
-import './styles/CellElement.css'
+import {Cell} from "../classes/Cell.ts";
+import '../styles/CellElement.css'
 
-interface ICellElementProps {
+interface CellElementProps {
     cell: Cell;
 }
 
-function CellElement(props: ICellElementProps){
+function CellElement(props: CellElementProps){
     if (props.cell.isOccupied){
         return(
             <div className="cell">
-                <div className="figure">
 
-                </div>
             </div>
         )
     }

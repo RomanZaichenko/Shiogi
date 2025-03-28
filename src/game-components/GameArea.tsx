@@ -1,4 +1,4 @@
-import './styles/GameArea.css'
+import '../styles/GameArea.css'
 import BoardElement from "./BoardElement.tsx";
 
 

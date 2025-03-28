@@ -1,4 +1,4 @@
-import './styles/MenuButton.css'
+import '../styles/MenuButton.css'
 import * as React from "react";
 
 interface MenuButtonProps {

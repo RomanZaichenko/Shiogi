@@ -1,4 +1,7 @@
 
-class Figure {}
+interface Figure {
+    move(): void;
+    checkAvailableCells(): void;
+}
 
-export {Figure}
+export default Figure;

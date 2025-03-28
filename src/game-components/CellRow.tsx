@@ -1,13 +1,13 @@
 import CellElement from "./CellElement.tsx";
-import {Cell} from "./classes/Cell.ts";
-import './styles/CellRow.css'
+import {Cell} from "../classes/Cell.ts";
+import '../styles/CellRow.css'
 
-interface ICellRowProps {
+interface CellRowProps {
     row: number;
     coordinates: Cell[][];
 }
 
-function CellRow(props: ICellRowProps) {
+function CellRow(props: CellRowProps) {
     const coords = props.coordinates;
     let column = 0;
     return(

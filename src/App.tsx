@@ -1,6 +1,6 @@
 import './styles/App.css'
-import MainMenu from './MainMenu.tsx'
-import GameArea from './GameArea.tsx'
+import MainMenu from './game-components/MainMenu.tsx'
+import GameArea from './game-components/GameArea.tsx'
 import {useState} from "react";
 
 

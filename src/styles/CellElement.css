@@ -7,5 +7,9 @@
 }
 
 .figure {
-    @apply max-w-[70px] max-h-[80px];
+    @apply size-13;
+}
+
+.figure-rotated {
+    @apply rotate-180;
 }
