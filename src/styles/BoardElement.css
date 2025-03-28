@@ -5,5 +5,5 @@
 }
 
 #numbers {
-    @apply flex flex-row justify-around text-white text-xs pr-[0.9rem];
+    @apply flex flex-row justify-around text-white text-xs pr-[0.9em];
 }

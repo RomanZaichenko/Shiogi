@@ -7,24 +7,16 @@ interface CellRowProps {
     coordinates: Cell[][];
 }
 
-function CellRow(props: CellRowProps) {
-    const coords = props.coordinates;
-    let column = 0;
+function CellRow({row, coordinates}: CellRowProps) {
     return(
         <>
             <div className="row-container">
                 <div className="cell-row">
-                    <CellElement cell={coords[props.row][column++]} />
-                    <CellElement cell={coords[props.row][column++]} />
-                    <CellElement cell={coords[props.row][column++]} />
-                    <CellElement cell={coords[props.row][column++]} />
-                    <CellElement cell={coords[props.row][column++]} />
-                    <CellElement cell={coords[props.row][column++]} />
-                    <CellElement cell={coords[props.row][column++]} />
-                    <CellElement cell={coords[props.row][column++]} />
-                    <CellElement cell={coords[props.row][column++]} />
+                    {coordinates[row].map((cell, col) => (
+                        <CellElement key={`${row}-${col}`} row={row} col={col} />
+                    ))}
                 </div>
-                <p className="row-number">{props.row+1}</p>
+                <p className="row-number">{row+1}</p>
             </div>
         </>
     )

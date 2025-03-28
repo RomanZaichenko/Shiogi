@@ -2,12 +2,11 @@
 
 .cell {
     @apply size-17 border border-solid border-black inline-block
-    bg-gradient-to-r from-[#eacda3] to-[#d6ae7b];
-
+    bg-gradient-to-r from-[#c49b72] to-[#a27e56];
 }
 
 .figure {
-    @apply size-13;
+    @apply size-15;
 }
 
 .figure-rotated {
