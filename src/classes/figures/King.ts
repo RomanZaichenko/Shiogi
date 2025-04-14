@@ -1,6 +1,8 @@
 import Figure from "../Figure.ts";
 
 class King implements Figure {
+    public isChecked: boolean = false;
+
     public move() {
 
     }
@@ -8,6 +10,8 @@ class King implements Figure {
     public checkAvailableCells(){
 
     }
+
+
 }
 
 export default King;

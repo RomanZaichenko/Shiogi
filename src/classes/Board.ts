@@ -3,8 +3,7 @@ import Figure from "./Figure";
 import KingCreator from "./service/KingCreator.ts";
 import GoldenGeneralCreator from "./service/GoldenGeneralCreator.ts";
 import SilverGeneralCreator from "./service/SilverGeneralCreated.ts";
-import React, {createContext, useContext, useState, useState} from "react";
-import silverGeneral from "./figures/SilverGeneral.ts";
+import {createContext, useContext} from "react";
 import HorseCreator from "./service/HorseCreator.ts";
 import SpearCreator from "./service/SpearCreator.ts";
 import ElephantCreator from "./service/ElephantCreator.ts";
@@ -101,6 +100,11 @@ class Board {
         cell.displayRotated = rotated;
     }
 
+    public removeFigureFromCell(cell: Cell) {
+        cell.isOccupied = false;
+        cell.figureOn = null;
+    }
+
     public kingInitiation(row:number, column:number, rotated: boolean) {
         const kingCell = this.getCell(row, column);
         const kingCreator = new KingCreator()
@@ -161,6 +165,7 @@ class Board {
     public getCell(row:number, col:number): Cell {
         return this.coordinates[row][col];
     }
+
 }
 
 export { Board, BoardContext };

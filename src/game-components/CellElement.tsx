@@ -1,4 +1,3 @@
-import {Cell} from "../classes/Cell.ts";
 import '../styles/CellElement.css';
 import {useBoard} from "../classes/Board.ts";
 import {useState,useEffect, useRef} from 'react';
@@ -39,10 +38,10 @@ function CellElement({row, col}: CellElementProps){
     useEffect(() => {
         setOccupied(cell.isOccupied);
         setRotated(cell.displayRotated);
-    }, [cell.isOccupied, cell.displayRotated]);
+    }, [isOccupied, displayRotated]);
 
     if (cell.isOccupied){
-        const FigureComponent = FigureComponents[cell.figureOn.constructor.name];
+        const FigureComponent= FigureComponents[cell.figureOn.constructor.name];
         figureElement = <FigureComponent rotated = {cell.displayRotated}/>;
 
         return(
