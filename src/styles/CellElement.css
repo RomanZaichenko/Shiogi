@@ -12,3 +12,7 @@
 .figure-rotated {
     @apply rotate-180;
 }
+
+.cell-dot{
+    @apply size-10 rounded-[50%];
+}

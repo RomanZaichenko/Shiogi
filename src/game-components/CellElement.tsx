@@ -31,14 +31,21 @@ function CellElement({row, col}: CellElementProps){
     const cell = getBoardCell(row, col);
     const [isOccupied, setOccupied] = useState(cell.isOccupied);
     const [displayRotated, setRotated] = useState(cell.displayRotated);
+    const [canMoveTo, setCanMoveTo] = useState(false);
     const figure = useRef<HTMLDivElement>(null);
+    const canMoveDot = useRef<HTMLDivElement>(null);
 
     let figureElement = null;
+    let dotElement = null;
 
     useEffect(() => {
         setOccupied(cell.isOccupied);
         setRotated(cell.displayRotated);
     }, [isOccupied, displayRotated]);
+
+    useEffect(() => {
+       setCanMoveTo(cell.canMoveTo);
+    }, [canMoveTo]);
 
     if (cell.isOccupied){
         const FigureComponent= FigureComponents[cell.figureOn.constructor.name];
@@ -52,9 +59,17 @@ function CellElement({row, col}: CellElementProps){
             </div>
         )
     }
+    else if (cell.canMoveTo){
+        return (
+            <div className="cell">
+                <div className={"cell-dot"} ref={canMoveDot}>
+                </div>
+            </div>
+        )
+    }
     else{
         return(
-            <div className="cell">
+            <div className="cell" >
             </div>
         )
     }
