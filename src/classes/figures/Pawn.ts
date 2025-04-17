@@ -4,21 +4,21 @@ import {Board} from "../Board.ts";
 import Mediator from "../service/Mediator.ts";
 
 class Pawn implements Figure{
-    figureCoordinates: {x: number, y: number};
+    figureCoordinates: {row: number, col: number};
     mediator: Mediator;
 
 
-    constructor(mediator: Mediator, x: number, y: number ) {
+    constructor(mediator: Mediator, row: number, col: number ) {
         this.mediator = mediator;
-        this.figureCoordinates = {x, y};
+        this.figureCoordinates = {row, col};
     }
 
 
     public move(cell: Cell) {
         const board = Board.instance;
-        const x = this.figureCoordinates.x;
-        const y = this.figureCoordinates.y;
-        const startMoveCell = board.coordinates[x][y]
+        const row = this.figureCoordinates.row;
+        const col = this.figureCoordinates.col;
+        const startMoveCell = board.coordinates[row][col]
 
         board.removeFigureFromCell(startMoveCell);
         board.displayFigureOrder(cell, this, startMoveCell.displayRotated);
@@ -26,17 +26,17 @@ class Pawn implements Figure{
 
 
     public checkAvailableCells(){
-        const x = this.figureCoordinates.x;
-        const y = this.figureCoordinates.y;
+        const row = this.figureCoordinates.row;
+        const col = this.figureCoordinates.col;
 
         const coords = Board.instance.coordinates;
-        const startCell = coords[x][y]
-        const cellToCheck: Cell = coords[x][y+1]
+        const startCell = coords[row][col];
+        const cellToCheck: Cell = coords[row-1][col];
         const availableCells: Cell[] = [];
+
 
         if(!cellToCheck.isOccupied ||
             (cellToCheck.displayRotated != startCell.displayRotated)) {
-
             availableCells.push(cellToCheck);
         }
 

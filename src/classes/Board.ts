@@ -3,16 +3,21 @@ import Figure from "./Figure";
 import KingCreator from "./service/KingCreator.ts";
 import GoldenGeneralCreator from "./service/GoldenGeneralCreator.ts";
 import SilverGeneralCreator from "./service/SilverGeneralCreated.ts";
-import {createContext, useContext} from "react";
+import {createContext, useContext, useState} from "react";
 import HorseCreator from "./service/HorseCreator.ts";
 import SpearCreator from "./service/SpearCreator.ts";
 import ElephantCreator from "./service/ElephantCreator.ts";
 import RookCreator from "./service/RookCreator.ts";
 import PawnCreator from "./service/PawnCreator.ts";
+import PawnMoveStrategy from "./service/PawnMoveStrategy.ts";
+import MoveDisplayStrategy from "./service/MoveDisplayStrategy.ts";
+import MoveMediator from "./service/MoveMediator.ts";
 
 interface BoardContextType {
     board: Board;
     getBoardCell: (row:number, col:number) => Cell;
+    displayAvailableMoves: (availableMoves: Cell[]) => void;
+    clearMoves: () => void;
 }
 
 const BoardContext = createContext<BoardContextType | undefined>(undefined);
@@ -25,10 +30,14 @@ export const useBoard = () : BoardContextType => {
     }
     return context;
 }
-
 class Board {
     static #instance: Board;
     coordinates: Cell[][] = [];
+    pawnMoveDisplay: MoveDisplayStrategy;
+    mediator: MoveMediator;
+    selectedCell: Cell | null = null;
+    cellsToMoveDisplay: Cell[] = [];
+    private _listeners: (() => void)[] = [];
 
     private constructor() {
         for (let i = 0; i < 9; i++) {
@@ -37,6 +46,8 @@ class Board {
                 this.coordinates[i][j] = new Cell(i, j, false);
             }
         }
+        this.pawnMoveDisplay = new MoveDisplayStrategy(new PawnMoveStrategy())
+        this.mediator = new MoveMediator();
     }
 
     public static get instance(): Board {
@@ -44,6 +55,18 @@ class Board {
             Board.#instance = new Board();
         }
         return Board.#instance;
+    }
+
+    public subscribe(listener: () => void) {
+        this._listeners.push(listener);
+    }
+
+    public unsubscribe(listener: () => void) {
+        this._listeners = this._listeners.filter(l => l !== listener);
+    }
+
+    private _notifyListeners(): void {
+        this._listeners.forEach((listener) => listener());
     }
 
     public initiateGame() {
@@ -157,7 +180,7 @@ class Board {
     public pawnInitiation(row:number, column:number, rotated: boolean) {
         const pawnCell = this.getCell(row, column);
         const pawnCreator = new PawnCreator();
-        const pawn = pawnCreator.createFigure();
+        const pawn = pawnCreator.createFigure(this.mediator, row, column);
         this.displayFigureOrder(pawnCell, pawn, rotated);
     }
 
@@ -165,6 +188,20 @@ class Board {
     public getCell(row:number, col:number): Cell {
         return this.coordinates[row][col];
     }
+
+    public displayAvailableMoves(availableMoves: Cell[]) {
+        this.clearMoves();
+        this.cellsToMoveDisplay = availableMoves;
+        availableMoves.forEach(moveVariant => (moveVariant.canMoveTo = true))
+        this._notifyListeners();
+    }
+
+    public clearMoves(): void {
+        this.coordinates.forEach(row => row.forEach(cell => cell.canMoveTo = false));
+        this.cellsToMoveDisplay = [];
+        this._notifyListeners();
+    }
+
 
 }
 

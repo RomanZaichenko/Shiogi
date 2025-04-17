@@ -1,5 +1,6 @@
 import {React, useState} from "react";
 import {Board, BoardContext} from "../classes/Board.ts";
+import {Cell} from "../classes/Cell.ts";
 
 
 interface BoardProviderProps {
@@ -13,8 +14,16 @@ const BoardProvider : React.FC<BoardProviderProps> = ({children}) => {
         return board.getCell(row, col);
     }
 
+    const displayAvailableMoves = (availableMoves: Cell[]) => {
+        board.displayAvailableMoves(availableMoves);
+    }
+
+    const clearMoves = () => {
+        board.clearMoves();
+    }
+
     return (
-        <BoardContext.Provider value={{board, getBoardCell}}>
+        <BoardContext.Provider value={{board, getBoardCell, displayAvailableMoves, clearMoves}}>
             {children}
         </BoardContext.Provider>
 

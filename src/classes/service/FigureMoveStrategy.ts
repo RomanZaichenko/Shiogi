@@ -1,7 +1,7 @@
 import {Cell} from "../Cell.ts";
 
 interface FigureMoveStrategy {
-    displayAvailableCells(cell: Cell): void;
+    getAvailableCells(cell: Cell): Cell[];
 }
 
 export default FigureMoveStrategy;

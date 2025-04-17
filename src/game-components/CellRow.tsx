@@ -2,6 +2,7 @@ import CellElement from "./CellElement.tsx";
 import {Cell} from "../classes/Cell.ts";
 import '../styles/CellRow.css'
 
+
 interface CellRowProps {
     row: number;
     coordinates: Cell[][];
@@ -13,7 +14,7 @@ function CellRow({row, coordinates}: CellRowProps) {
             <div className="row-container">
                 <div className="cell-row">
                     {coordinates[row].map((cell, col) => (
-                        <CellElement key={`${row}-${col}`} row={row} col={col} />
+                        <CellElement  key={`${row}-${col}`} row={row} col={col} onCl/>
                     ))}
                 </div>
                 <p className="row-number">{row+1}</p>

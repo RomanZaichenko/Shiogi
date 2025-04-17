@@ -1,7 +1,7 @@
 import Figure from "./Figure.ts";
 
 class Cell {
-    private coords = {row: 0, column: 0};
+    public coords = {row: 0, column: 0};
     public isOccupied = false;
     public figureOn : Figure | null;
     public displayRotated : boolean = false;

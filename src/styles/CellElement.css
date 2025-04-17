@@ -2,7 +2,7 @@
 
 .cell {
     @apply size-17 border border-solid border-black inline-block
-    bg-gradient-to-r from-[#c49b72] to-[#a27e56];
+    bg-gradient-to-r from-[#c49b72] to-[#a27e56] ;
 }
 
 .figure {
@@ -14,5 +14,5 @@
 }
 
 .cell-dot{
-    @apply size-10 rounded-[50%];
+    @apply size-5 rounded-[50%] bg-[#333] m-[33%];
 }
