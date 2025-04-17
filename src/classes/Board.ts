@@ -205,4 +205,4 @@ class Board {
 
 }
 
-export { Board, BoardContext };
+export { Board, BoardContext};

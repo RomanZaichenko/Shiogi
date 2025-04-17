@@ -1,6 +1,6 @@
 import '../styles/CellElement.css';
 import {Board, useBoard} from "../classes/Board.ts";
-import {useState,useEffect, useRef, useContext} from 'react';
+import {useState, useEffect, useRef, useContext, createContext} from 'react';
 import KingElement from "./figures-elements/KingElement.tsx";
 import PawnElement from "./figures-elements/PawnElement.tsx";
 import GoldenGeneralElement from "./figures-elements/GoldenGeneralElement.tsx";
@@ -9,16 +9,14 @@ import HorseElement from "./figures-elements/HorseElement.tsx";
 import SpearElement from "./figures-elements/SpearElement.tsx";
 import ElephantElement from "./figures-elements/ElephantElement.tsx";
 import RookElement from "./figures-elements/RookElement.tsx";
-import {createContext} from "react";
-import BoardProvider from "./BoardProvider.tsx";
 
-
-export const CanMoveToContext = createContext(false)
 
 interface CellElementProps {
     row: number;
     col: number;
 }
+
+export const CanMoveToContext = createContext(false);
 
 const FigureComponents = {
     "King": KingElement,
@@ -32,7 +30,7 @@ const FigureComponents = {
 }
 
 function CellElement({row, col}: CellElementProps){
-    const {getBoardCell, displayAvailableMoves} = useBoard();
+    const {getBoardCell} = useBoard();
     const cell = getBoardCell(row, col);
     const [isOccupied, setOccupied] = useState(cell.isOccupied);
     const [displayRotated, setRotated] = useState(cell.displayRotated);
@@ -40,14 +38,14 @@ function CellElement({row, col}: CellElementProps){
     const figure = useRef<HTMLDivElement>(null);
     const canMoveDot = useRef<HTMLDivElement>(null);
     const board = Board.instance;
-    const [tick, setTick] = useState(0);
+
     let figureElement = null;
 
     const onCellClick = () => {
         if(cell.isOccupied){
-            board.pawnMoveDisplay.displayMoves(cell);
-            const movesToDisplay = board.cellsToMoveDisplay;
-            displayAvailableMoves(movesToDisplay);
+            // board.pawnMoveDisplay.displayMoves(cell);
+            // const movesToDisplay = board.cellsToMoveDisplay;
+            // displayAvailableMoves(movesToDisplay);
         }
         else if(cell.canMoveTo){
 
@@ -58,13 +56,11 @@ function CellElement({row, col}: CellElementProps){
     };
 
     useEffect(() => {
-
-    }, [cell]);
-
-
-    useEffect(() => {
         const listener = () => {
-            setTick(prevTick => prevTick+1);
+            const updatedCell = board.getCell(row, col);
+            setOccupied(updatedCell.isOccupied);
+            setRotated(updatedCell.displayRotated);
+            setCanMoveTo(updatedCell.canMoveTo);
         };
 
         board.subscribe(listener);
@@ -72,7 +68,8 @@ function CellElement({row, col}: CellElementProps){
         return () => {
             board.unsubscribe(listener);
         }
-    }, [board]);
+    }, [board, row, col]);
+
 
     useEffect(() => {
         setOccupied(cell.isOccupied);
@@ -80,13 +77,12 @@ function CellElement({row, col}: CellElementProps){
     }, [cell.isOccupied, cell.displayRotated]);
 
     useEffect(() => {
-        console.log("here");
        setCanMoveTo(cell.canMoveTo);
     }, [cell.canMoveTo]);
 
     if (cell.isOccupied){
         const FigureComponent= FigureComponents[cell.figureOn.constructor.name];
-        figureElement = <FigureComponent rotated = {cell.displayRotated}/>;
+        figureElement = <FigureComponent rotated = {cell.displayRotated} row = {row} col = {col}/>;
 
         return(
             <div className="cell" onClick={onCellClick}>
@@ -97,14 +93,14 @@ function CellElement({row, col}: CellElementProps){
         )
     }
     else if (cell.canMoveTo){
-        const cellMoveContext = useContext(CanMoveToContext);
+
         return (
-          <CanMoveToContext value={cell.canMoveTo}>
+          <CanMoveToContext.Provider value={cell.canMoveTo}>
             <div className="cell" onClick={onCellClick}>
                 <div className={"cell-dot"} ref={canMoveDot}>
                 </div>
             </div>
-          </CanMoveToContext>
+          </CanMoveToContext.Provider>
         )
     }
     else{
