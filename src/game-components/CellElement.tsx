@@ -43,15 +43,23 @@ function CellElement({row, col}: CellElementProps){
 
     const onCellClick = () => {
         if(cell.isOccupied){
-            // board.pawnMoveDisplay.displayMoves(cell);
-            // const movesToDisplay = board.cellsToMoveDisplay;
-            // displayAvailableMoves(movesToDisplay);
+            board.selectedCell = cell;
         }
         else if(cell.canMoveTo){
+            if (board.selectedCell){
+                const figureToMove = board.selectedCell.figureOn;
 
+                if(figureToMove){
+                    console.log(board.selectedCell);
+                    board.moveFigure(cell);
+                    board.clearMoves();
+                    board.selectedCell = null;
+                    console.log(board.selectedCell)
+                }
+            }
         }
         else{
-
+            board.clearMoves();
         }
     };
 

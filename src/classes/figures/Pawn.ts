@@ -22,21 +22,24 @@ class Pawn implements Figure{
 
         board.removeFigureFromCell(startMoveCell);
         board.displayFigureOrder(cell, this, startMoveCell.displayRotated);
+        this.figureCoordinates.row = cell.coords.row;
+        this.figureCoordinates.col = cell.coords.column;
     }
 
 
     public checkAvailableCells(){
+        const board = Board.instance;
         const row = this.figureCoordinates.row;
         const col = this.figureCoordinates.col;
 
-        const coords = Board.instance.coordinates;
-        const startCell = coords[row][col];
-        const cellToCheck: Cell = coords[row-1][col];
+        const startCell = board.getCell(row, col);
+        const cellToCheck: Cell = board.getCell(row-1, col);
         const availableCells: Cell[] = [];
 
 
         if(!cellToCheck.isOccupied ||
             (cellToCheck.displayRotated != startCell.displayRotated)) {
+
             availableCells.push(cellToCheck);
         }
 

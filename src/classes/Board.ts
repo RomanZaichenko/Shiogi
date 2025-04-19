@@ -202,7 +202,15 @@ class Board {
         this._notifyListeners();
     }
 
+    public moveFigure(cell: Cell) {
+        const figureToMove = this.selectedCell?.figureOn;
 
+        figureToMove?.requestForMove(cell);
+
+        this._notifyListeners();
+
+
+    }
 }
 
 export { Board, BoardContext};
