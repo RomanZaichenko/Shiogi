@@ -17,6 +17,7 @@ import KingMoveStrategy from "./service/strategy/KingMoveStrategy.ts";
 import SilverGeneralMoveStrategy from "./service/strategy/SilverGeneralMoveStrategy.ts";
 import HorseMoveStrategy from "./service/strategy/HorseMoveStrategy.ts";
 import SpearMoveStrategy from "./service/strategy/SpearMoveStrategy.ts";
+import ElephantMoveStrategy from "./service/strategy/ElephantMoveStrategy.ts";
 
 interface BoardContextType {
     board: Board;
@@ -44,6 +45,7 @@ class Board {
     silverGeneralMoveDisplay: MoveDisplayStrategy;
     horseMoveDisplay: MoveDisplayStrategy;
     spearMoveDisplay: MoveDisplayStrategy;
+    elephantMoveDisplay: MoveDisplayStrategy;
     mediator: MoveMediator;
     selectedCell: Cell | null = null;
     cellsToMoveDisplay: Cell[] = [];
@@ -62,6 +64,7 @@ class Board {
         this.silverGeneralMoveDisplay = new MoveDisplayStrategy(new SilverGeneralMoveStrategy())
         this.horseMoveDisplay = new MoveDisplayStrategy(new HorseMoveStrategy())
         this.spearMoveDisplay = new MoveDisplayStrategy(new SpearMoveStrategy())
+        this.elephantMoveDisplay = new MoveDisplayStrategy(new ElephantMoveStrategy())
         this.mediator = new MoveMediator();
     }
 
@@ -181,7 +184,7 @@ class Board {
     public elephantInitiation(row:number, column:number, rotated: boolean) {
         const elephantCell = this.getCell(row, column);
         const elephantCreator = new ElephantCreator();
-        const elephant = elephantCreator.createFigure();
+        const elephant = elephantCreator.createFigure(this.mediator, row, column);
         this.displayFigureOrder(elephantCell, elephant, rotated);
     }
 

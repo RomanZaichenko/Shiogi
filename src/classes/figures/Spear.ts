@@ -27,7 +27,7 @@ class Spear {
     public checkAvailableCells(){
         const board = Board.instance;
         console.log(this.figureCoordinates);
-        const row = this.figureCoordinates.row;
+        let row = this.figureCoordinates.row;
         const col = this.figureCoordinates.col;
 
         const startCell = board.getCell(row, col);
@@ -36,18 +36,16 @@ class Spear {
 
 
         if (row - 1 >= 0) {
-            for(let i = row-1; i >= 0; i--) {
-                cellToCheck = board.getCell(i, col);
-
-                if (cellToCheck.isOccupied) {
-                    break;
-                }
-
+            do {
+                cellToCheck = board.getCell(row-1, col);
                 if(!cellToCheck.isOccupied ||
                   (cellToCheck.displayRotated != startCell.displayRotated)) {
                     availableCells.push(cellToCheck);
                 }
+
+                row--;
             }
+            while (!cellToCheck.isOccupied);
         }
         return availableCells;
     }
