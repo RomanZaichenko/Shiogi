@@ -18,6 +18,7 @@ import SilverGeneralMoveStrategy from "./service/strategy/SilverGeneralMoveStrat
 import HorseMoveStrategy from "./service/strategy/HorseMoveStrategy.ts";
 import SpearMoveStrategy from "./service/strategy/SpearMoveStrategy.ts";
 import ElephantMoveStrategy from "./service/strategy/ElephantMoveStrategy.ts";
+import RookMoveStrategy from "./service/strategy/RookMoveStrategy.ts";
 
 interface BoardContextType {
     board: Board;
@@ -46,6 +47,7 @@ class Board {
     horseMoveDisplay: MoveDisplayStrategy;
     spearMoveDisplay: MoveDisplayStrategy;
     elephantMoveDisplay: MoveDisplayStrategy;
+    rookMoveDisplay: MoveDisplayStrategy;
     mediator: MoveMediator;
     selectedCell: Cell | null = null;
     cellsToMoveDisplay: Cell[] = [];
@@ -65,6 +67,7 @@ class Board {
         this.horseMoveDisplay = new MoveDisplayStrategy(new HorseMoveStrategy())
         this.spearMoveDisplay = new MoveDisplayStrategy(new SpearMoveStrategy())
         this.elephantMoveDisplay = new MoveDisplayStrategy(new ElephantMoveStrategy())
+        this.rookMoveDisplay = new MoveDisplayStrategy(new RookMoveStrategy())
         this.mediator = new MoveMediator();
     }
 
@@ -191,7 +194,7 @@ class Board {
     public rookInitiation(row:number, column:number, rotated: boolean) {
         const rookCell = this.getCell(row, column);
         const rookCreator = new RookCreator();
-        const rook = rookCreator.createFigure();
+        const rook = rookCreator.createFigure(this.mediator, row, column);
         this.displayFigureOrder(rookCell, rook, rotated);
     }
 
