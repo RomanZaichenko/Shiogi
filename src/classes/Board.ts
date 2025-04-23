@@ -15,6 +15,8 @@ import MoveMediator from "./service/mediator/MoveMediator.ts";
 import GoldenGeneralMoveStrategy from "./service/strategy/GoldenGeneralMoveStrategy.ts";
 import KingMoveStrategy from "./service/strategy/KingMoveStrategy.ts";
 import SilverGeneralMoveStrategy from "./service/strategy/SilverGeneralMoveStrategy.ts";
+import HorseMoveStrategy from "./service/strategy/HorseMoveStrategy.ts";
+import SpearMoveStrategy from "./service/strategy/SpearMoveStrategy.ts";
 
 interface BoardContextType {
     board: Board;
@@ -40,6 +42,8 @@ class Board {
     goldenGeneralMoveDisplay: MoveDisplayStrategy;
     kingMoveDisplay: MoveDisplayStrategy;
     silverGeneralMoveDisplay: MoveDisplayStrategy;
+    horseMoveDisplay: MoveDisplayStrategy;
+    spearMoveDisplay: MoveDisplayStrategy;
     mediator: MoveMediator;
     selectedCell: Cell | null = null;
     cellsToMoveDisplay: Cell[] = [];
@@ -56,6 +60,8 @@ class Board {
         this.goldenGeneralMoveDisplay = new MoveDisplayStrategy((new GoldenGeneralMoveStrategy))
         this.kingMoveDisplay = new MoveDisplayStrategy(new KingMoveStrategy())
         this.silverGeneralMoveDisplay = new MoveDisplayStrategy(new SilverGeneralMoveStrategy())
+        this.horseMoveDisplay = new MoveDisplayStrategy(new HorseMoveStrategy())
+        this.spearMoveDisplay = new MoveDisplayStrategy(new SpearMoveStrategy())
         this.mediator = new MoveMediator();
     }
 
@@ -161,14 +167,14 @@ class Board {
     public horseInitiation(row:number, column:number, rotated: boolean) {
         const horseCell = this.getCell(row, column);
         const horseCreator = new HorseCreator();
-        const horse = horseCreator.createFigure();
+        const horse = horseCreator.createFigure(this.mediator, row, column);
         this.displayFigureOrder(horseCell, horse, rotated);
     }
 
     public spearInitiation(row:number, column:number, rotated: boolean) {
         const spearCell = this.getCell(row, column);
         const spearCreator = new SpearCreator();
-        const spear = spearCreator.createFigure();
+        const spear = spearCreator.createFigure(this.mediator, row, column);
         this.displayFigureOrder(spearCell, spear, rotated);
     }
 
