@@ -14,7 +14,7 @@ import MoveDisplayStrategy from "./service/strategy/MoveDisplayStrategy.ts";
 import MoveMediator from "./service/mediator/MoveMediator.ts";
 import GoldenGeneralMoveStrategy from "./service/strategy/GoldenGeneralMoveStrategy.ts";
 import KingMoveStrategy from "./service/strategy/KingMoveStrategy.ts";
-import mediator from "./service/mediator/Mediator.ts";
+import SilverGeneralMoveStrategy from "./service/strategy/SilverGeneralMoveStrategy.ts";
 
 interface BoardContextType {
     board: Board;
@@ -39,6 +39,7 @@ class Board {
     pawnMoveDisplay: MoveDisplayStrategy;
     goldenGeneralMoveDisplay: MoveDisplayStrategy;
     kingMoveDisplay: MoveDisplayStrategy;
+    silverGeneralMoveDisplay: MoveDisplayStrategy;
     mediator: MoveMediator;
     selectedCell: Cell | null = null;
     cellsToMoveDisplay: Cell[] = [];
@@ -54,6 +55,7 @@ class Board {
         this.pawnMoveDisplay = new MoveDisplayStrategy(new PawnMoveStrategy())
         this.goldenGeneralMoveDisplay = new MoveDisplayStrategy((new GoldenGeneralMoveStrategy))
         this.kingMoveDisplay = new MoveDisplayStrategy(new KingMoveStrategy())
+        this.silverGeneralMoveDisplay = new MoveDisplayStrategy(new SilverGeneralMoveStrategy())
         this.mediator = new MoveMediator();
     }
 
@@ -152,7 +154,7 @@ class Board {
     public silverGeneralInitiation(row:number, column:number, rotated: boolean) {
         const silverGeneralCell = this.getCell(row, column);
         const silverGeneralCreator = new SilverGeneralCreator()
-        const silverGeneral = silverGeneralCreator.createFigure();
+        const silverGeneral = silverGeneralCreator.createFigure(this.mediator, row, column);
         this.displayFigureOrder(silverGeneralCell, silverGeneral, rotated);
     }
 
