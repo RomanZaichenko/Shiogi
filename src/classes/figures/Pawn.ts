@@ -1,7 +1,7 @@
 import Figure from "../Figure.ts";
 import {Cell} from "../Cell.ts";
 import {Board} from "../Board.ts";
-import Mediator from "../service/Mediator.ts";
+import Mediator from "../service/mediator/Mediator.ts";
 
 class Pawn implements Figure{
     figureCoordinates: {row: number, col: number};
@@ -33,8 +33,12 @@ class Pawn implements Figure{
         const col = this.figureCoordinates.col;
 
         const startCell = board.getCell(row, col);
-        const cellToCheck: Cell = board.getCell(row-1, col);
+        let cellToCheck: Cell = board.getCell(row, col);
         const availableCells: Cell[] = [];
+
+        if (row-1 >= 0) {
+            cellToCheck = board.getCell(row-1, col);
+        }
 
 
         if(!cellToCheck.isOccupied ||

@@ -1,17 +1,20 @@
 import { Cell } from "./Cell";
 import Figure from "./Figure";
-import KingCreator from "./service/KingCreator.ts";
-import GoldenGeneralCreator from "./service/GoldenGeneralCreator.ts";
-import SilverGeneralCreator from "./service/SilverGeneralCreated.ts";
+import KingCreator from "./service/abstractFactory/KingCreator.ts";
+import GoldenGeneralCreator from "./service/abstractFactory/GoldenGeneralCreator.ts";
+import SilverGeneralCreator from "./service/abstractFactory/SilverGeneralCreator.ts";
 import {createContext, useContext, useState} from "react";
-import HorseCreator from "./service/HorseCreator.ts";
-import SpearCreator from "./service/SpearCreator.ts";
-import ElephantCreator from "./service/ElephantCreator.ts";
-import RookCreator from "./service/RookCreator.ts";
-import PawnCreator from "./service/PawnCreator.ts";
-import PawnMoveStrategy from "./service/PawnMoveStrategy.ts";
-import MoveDisplayStrategy from "./service/MoveDisplayStrategy.ts";
-import MoveMediator from "./service/MoveMediator.ts";
+import HorseCreator from "./service/abstractFactory/HorseCreator.ts";
+import SpearCreator from "./service/abstractFactory/SpearCreator.ts";
+import ElephantCreator from "./service/abstractFactory/ElephantCreator.ts";
+import RookCreator from "./service/abstractFactory/RookCreator.ts";
+import PawnCreator from "./service/abstractFactory/PawnCreator.ts";
+import PawnMoveStrategy from "./service/strategy/PawnMoveStrategy.ts";
+import MoveDisplayStrategy from "./service/strategy/MoveDisplayStrategy.ts";
+import MoveMediator from "./service/mediator/MoveMediator.ts";
+import GoldenGeneralMoveStrategy from "./service/strategy/GoldenGeneralMoveStrategy.ts";
+import KingMoveStrategy from "./service/strategy/KingMoveStrategy.ts";
+import mediator from "./service/mediator/Mediator.ts";
 
 interface BoardContextType {
     board: Board;
@@ -34,6 +37,8 @@ class Board {
     static #instance: Board;
     coordinates: Cell[][] = [];
     pawnMoveDisplay: MoveDisplayStrategy;
+    goldenGeneralMoveDisplay: MoveDisplayStrategy;
+    kingMoveDisplay: MoveDisplayStrategy;
     mediator: MoveMediator;
     selectedCell: Cell | null = null;
     cellsToMoveDisplay: Cell[] = [];
@@ -47,6 +52,8 @@ class Board {
             }
         }
         this.pawnMoveDisplay = new MoveDisplayStrategy(new PawnMoveStrategy())
+        this.goldenGeneralMoveDisplay = new MoveDisplayStrategy((new GoldenGeneralMoveStrategy))
+        this.kingMoveDisplay = new MoveDisplayStrategy(new KingMoveStrategy())
         this.mediator = new MoveMediator();
     }
 
@@ -131,14 +138,14 @@ class Board {
     public kingInitiation(row:number, column:number, rotated: boolean) {
         const kingCell = this.getCell(row, column);
         const kingCreator = new KingCreator()
-        const king = kingCreator.createFigure();
+        const king = kingCreator.createFigure(this.mediator, row, column);
         this.displayFigureOrder(kingCell, king, rotated);
     }
 
     public goldenGeneralInitiation(row:number, column:number, rotated: boolean) {
         const goldenGeneralCell = this.getCell(row, column);
         const goldenGeneralCreator = new GoldenGeneralCreator()
-        const goldenGeneral = goldenGeneralCreator.createFigure();
+        const goldenGeneral = goldenGeneralCreator.createFigure(this.mediator, row, column);
         this.displayFigureOrder(goldenGeneralCell, goldenGeneral, rotated);
     }
 

@@ -1,4 +1,4 @@
-import {Cell} from "../Cell.ts";
+import {Cell} from "../../Cell.ts";
 
 interface FigureMoveStrategy {
     getAvailableCells(cell: Cell): Cell[];

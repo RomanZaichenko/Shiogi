@@ -14,7 +14,6 @@ function PawnElement({ row, col }: PawnElementProps) {
   const [tick, setTick] = useState(0);
 
   const onPawnClick = () => {
-    console.log("pawn")
     board.pawnMoveDisplay.displayMoves(cell);
     const movesToDisplay = board.cellsToMoveDisplay;
     console.log(movesToDisplay);

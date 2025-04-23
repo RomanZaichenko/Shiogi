@@ -1,7 +1,7 @@
 import Mediator from "./Mediator.ts";
-import Figure from "../Figure.ts";
-import {Cell} from "../Cell.ts";
-import King from "../figures/King.ts";
+import Figure from "../../Figure.ts";
+import {Cell} from "../../Cell.ts";
+import King from "../../figures/King.ts";
 
 
 class MoveMediator implements Mediator {

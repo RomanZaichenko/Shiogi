@@ -1,5 +1,5 @@
 import {Cell} from "./Cell.ts";
-import Mediator from "./service/Mediator.ts";
+import Mediator from "./service/mediator/Mediator.ts";
 
 interface Figure {
     mediator: Mediator;
