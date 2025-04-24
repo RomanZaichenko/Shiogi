@@ -6,6 +6,7 @@ import {Board} from "../Board.ts";
 class Rook {
     figureCoordinates: {row: number; col: number};
     mediator: Mediator;
+    isPromoted: boolean = false;
 
     constructor(mediator: Mediator, row: number, col: number) {
         this.mediator = mediator;
@@ -23,6 +24,9 @@ class Rook {
         this.figureCoordinates.row = cell.coords.row;
         this.figureCoordinates.col = cell.coords.column;
 
+        if (this.checkPromotion() && !this.isPromoted) {
+            this.isPromoted = true;
+        }
     }
 
     public checkAvailableCells(){
@@ -103,6 +107,17 @@ class Rook {
         }
 
         return availableCells;
+    }
+
+    checkPromotion() {
+        if (this.figureCoordinates.row <= 2) {
+            const answer = confirm("Do you want to promote this pawn?");
+
+            if (answer) {
+                return true;
+            }
+        }
+        return false;
     }
 
     requestForMove(cell: Cell) {

@@ -5,6 +5,7 @@ import {Board} from "../Board.ts";
 class Horse {
     figureCoordinates: {row: number; col: number};
     mediator: Mediator;
+    isPromoted: boolean = false;
 
     constructor(mediator: Mediator, row: number, col: number) {
         this.mediator = mediator;
@@ -22,6 +23,10 @@ class Horse {
         board.displayFigureOrder(cell, this, startMoveCell.displayRotated);
         this.figureCoordinates.row = cell.coords.row;
         this.figureCoordinates.col = cell.coords.column;
+
+        if (this.checkPromotion() && !this.isPromoted) {
+            this.isPromoted = true;
+        }
     }
 
     public checkAvailableCells(){
@@ -54,6 +59,22 @@ class Horse {
 
         }
         return availableCells;
+    }
+
+    checkPromotion() :boolean {
+        if (this.figureCoordinates.row == 1) {
+            return true;
+        }
+        if (this.figureCoordinates.row == 2 ) {
+            const answer = confirm("Do you want to promote this pawn?");
+
+            if (answer) {
+                return true;
+            }
+        }
+
+        return false;
+
     }
 
     requestForMove(cell: Cell) {

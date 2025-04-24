@@ -1,10 +1,12 @@
 import Mediator from "../service/mediator/Mediator.ts";
 import {Cell} from "../Cell.ts";
 import {Board} from "../Board.ts";
+import Figure from "../Figure.ts";
 
-class SilverGeneral {
+class SilverGeneral implements Figure{
     figureCoordinates: {row: number; col: number};
     mediator: Mediator;
+    isPromoted: boolean = false;
 
     constructor(mediator: Mediator, row: number, col: number) {
         this.mediator = mediator;
@@ -21,6 +23,10 @@ class SilverGeneral {
         board.displayFigureOrder(cell, this, startMoveCell.displayRotated);
         this.figureCoordinates.row = cell.coords.row;
         this.figureCoordinates.col = cell.coords.column;
+
+        if (this.checkPromotion() && !this.isPromoted) {
+            this.isPromoted = true;
+        }
     }
 
     public checkAvailableCells(){
@@ -70,6 +76,17 @@ class SilverGeneral {
 
         }
         return availableCells;
+    }
+
+    checkPromotion() {
+        if (this.figureCoordinates.row <= 2) {
+            const answer = confirm("Do you want to promote this pawn?");
+
+            if (answer) {
+                return true;
+            }
+        }
+        return false;
     }
 
     requestForMove(cell: Cell) {
