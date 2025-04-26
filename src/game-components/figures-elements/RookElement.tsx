@@ -11,6 +11,7 @@ function RookElement({row, col}: RookElementProps) {
   const cell = getBoardCell(row, col);
   const board = Board.instance;
   const [tick, setTick] = useState(0);
+  let rookImage: string;
 
   const onRookClick = () => {
     board.selectedCell = cell;
@@ -35,6 +36,22 @@ function RookElement({row, col}: RookElementProps) {
     }
   }, [board]);
 
+  const [isPromoted, setIsPromoted] = useState(false);
+
+  useEffect(() => {
+    if (cell.figureOn?.getState().checkPromotion() != undefined) {
+      setIsPromoted(cell.figureOn?.getState().checkPromotion())
+    }
+  }, [isPromoted]);
+
+
+  if (isPromoted) {
+    rookImage = "rook_promotion.png";
+  }
+  else {
+    rookImage = "rook.png";
+  }
+
     return (
         <div className="figure" onClick={onRookClick}
         draggable
@@ -43,7 +60,7 @@ function RookElement({row, col}: RookElementProps) {
           board.selectedCell = null;
           clearMoves();
         }}>
-            <img src="src/images/figures/rook.png" alt=""/>
+            <img src={`src/images/figures/${rookImage}`} alt=""/>
         </div>
     )
 }

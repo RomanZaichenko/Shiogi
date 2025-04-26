@@ -3,11 +3,19 @@ import {Cell} from "../Cell.ts";
 import {Board} from "../Board.ts";
 import Mediator from "../service/mediator/Mediator.ts";
 import FigureState from "../service/state/FigureState.ts";
+import PromotionState from "../service/state/PromotionState.ts";
 
 class Pawn extends Figure{
 
     constructor(mediator: Mediator, row: number, col: number, state: FigureState) {
         super(mediator, row, col, state);
+    }
+
+    move(cell: Cell) {
+        super.move(cell);
+        if(this.checkPromotion()) {
+            this.setFigureState(new PromotionState());
+        }
     }
 
 

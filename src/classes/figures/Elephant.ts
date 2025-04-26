@@ -3,12 +3,22 @@ import {Cell} from "../Cell.ts";
 import {Board} from "../Board.ts";
 import Figure from "../Figure.ts";
 import FigureState from "../service/state/FigureState.ts";
+import PromotionState from "../service/state/PromotionState.ts";
 
 
 class Elephant extends Figure {
 
     constructor(mediator: Mediator, row: number, col: number, state: FigureState) {
         super(mediator, row, col, state);
+    }
+
+    move(cell: Cell) {
+        super.move(cell);
+
+        if(this.checkPromotion()) {
+            this.setFigureState(new PromotionState());
+        }
+
     }
 
     public checkAvailableCells(){
@@ -115,9 +125,12 @@ class Elephant extends Figure {
         return availableCells;
     }
 
-    checkPromotion() {
+    checkPromotion(): boolean {
+        if (this.getState().checkPromotion()){
+            return false;
+        }
         if (this.figureCoordinates.row <= 2) {
-            const answer = confirm("Do you want to promote this pawn?");
+            const answer = confirm("Do you want to promote this elephant?");
 
             if (answer) {
                 return true;

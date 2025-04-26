@@ -12,6 +12,7 @@ function SilverGeneralElement({row, col}: SilverGeneralElementProps) {
   const cell = getBoardCell(row, col);
   const board = Board.instance;
   const [tick, setTick] = useState(0);
+  let silverGeneralImage: string;
 
   const onSilverGeneralClick = () => {
     board.selectedCell = cell;
@@ -37,6 +38,22 @@ function SilverGeneralElement({row, col}: SilverGeneralElementProps) {
       board.unsubscribe(listener);
     }
   }, [board]);
+
+  const [isPromoted, setIsPromoted] = useState(false);
+
+  useEffect(() => {
+    if (cell.figureOn?.getState().checkPromotion() != undefined) {
+      setIsPromoted(cell.figureOn?.getState().checkPromotion())
+    }
+  }, [isPromoted]);
+
+
+  if (isPromoted) {
+    silverGeneralImage = "silver_general-promotion.png";
+  }
+  else {
+    silverGeneralImage = "silver_general.png";
+  }
     return (
         <div className="figure" onClick={onSilverGeneralClick}
         draggable
@@ -45,7 +62,7 @@ function SilverGeneralElement({row, col}: SilverGeneralElementProps) {
           board.selectedCell = null;
           clearMoves();
         }}>
-            <img src="src/images/figures/silver_general.png" alt=""/>
+            <img src={`src/images/figures/${silverGeneralImage}`} alt=""/>
         </div>
     )
 }

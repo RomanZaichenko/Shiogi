@@ -11,6 +11,7 @@ function SpearElement({row, col}: SpearElementProps) {
   const cell = getBoardCell(row, col);
   const board = Board.instance;
   const [tick, setTick] = useState(0);
+  let spearImage: string;
 
   const onSpearClick = () => {
     board.selectedCell = cell;
@@ -35,6 +36,22 @@ function SpearElement({row, col}: SpearElementProps) {
     }
   }, [board]);
 
+  const [isPromoted, setIsPromoted] = useState(false);
+
+  useEffect(() => {
+    if (cell.figureOn?.getState().checkPromotion() != undefined) {
+      setIsPromoted(cell.figureOn?.getState().checkPromotion())
+    }
+  }, [isPromoted]);
+
+
+  if (isPromoted) {
+    spearImage = "spear_promotion.png";
+  }
+  else {
+    spearImage = "spear.png";
+  }
+
     return (
         <div className="figure" onClick={onSpearClick}
         draggable
@@ -43,7 +60,7 @@ function SpearElement({row, col}: SpearElementProps) {
           board.selectedCell = null;
           clearMoves();
         }}>
-            <img src="src/images/figures/spear.png" alt=""/>
+            <img src={`src/images/figures/${spearImage}`} alt=""/>
         </div>
     )
 }

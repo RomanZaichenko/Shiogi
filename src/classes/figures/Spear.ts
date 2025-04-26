@@ -3,6 +3,7 @@ import {Cell} from "../Cell.ts";
 import {Board} from "../Board.ts";
 import Figure from "../Figure.ts";
 import FigureState from "../service/state/FigureState.ts";
+import PromotionState from "../service/state/PromotionState.ts";
 
 
 class Spear extends Figure{
@@ -11,6 +12,14 @@ class Spear extends Figure{
         super(mediator, row, col, state);
     }
 
+    move(cell: Cell) {
+        super.move(cell);
+
+        if(this.checkPromotion()) {
+            this.setFigureState(new PromotionState());
+        }
+
+    }
 
     public checkAvailableCells(){
         const board = Board.instance;

@@ -12,6 +12,7 @@ function HorseElement({ row, col }: HorseElementProps) {
   const cell = getBoardCell(row, col);
   const board = Board.instance;
   const [tick, setTick] = useState(0);
+  let horseImage : string;
 
   const onHorseClick = () => {
     board.selectedCell = cell;
@@ -36,6 +37,23 @@ function HorseElement({ row, col }: HorseElementProps) {
       board.unsubscribe(listener);
     }
   }, [board]);
+
+
+  const [isPromoted, setIsPromoted] = useState(false);
+
+  useEffect(() => {
+    if (cell.figureOn?.getState().checkPromotion() != undefined) {
+      setIsPromoted(cell.figureOn?.getState().checkPromotion())
+    }
+  }, [isPromoted]);
+
+
+  if (isPromoted) {
+    horseImage = "horse_promotion.png";
+  }
+  else {
+    horseImage = "horse.png";
+  }
     return (
         <div className="figure" onClick={onHorseClick}
         draggable
@@ -44,7 +62,7 @@ function HorseElement({ row, col }: HorseElementProps) {
           board.selectedCell = null;
           clearMoves();
         }}>
-            <img src="src/images/figures/horse.png" alt=""/>
+            <img src={`src/images/figures/${horseImage}`} alt=""/>
         </div>
     )
 }

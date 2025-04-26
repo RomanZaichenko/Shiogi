@@ -11,6 +11,7 @@ function ElephantElement({row, col}: ElephantElementProps) {
   const cell = getBoardCell(row, col);
   const board = Board.instance;
   const [tick, setTick] = useState(0);
+  let elephantImage: string;
 
   const onElephantClick = () => {
     board.selectedCell = cell;
@@ -34,17 +35,35 @@ function ElephantElement({row, col}: ElephantElementProps) {
       board.unsubscribe(listener);
     }
   }, [board]);
-    return (
-        <div className="figure" onClick={onElephantClick}
-        draggable
-        onDragStart = {onElephantClick}
-        onDragEnd = {() => {
-          board.selectedCell = null;
-          clearMoves();
-        }}>
-            <img src="src/images/figures/elephant.png" alt=""/>
-        </div>
-    )
+
+
+  const [isPromoted, setIsPromoted] = useState(false);
+
+  useEffect(() => {
+    if (cell.figureOn?.getState().checkPromotion() != undefined) {
+      setIsPromoted(cell.figureOn?.getState().checkPromotion())
+    }
+  }, [isPromoted]);
+
+
+  if (isPromoted) {
+    elephantImage = "elephant_promotion.png";
+  }
+  else {
+    elephantImage = "elephant.png";
+  }
+
+  return (
+      <div className="figure" onClick={onElephantClick}
+      draggable
+      onDragStart = {onElephantClick}
+      onDragEnd = {() => {
+        board.selectedCell = null;
+        clearMoves();
+      }}>
+          <img src={`src/images/figures/${elephantImage}`} alt=""/>
+      </div>
+  )
 }
 
 export default ElephantElement;

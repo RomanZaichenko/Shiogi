@@ -12,6 +12,7 @@ function PawnElement({ row, col }: PawnElementProps) {
   const cell = getBoardCell(row, col);
   const board = Board.instance;
   const [tick, setTick] = useState(0);
+  let pawnImage: string;
 
   const onPawnClick = () => {
     board.selectedCell = cell;
@@ -37,6 +38,23 @@ function PawnElement({ row, col }: PawnElementProps) {
       board.unsubscribe(listener);
     }
   }, [board]);
+
+  const [isPromoted, setIsPromoted] = useState(false);
+
+  useEffect(() => {
+    if (cell.figureOn?.getState().checkPromotion() != undefined) {
+      setIsPromoted(cell.figureOn?.getState().checkPromotion())
+    }
+  }, [isPromoted]);
+
+
+  if (isPromoted) {
+    pawnImage = "pawn_promotion.png";
+  }
+  else {
+    pawnImage = "pawn.png";
+  }
+
     return (
         <div className="figure" onClick={onPawnClick}
         draggable
@@ -46,7 +64,7 @@ function PawnElement({ row, col }: PawnElementProps) {
           clearMoves();
         }}>
 
-            <img src="src/images/figures/pawn.png" alt=""/>
+            <img src={`src/images/figures/${pawnImage}`} alt=""/>
         </div>
     )
 }

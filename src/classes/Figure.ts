@@ -51,6 +51,8 @@ abstract class Figure {
         return this.state;
     }
 
+
+
 }
 
 export default Figure;

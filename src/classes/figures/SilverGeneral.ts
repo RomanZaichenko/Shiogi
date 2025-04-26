@@ -3,11 +3,21 @@ import {Cell} from "../Cell.ts";
 import {Board} from "../Board.ts";
 import Figure from "../Figure.ts";
 import FigureState from "../service/state/FigureState.ts";
+import PromotionState from "../service/state/PromotionState.ts";
 
 class SilverGeneral extends Figure{
 
     constructor(mediator: Mediator, row: number, col: number, state: FigureState) {
         super(mediator, row, col, state);
+    }
+
+    move(cell: Cell) {
+        super.move(cell);
+
+        if(this.checkPromotion()) {
+            this.setFigureState(new PromotionState());
+        }
+
     }
 
     public checkAvailableCells(){
@@ -61,7 +71,7 @@ class SilverGeneral extends Figure{
 
     checkPromotion() {
         if (this.figureCoordinates.row <= 2) {
-            const answer = confirm("Do you want to promote this pawn?");
+            const answer = confirm("Do you want to promote this silver general?");
 
             if (answer) {
                 return true;
