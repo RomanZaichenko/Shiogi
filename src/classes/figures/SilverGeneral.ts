@@ -2,11 +2,12 @@ import Mediator from "../service/mediator/Mediator.ts";
 import {Cell} from "../Cell.ts";
 import {Board} from "../Board.ts";
 import Figure from "../Figure.ts";
+import FigureState from "../service/state/FigureState.ts";
 
 class SilverGeneral extends Figure{
 
-    constructor(mediator: Mediator, row: number, col: number) {
-        super(mediator, row, col);
+    constructor(mediator: Mediator, row: number, col: number, state: FigureState) {
+        super(mediator, row, col, state);
     }
 
     public checkAvailableCells(){

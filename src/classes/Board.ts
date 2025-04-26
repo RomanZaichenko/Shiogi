@@ -19,6 +19,7 @@ import HorseMoveStrategy from "./service/strategy/HorseMoveStrategy.ts";
 import SpearMoveStrategy from "./service/strategy/SpearMoveStrategy.ts";
 import ElephantMoveStrategy from "./service/strategy/ElephantMoveStrategy.ts";
 import RookMoveStrategy from "./service/strategy/RookMoveStrategy.ts";
+import DefaultState from "./service/state/DefaultState.ts";
 
 interface BoardContextType {
     board: Board;
@@ -156,56 +157,56 @@ class Board {
     public kingInitiation(row:number, column:number, rotated: boolean) {
         const kingCell = this.getCell(row, column);
         const kingCreator = new KingCreator()
-        const king = kingCreator.createFigure(this.mediator, row, column);
+        const king = kingCreator.createFigure(this.mediator, row, column, new DefaultState());
         this.displayFigureOrder(kingCell, king, rotated);
     }
 
     public goldenGeneralInitiation(row:number, column:number, rotated: boolean) {
         const goldenGeneralCell = this.getCell(row, column);
         const goldenGeneralCreator = new GoldenGeneralCreator()
-        const goldenGeneral = goldenGeneralCreator.createFigure(this.mediator, row, column);
+        const goldenGeneral = goldenGeneralCreator.createFigure(this.mediator, row, column, new DefaultState());
         this.displayFigureOrder(goldenGeneralCell, goldenGeneral, rotated);
     }
 
     public silverGeneralInitiation(row:number, column:number, rotated: boolean) {
         const silverGeneralCell = this.getCell(row, column);
         const silverGeneralCreator = new SilverGeneralCreator()
-        const silverGeneral = silverGeneralCreator.createFigure(this.mediator, row, column);
+        const silverGeneral = silverGeneralCreator.createFigure(this.mediator, row, column, new DefaultState());
         this.displayFigureOrder(silverGeneralCell, silverGeneral, rotated);
     }
 
     public horseInitiation(row:number, column:number, rotated: boolean) {
         const horseCell = this.getCell(row, column);
         const horseCreator = new HorseCreator();
-        const horse = horseCreator.createFigure(this.mediator, row, column);
+        const horse = horseCreator.createFigure(this.mediator, row, column, new DefaultState());
         this.displayFigureOrder(horseCell, horse, rotated);
     }
 
     public spearInitiation(row:number, column:number, rotated: boolean) {
         const spearCell = this.getCell(row, column);
         const spearCreator = new SpearCreator();
-        const spear = spearCreator.createFigure(this.mediator, row, column);
+        const spear = spearCreator.createFigure(this.mediator, row, column, new DefaultState());
         this.displayFigureOrder(spearCell, spear, rotated);
     }
 
     public elephantInitiation(row:number, column:number, rotated: boolean) {
         const elephantCell = this.getCell(row, column);
         const elephantCreator = new ElephantCreator();
-        const elephant = elephantCreator.createFigure(this.mediator, row, column);
+        const elephant = elephantCreator.createFigure(this.mediator, row, column, new DefaultState());
         this.displayFigureOrder(elephantCell, elephant, rotated);
     }
 
     public rookInitiation(row:number, column:number, rotated: boolean) {
         const rookCell = this.getCell(row, column);
         const rookCreator = new RookCreator();
-        const rook = rookCreator.createFigure(this.mediator, row, column);
+        const rook = rookCreator.createFigure(this.mediator, row, column, new DefaultState());
         this.displayFigureOrder(rookCell, rook, rotated);
     }
 
     public pawnInitiation(row:number, column:number, rotated: boolean) {
         const pawnCell = this.getCell(row, column);
         const pawnCreator = new PawnCreator();
-        const pawn = pawnCreator.createFigure(this.mediator, row, column);
+        const pawn = pawnCreator.createFigure(this.mediator, row, column, new DefaultState());
         this.displayFigureOrder(pawnCell, pawn, rotated);
     }
 

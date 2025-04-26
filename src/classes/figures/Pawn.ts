@@ -2,11 +2,12 @@ import Figure from "../Figure.ts";
 import {Cell} from "../Cell.ts";
 import {Board} from "../Board.ts";
 import Mediator from "../service/mediator/Mediator.ts";
+import FigureState from "../service/state/FigureState.ts";
 
 class Pawn extends Figure{
 
-    constructor(mediator: Mediator, row: number, col: number ) {
-        super(mediator, row, col);
+    constructor(mediator: Mediator, row: number, col: number, state: FigureState) {
+        super(mediator, row, col, state);
     }
 
 

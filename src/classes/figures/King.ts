@@ -2,13 +2,14 @@ import Figure from "../Figure.ts";
 import Mediator from "../service/mediator/Mediator.ts";
 import {Board} from "../Board.ts";
 import {Cell} from "../Cell.ts";
+import FigureState from "../service/state/FigureState.ts";
 
 
 class King extends Figure {
     public isChecked: boolean = false;
 
-    constructor(mediator: Mediator, row: number, col: number) {
-        super(mediator, row, col)
+    constructor(mediator: Mediator, row: number, col: number, state: FigureState) {
+        super(mediator, row, col, state);
     }
 
     public checkAvailableCells(){
