@@ -13,6 +13,7 @@ function GoldenGeneralElement({row, col}: GoldenGeneralElementProps){
   const [tick, setTick] = useState(0);
 
   const onGoldenGeneralClick = () => {
+    board.selectedCell = cell;
     console.log("g general");
     board.goldenGeneralMoveDisplay.displayMoves(cell);
     const movesToDisplay = board.cellsToMoveDisplay;
@@ -36,7 +37,13 @@ function GoldenGeneralElement({row, col}: GoldenGeneralElementProps){
     }
   }, [board]);
     return (
-        <div className="figure" onClick={onGoldenGeneralClick}>
+        <div className="figure" onClick={onGoldenGeneralClick}
+        draggable
+        onDragStart={onGoldenGeneralClick}
+        onDragEnd={() => {
+          board.selectedCell = null;
+          clearMoves();
+        }}>
             <img src="src/images/figures/golden_general.png" alt=""/>
         </div>
     )

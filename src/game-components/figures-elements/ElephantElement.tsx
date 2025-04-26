@@ -13,6 +13,7 @@ function ElephantElement({row, col}: ElephantElementProps) {
   const [tick, setTick] = useState(0);
 
   const onElephantClick = () => {
+    board.selectedCell = cell;
     board.elephantMoveDisplay.displayMoves(cell);
     const movesToDisplay = board.cellsToMoveDisplay;
     displayAvailableMoves(movesToDisplay);
@@ -34,7 +35,13 @@ function ElephantElement({row, col}: ElephantElementProps) {
     }
   }, [board]);
     return (
-        <div className="figure" onClick={onElephantClick}>
+        <div className="figure" onClick={onElephantClick}
+        draggable
+        onDragStart = {onElephantClick}
+        onDragEnd = {() => {
+          board.selectedCell = null;
+          clearMoves();
+        }}>
             <img src="src/images/figures/elephant.png" alt=""/>
         </div>
     )

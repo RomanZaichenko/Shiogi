@@ -53,6 +53,8 @@ class Board {
     cellsToMoveDisplay: Cell[] = [];
     private _listeners: (() => void)[] = [];
 
+
+
     private constructor() {
         for (let i = 0; i < 9; i++) {
             this.coordinates[i] = [];
@@ -70,6 +72,8 @@ class Board {
         this.rookMoveDisplay = new MoveDisplayStrategy(new RookMoveStrategy())
         this.mediator = new MoveMediator();
     }
+
+
 
     public static get instance(): Board {
         if (!Board.#instance) {
@@ -229,8 +233,6 @@ class Board {
         figureToMove?.requestForMove(cell);
 
         this._notifyListeners();
-
-
     }
 }
 

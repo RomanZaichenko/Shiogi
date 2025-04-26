@@ -48,9 +48,12 @@ class Elephant {
                 console.log(`${rowCount} ${colCount}`);
                 console.log("cellToCheck");
                 console.log(cellToCheck);
-                if((cellToCheck.displayRotated != startCell.displayRotated) ||
-                  !cellToCheck.isOccupied ) {
+                if(!cellToCheck.isOccupied ||
+                  (cellToCheck.displayRotated != startCell.displayRotated)) {
                     availableCells.push(cellToCheck);
+                    if (cellToCheck.isOccupied) {
+                        break;
+                    }
                 }
                 else {
                     break;
@@ -69,6 +72,10 @@ class Elephant {
                 if((cellToCheck.displayRotated != startCell.displayRotated) ||
                   !cellToCheck.isOccupied ) {
                     availableCells.push(cellToCheck);
+
+                    if (cellToCheck.isOccupied) {
+                        break;
+                    }
                 }
                 else{
                     break;
@@ -87,8 +94,14 @@ class Elephant {
                 if((cellToCheck.displayRotated != startCell.displayRotated) ||
                   !cellToCheck.isOccupied ) {
                     availableCells.push(cellToCheck);
+
+                    if (cellToCheck.isOccupied) {
+                        break;
+                    }
                 }
-                else {}
+                else {
+                    break;
+                }
                 rowCount++;
                 colCount--;
             }
@@ -103,6 +116,10 @@ class Elephant {
                 if((cellToCheck.displayRotated != startCell.displayRotated) ||
                   !cellToCheck.isOccupied ) {
                     availableCells.push(cellToCheck);
+
+                    if (cellToCheck.isOccupied) {
+                        break;
+                    }
                 }
                 else {
                     break;

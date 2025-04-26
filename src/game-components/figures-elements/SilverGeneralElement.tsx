@@ -14,6 +14,7 @@ function SilverGeneralElement({row, col}: SilverGeneralElementProps) {
   const [tick, setTick] = useState(0);
 
   const onSilverGeneralClick = () => {
+    board.selectedCell = cell;
     console.log("g general");
     board.silverGeneralMoveDisplay.displayMoves(cell);
     const movesToDisplay = board.cellsToMoveDisplay;
@@ -37,7 +38,13 @@ function SilverGeneralElement({row, col}: SilverGeneralElementProps) {
     }
   }, [board]);
     return (
-        <div className="figure" onClick={onSilverGeneralClick}>
+        <div className="figure" onClick={onSilverGeneralClick}
+        draggable
+        onDragStart={onSilverGeneralClick}
+        onDragEnd={() => {
+          board.selectedCell = null;
+          clearMoves();
+        }}>
             <img src="src/images/figures/silver_general.png" alt=""/>
         </div>
     )

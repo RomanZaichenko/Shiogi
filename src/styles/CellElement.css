@@ -6,7 +6,7 @@
 }
 
 .figure {
-    @apply size-15 mt-[2px];
+    @apply size-15 mt-[2px] bg-[none];
 }
 
 .figure-rotated {

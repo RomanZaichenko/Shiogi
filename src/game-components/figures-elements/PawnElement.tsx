@@ -14,6 +14,8 @@ function PawnElement({ row, col }: PawnElementProps) {
   const [tick, setTick] = useState(0);
 
   const onPawnClick = () => {
+    board.selectedCell = cell;
+    console.log(cell);
     board.pawnMoveDisplay.displayMoves(cell);
     const movesToDisplay = board.cellsToMoveDisplay;
     console.log(movesToDisplay);
@@ -36,7 +38,14 @@ function PawnElement({ row, col }: PawnElementProps) {
     }
   }, [board]);
     return (
-        <div className="figure" onClick={onPawnClick}>
+        <div className="figure" onClick={onPawnClick}
+        draggable
+        onDragStart={onPawnClick}
+        onDragEnd={() => {
+          board.selectedCell = null;
+          clearMoves();
+        }}>
+
             <img src="src/images/figures/pawn.png" alt=""/>
         </div>
     )

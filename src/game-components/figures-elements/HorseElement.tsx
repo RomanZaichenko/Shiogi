@@ -14,6 +14,7 @@ function HorseElement({ row, col }: HorseElementProps) {
   const [tick, setTick] = useState(0);
 
   const onHorseClick = () => {
+    board.selectedCell = cell;
     board.horseMoveDisplay.displayMoves(cell);
     const movesToDisplay = board.cellsToMoveDisplay;
     console.log(movesToDisplay);
@@ -36,7 +37,13 @@ function HorseElement({ row, col }: HorseElementProps) {
     }
   }, [board]);
     return (
-        <div className="figure" onClick={onHorseClick}>
+        <div className="figure" onClick={onHorseClick}
+        draggable
+        onDragStart={onHorseClick}
+        onDragEnd={() => {
+          board.selectedCell = null;
+          clearMoves();
+        }}>
             <img src="src/images/figures/horse.png" alt=""/>
         </div>
     )

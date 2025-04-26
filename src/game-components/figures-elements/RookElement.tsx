@@ -13,6 +13,7 @@ function RookElement({row, col}: RookElementProps) {
   const [tick, setTick] = useState(0);
 
   const onRookClick = () => {
+    board.selectedCell = cell;
     board.rookMoveDisplay.displayMoves(cell);
     const movesToDisplay = board.cellsToMoveDisplay;
     displayAvailableMoves(movesToDisplay);
@@ -35,7 +36,13 @@ function RookElement({row, col}: RookElementProps) {
   }, [board]);
 
     return (
-        <div className="figure" onClick={onRookClick}>
+        <div className="figure" onClick={onRookClick}
+        draggable
+        onDragStart={onRookClick}
+        onDragEnd={() => {
+          board.selectedCell = null;
+          clearMoves();
+        }}>
             <img src="src/images/figures/rook.png" alt=""/>
         </div>
     )

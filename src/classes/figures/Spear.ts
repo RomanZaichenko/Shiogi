@@ -46,6 +46,12 @@ class Spear {
                 if(!cellToCheck.isOccupied ||
                   (cellToCheck.displayRotated != startCell.displayRotated)) {
                     availableCells.push(cellToCheck);
+
+                    if (cellToCheck.isOccupied) {
+                        break;
+                    }
+                }else {
+                    break;
                 }
 
                 row--;

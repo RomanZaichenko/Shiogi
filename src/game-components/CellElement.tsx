@@ -9,6 +9,9 @@ import HorseElement from "./figures-elements/HorseElement.tsx";
 import SpearElement from "./figures-elements/SpearElement.tsx";
 import ElephantElement from "./figures-elements/ElephantElement.tsx";
 import RookElement from "./figures-elements/RookElement.tsx";
+import ClickImplementation from "../classes/service/bridge/ClickImplementation.ts";
+import DragImplementation from "../classes/service/bridge/DragImplementation.ts";
+import {Cell} from "../classes/Cell.ts";
 
 
 interface CellElementProps {
@@ -38,6 +41,8 @@ function CellElement({row, col}: CellElementProps){
     const figure = useRef<HTMLDivElement>(null);
     const canMoveDot = useRef<HTMLDivElement>(null);
     const board = Board.instance;
+    const clickImplementation = new ClickImplementation();
+    const dragImplementation = new DragImplementation();
 
     let figureElement = null;
 
@@ -50,11 +55,10 @@ function CellElement({row, col}: CellElementProps){
                 const figureToMove = board.selectedCell.figureOn;
 
                 if(figureToMove){
-                    console.log(board.selectedCell);
+                    board.mediator.setMoveImplementation(clickImplementation);
                     board.moveFigure(cell);
                     board.clearMoves();
                     board.selectedCell = null;
-                    console.log(board.selectedCell)
                 }
             }
         }
@@ -62,6 +66,27 @@ function CellElement({row, col}: CellElementProps){
             board.clearMoves();
         }
     };
+
+    const onFigureDrop = () => {
+        console.log("Figure Drop");
+        if (cell.canMoveTo){
+            const startingCell = board.selectedCell;
+            if (startingCell){
+                const figureToDrop = startingCell.figureOn;
+
+                if(figureToDrop){
+                    board.mediator.setMoveImplementation(dragImplementation);
+                    board.moveFigure(cell);
+                    board.clearMoves();
+                    board.selectedCell = null;
+                }
+            }
+            else {
+                board.clearMoves();
+            }
+        }
+
+    }
 
     useEffect(() => {
         const listener = () => {
@@ -93,7 +118,7 @@ function CellElement({row, col}: CellElementProps){
         figureElement = <FigureComponent rotated = {cell.displayRotated} row = {row} col = {col}/>;
 
         return(
-            <div className="cell" onClick={onCellClick}>
+            <div className="cell" onClick={onCellClick} onDrop={onFigureDrop}>
                 <div className={cell.displayRotated ? "figure-rotated" : "figure"} ref={figure}>
                     {figureElement}
                 </div>
@@ -104,7 +129,9 @@ function CellElement({row, col}: CellElementProps){
 
         return (
           <CanMoveToContext.Provider value={cell.canMoveTo}>
-            <div className="cell" onClick={onCellClick}>
+            <div className="cell" onClick={onCellClick}
+            onDrop={onFigureDrop}
+            onDragOver={(event) => event.preventDefault()}>
                 <div className={"cell-dot"} ref={canMoveDot}>
                 </div>
             </div>

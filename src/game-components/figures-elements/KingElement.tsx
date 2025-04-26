@@ -13,6 +13,7 @@ function KingElement({row, col}: KingElementProps) {
   const [tick, setTick] = useState(0);
 
   const onKingClicked = () => {
+    board.selectedCell = cell;
     board.kingMoveDisplay.displayMoves(cell);
     const movesToDisplay = board.cellsToMoveDisplay;
     console.log(movesToDisplay);
@@ -35,7 +36,13 @@ function KingElement({row, col}: KingElementProps) {
     }
   }, [board]);
     return (
-        <div className="figure" onClick={onKingClicked}>
+        <div className="figure" onClick={onKingClicked}
+        draggable
+        onDragStart={onKingClicked}
+        onDragEnd={() => {
+          board.selectedCell = null;
+          clearMoves();
+        }}>
             <img src="src/images/figures/king.png" alt=""/>
         </div>
     )

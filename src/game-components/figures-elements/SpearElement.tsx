@@ -13,6 +13,7 @@ function SpearElement({row, col}: SpearElementProps) {
   const [tick, setTick] = useState(0);
 
   const onSpearClick = () => {
+    board.selectedCell = cell;
     board.spearMoveDisplay.displayMoves(cell);
     const movesToDisplay = board.cellsToMoveDisplay;
     displayAvailableMoves(movesToDisplay);
@@ -35,7 +36,13 @@ function SpearElement({row, col}: SpearElementProps) {
   }, [board]);
 
     return (
-        <div className="figure" onClick={onSpearClick}>
+        <div className="figure" onClick={onSpearClick}
+        draggable
+        onDragStart={onSpearClick}
+        onDragEnd={() => {
+          board.selectedCell = null;
+          clearMoves();
+        }}>
             <img src="src/images/figures/spear.png" alt=""/>
         </div>
     )

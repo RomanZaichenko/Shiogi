@@ -47,6 +47,10 @@ class Rook {
                 if((cellToCheck.displayRotated != startCell.displayRotated) ||
                   !cellToCheck.isOccupied ) {
                     availableCells.push(cellToCheck);
+
+                    if (cellToCheck.isOccupied) {
+                        break;
+                    }
                 }
                 else {
                     break;
@@ -64,6 +68,10 @@ class Rook {
                 if((cellToCheck.displayRotated != startCell.displayRotated) ||
                   !cellToCheck.isOccupied ) {
                     availableCells.push(cellToCheck);
+
+                    if (cellToCheck.isOccupied) {
+                        break;
+                    }
                 }
                 else{
                     break;
@@ -81,8 +89,12 @@ class Rook {
                 if((cellToCheck.displayRotated != startCell.displayRotated) ||
                   !cellToCheck.isOccupied ) {
                     availableCells.push(cellToCheck);
+
+                    if (cellToCheck.isOccupied) {
+                        break;
+                    }
                 }
-                else {}
+                else {break;}
 
                 colCount--;
             }
@@ -96,6 +108,10 @@ class Rook {
                 if((cellToCheck.displayRotated != startCell.displayRotated) ||
                   !cellToCheck.isOccupied ) {
                     availableCells.push(cellToCheck);
+
+                    if (cellToCheck.isOccupied) {
+                        break;
+                    }
                 }
                 else {
                     break;
