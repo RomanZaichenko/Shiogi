@@ -4,25 +4,9 @@ import Mediator from "../service/mediator/Mediator.ts";
 import {Board} from "../Board.ts";
 
 
-class GoldenGeneral implements Figure {
-    figureCoordinates: {row: number; col: number};
-    mediator: Mediator;
-
+class GoldenGeneral extends Figure {
     constructor(mediator: Mediator, row: number, col: number) {
-        this.mediator = mediator;
-        this.figureCoordinates = {row, col};
-    }
-
-    public move(cell: Cell) {
-        const board = Board.instance;
-        const row = this.figureCoordinates.row;
-        const col = this.figureCoordinates.col;
-        const startMoveCell = board.coordinates[row][col]
-
-        board.removeFigureFromCell(startMoveCell);
-        board.displayFigureOrder(cell, this, startMoveCell.displayRotated);
-        this.figureCoordinates.row = cell.coords.row;
-        this.figureCoordinates.col = cell.coords.column;
+        super(mediator, row, col);
     }
 
     public checkAvailableCells() {
@@ -80,9 +64,6 @@ class GoldenGeneral implements Figure {
         return availableCells;
     }
 
-    requestForMove(cell: Cell) {
-        this.mediator.getMoveOrder(this, cell);
-    }
 }
 
 export default GoldenGeneral;

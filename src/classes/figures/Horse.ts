@@ -1,33 +1,13 @@
 import Mediator from "../service/mediator/Mediator.ts";
 import {Cell} from "../Cell.ts";
 import {Board} from "../Board.ts";
+import Figure from "../Figure.ts";
 
-class Horse {
-    figureCoordinates: {row: number; col: number};
-    mediator: Mediator;
-    isPromoted: boolean = false;
-
+class Horse extends Figure{
     constructor(mediator: Mediator, row: number, col: number) {
-        this.mediator = mediator;
-        this.figureCoordinates = {row, col};
+        super(mediator, row, col);
     }
 
-
-    public move(cell: Cell) {
-        const board = Board.instance;
-        const row = this.figureCoordinates.row;
-        const col = this.figureCoordinates.col;
-        const startMoveCell = board.coordinates[row][col]
-
-        board.removeFigureFromCell(startMoveCell);
-        board.displayFigureOrder(cell, this, startMoveCell.displayRotated);
-        this.figureCoordinates.row = cell.coords.row;
-        this.figureCoordinates.col = cell.coords.column;
-
-        if (this.checkPromotion() && !this.isPromoted) {
-            this.isPromoted = true;
-        }
-    }
 
     public checkAvailableCells(){
         const board = Board.instance;
@@ -75,10 +55,6 @@ class Horse {
 
         return false;
 
-    }
-
-    requestForMove(cell: Cell) {
-        this.mediator.getMoveOrder(this, cell);
     }
 }
 

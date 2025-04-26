@@ -3,32 +3,10 @@ import {Cell} from "../Cell.ts";
 import {Board} from "../Board.ts";
 import Mediator from "../service/mediator/Mediator.ts";
 
-class Pawn implements Figure{
-    figureCoordinates: {row: number, col: number};
-    mediator: Mediator;
-    isPromoted: boolean = false;
-
+class Pawn extends Figure{
 
     constructor(mediator: Mediator, row: number, col: number ) {
-        this.mediator = mediator;
-        this.figureCoordinates = {row, col};
-    }
-
-
-    public move(cell: Cell) {
-        const board = Board.instance;
-        const row = this.figureCoordinates.row;
-        const col = this.figureCoordinates.col;
-        const startMoveCell = board.coordinates[row][col]
-
-        board.removeFigureFromCell(startMoveCell);
-        board.displayFigureOrder(cell, this, startMoveCell.displayRotated);
-        this.figureCoordinates.row = cell.coords.row;
-        this.figureCoordinates.col = cell.coords.column;
-
-        if (this.checkPromotion() && !this.isPromoted) {
-            this.isPromoted = true;
-        }
+        super(mediator, row, col);
     }
 
 
@@ -69,10 +47,6 @@ class Pawn implements Figure{
 
         return false;
 
-    }
-
-    requestForMove(cell: Cell) {
-        this.mediator.getMoveOrder(this, cell);
     }
 }
 
