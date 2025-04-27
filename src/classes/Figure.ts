@@ -34,6 +34,8 @@ abstract class Figure {
 
     abstract checkAvailableCells(): Cell[];
 
+    abstract checkCaptures(cells: Cell[]): Cell[];
+
     requestForMove(cell: Cell) {
         this.mediator.getMoveOrder(this, cell);
     }

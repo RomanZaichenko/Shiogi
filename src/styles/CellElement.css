@@ -16,3 +16,8 @@
 .cell-dot{
     @apply size-5 rounded-[50%] bg-[#333] m-[33%];
 }
+
+.cell-capture {
+    @apply size-17 border border-solid border-black inline-block
+    bg-red-400 ;
+}

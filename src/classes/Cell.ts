@@ -6,6 +6,7 @@ class Cell {
     public figureOn : Figure | null;
     public displayRotated : boolean = false;
     public canMoveTo = false;
+    public canCapture = false;
 
     public constructor(row: number, col: number, displayRotated: boolean) {
         this.coords.row = row;

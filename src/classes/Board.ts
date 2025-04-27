@@ -52,6 +52,7 @@ class Board {
     mediator: MoveMediator;
     selectedCell: Cell | null = null;
     cellsToMoveDisplay: Cell[] = [];
+    capturedFigures: Figure[] = [];
     private _listeners: (() => void)[] = [];
 
 
@@ -218,7 +219,9 @@ class Board {
     public displayAvailableMoves(availableMoves: Cell[]) {
         this.clearMoves();
         this.cellsToMoveDisplay = availableMoves;
-        availableMoves.forEach(moveVariant => (moveVariant.canMoveTo = true))
+        availableMoves.forEach(moveVariant => {
+            (moveVariant.canMoveTo = true)
+        })
         this._notifyListeners();
     }
 
