@@ -4,6 +4,7 @@ import {Board} from "../Board.ts";
 import Figure from "../Figure.ts";
 import FigureState from "../service/state/FigureState.ts";
 import PromotionState from "../service/state/PromotionState.ts";
+import ElephantPromotionDecorator from "../service/decorator/ElephantPromotionDecorator.ts";
 
 
 class Elephant extends Figure {
@@ -16,7 +17,13 @@ class Elephant extends Figure {
         super.move(cell);
 
         if(this.checkPromotion()) {
-            this.setFigureState(new PromotionState());
+            cell.figureOn  = new ElephantPromotionDecorator(
+              this.mediator,
+              this.figureCoordinates.row,
+              this.figureCoordinates.col,
+              new PromotionState(),
+              this
+            );
         }
 
     }
@@ -137,6 +144,19 @@ class Elephant extends Figure {
             }
         }
         return false;
+    }
+
+    checkCaptures(cells: Cell[]) :Cell[] {
+        const board = Board.instance;
+        const startCell = board.getCell(this.getRow(), this.getCol());
+        const cellsToCapture :Cell[] = [];
+        cells.forEach((cell: Cell) => {
+            if(cell.displayRotated != startCell.displayRotated){
+                cellsToCapture.push(cell);
+            }
+        })
+
+        return cellsToCapture;
     }
 }
 

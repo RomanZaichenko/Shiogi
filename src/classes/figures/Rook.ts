@@ -4,7 +4,7 @@ import {Board} from "../Board.ts";
 import Figure from "../Figure.ts";
 import FigureState from "../service/state/FigureState.ts";
 import PromotionState from "../service/state/PromotionState.ts";
-
+import RookPromotionDecorator from "../service/decorator/RookPromotionDecorator.ts";
 
 class Rook extends Figure{
 
@@ -16,7 +16,13 @@ class Rook extends Figure{
         super.move(cell);
 
         if(this.checkPromotion()) {
-            this.setFigureState(new PromotionState());
+            cell.figureOn  = new RookPromotionDecorator(
+              this.mediator,
+              this.figureCoordinates.row,
+              this.figureCoordinates.col,
+              new PromotionState(),
+              this
+            );
         }
 
     }

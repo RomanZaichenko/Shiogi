@@ -11,7 +11,7 @@ import ElephantElement from "./figures-elements/ElephantElement.tsx";
 import RookElement from "./figures-elements/RookElement.tsx";
 import ClickImplementation from "../classes/service/bridge/ClickImplementation.ts";
 import DragImplementation from "../classes/service/bridge/DragImplementation.ts";
-import {Cell} from "../classes/Cell.ts";
+import GeneralPromotionDecorator from "../classes/service/decorator/GeneralPromotionDecorator.ts";
 
 
 interface CellElementProps {
@@ -114,7 +114,36 @@ function CellElement({row, col}: CellElementProps){
     }, [cell.canMoveTo]);
 
     if (cell.isOccupied){
-        const FigureComponent= FigureComponents[cell.figureOn.constructor.name];
+        let name = cell.figureOn.constructor.name;
+        if (cell.figureOn.constructor.name === "GeneralPromotionDecorator") {
+            const decorateCell : GeneralPromotionDecorator = cell.figureOn;
+
+            const figureName = decorateCell.figure.constructor.name;
+
+            switch (figureName) {
+                case "Pawn":
+                    name = "Pawn";
+                    break;
+                case "Horse":
+                    name = "Horse";
+                    break;
+                case "SilverGeneral":
+                    name = "SilverGeneral";
+                    break;
+                case "Spear":
+                    name = "Spear";
+                    break;
+            }
+        }
+        else if(cell.figureOn.constructor.name === "ElephantPromotionDecorator"){
+            name = "Elephant";
+        }
+        else if (cell.figureOn.constructor.name === "RookPromotionDecorator"){
+            name = "Rook";
+        }
+
+
+        const FigureComponent= FigureComponents[name];
         figureElement = <FigureComponent rotated = {cell.displayRotated} row = {row} col = {col}/>;
 
         return(

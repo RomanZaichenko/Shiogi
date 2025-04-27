@@ -4,6 +4,7 @@ import {Board} from "../Board.ts";
 import Figure from "../Figure.ts";
 import FigureState from "../service/state/FigureState.ts";
 import PromotionState from "../service/state/PromotionState.ts";
+import GeneralPromotionDecorator from "../service/decorator/GeneralPromotionDecorator.ts";
 
 class Horse extends Figure{
     constructor(mediator: Mediator, row: number, col: number, state: FigureState) {
@@ -14,7 +15,13 @@ class Horse extends Figure{
         super.move(cell);
 
         if(this.checkPromotion()) {
-            this.setFigureState(new PromotionState());
+            cell.figureOn  = new GeneralPromotionDecorator(
+              this.mediator,
+              this.figureCoordinates.row,
+              this.figureCoordinates.col,
+              new PromotionState(),
+              this
+            );
         }
     }
 

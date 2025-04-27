@@ -20,8 +20,12 @@ abstract class Figure {
         const board = Board.instance;
         const row = this.figureCoordinates.row;
         const col = this.figureCoordinates.col;
-        const startMoveCell = board.coordinates[row][col]
+        const startMoveCell = board.getCell(row, col)
 
+        console.clear();
+        console.log(startMoveCell);
+        console.log(cell);
+        console.log(board.selectedCell);
         board.removeFigureFromCell(startMoveCell);
         board.displayFigureOrder(cell, this, startMoveCell.displayRotated);
         this.figureCoordinates.row = cell.coords.row;

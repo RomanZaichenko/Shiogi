@@ -4,6 +4,8 @@ import {Board} from "../Board.ts";
 import Mediator from "../service/mediator/Mediator.ts";
 import FigureState from "../service/state/FigureState.ts";
 import PromotionState from "../service/state/PromotionState.ts";
+import GeneralPromotionDecorator from "../service/decorator/GeneralPromotionDecorator.ts";
+import mediator from "../service/mediator/Mediator.ts";
 
 class Pawn extends Figure{
 
@@ -14,7 +16,13 @@ class Pawn extends Figure{
     move(cell: Cell) {
         super.move(cell);
         if(this.checkPromotion()) {
-            this.setFigureState(new PromotionState());
+            cell.figureOn  = new GeneralPromotionDecorator(
+              this.mediator,
+              this.figureCoordinates.row,
+              this.figureCoordinates.col,
+              new PromotionState(),
+              this
+            );
         }
     }
 

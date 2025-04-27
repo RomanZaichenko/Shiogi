@@ -45,7 +45,7 @@ function PawnElement({ row, col }: PawnElementProps) {
     if (cell.figureOn?.getState().checkPromotion() != undefined) {
       setIsPromoted(cell.figureOn?.getState().checkPromotion())
     }
-  }, [isPromoted]);
+  }, [cell.figureOn]);
 
 
   if (isPromoted) {

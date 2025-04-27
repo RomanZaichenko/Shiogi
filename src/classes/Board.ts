@@ -235,6 +235,7 @@ class Board {
 
         this._notifyListeners();
     }
+
 }
 
 export { Board, BoardContext};
