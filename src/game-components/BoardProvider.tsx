@@ -22,6 +22,10 @@ const BoardProvider : React.FC<BoardProviderProps> = ({children}) => {
         board.clearMoves();
     }
 
+    // const clearCapturesDisplay = () => {
+    //     board.clearCapturesDisplay();
+    // }
+
     return (
         <BoardContext.Provider value={{board, getBoardCell, displayAvailableMoves, clearMoves}}>
             {children}

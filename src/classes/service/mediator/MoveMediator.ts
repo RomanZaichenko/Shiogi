@@ -3,7 +3,7 @@ import Figure from "../../Figure.ts";
 import {Cell} from "../../Cell.ts";
 import King from "../../figures/King.ts";
 import {MoveImplementation} from "../bridge/MoveImplementation.ts";
-
+import {Board} from "../../Board.ts";
 
 class MoveMediator implements Mediator {
     private isWon: boolean = false;
@@ -32,8 +32,14 @@ class MoveMediator implements Mediator {
     gameOver(isWon: boolean) {
     }
 
-    getMoveOrder(figure: Figure, cell: Cell) {
+    canCapture(figure: Figure, cell: Cell): boolean {
+        const availableCells = figure.checkAvailableCells();
+        const captureCells = figure.checkCaptures(availableCells);
+        return captureCells.includes(cell);
 
+    }
+
+    getMoveOrder(figure: Figure, cell: Cell) {
         if (this.canMoveTo(figure, cell)) {
             this.moveImplementation.executeMove(figure, cell);
 
@@ -42,6 +48,19 @@ class MoveMediator implements Mediator {
             }
             else {
                 //this.isKingChecked();
+            }
+        }
+    }
+
+    getCaptureOrder(figure: Figure, cell: Cell) {
+        if (this.canCapture(figure, cell)) {
+            this.moveImplementation.executeMove(figure, cell);
+
+            if (this.isGameOver()) {
+                this.gameOver(this.isWon);
+            }
+            else {
+                //this.isKingChecked;
             }
         }
     }

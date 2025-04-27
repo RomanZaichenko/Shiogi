@@ -14,10 +14,13 @@ function RookElement({row, col}: RookElementProps) {
   let rookImage: string;
 
   const onRookClick = () => {
+    if (!cell.canCapture){
+
     board.selectedCell = cell;
     board.rookMoveDisplay.displayMoves(cell);
     const movesToDisplay = board.cellsToMoveDisplay;
     displayAvailableMoves(movesToDisplay);
+    }
   }
 
   useEffect(() => {
@@ -59,6 +62,7 @@ function RookElement({row, col}: RookElementProps) {
         onDragEnd={() => {
           board.selectedCell = null;
           clearMoves();
+          board.clearCapturesDisplay();
         }}>
             <img src={`src/images/figures/${rookImage}`} alt=""/>
         </div>

@@ -15,12 +15,15 @@ function PawnElement({ row, col }: PawnElementProps) {
   let pawnImage: string;
 
   const onPawnClick = () => {
-    board.selectedCell = cell;
-    console.log(cell);
-    board.pawnMoveDisplay.displayMoves(cell);
-    const movesToDisplay = board.cellsToMoveDisplay;
-    console.log(movesToDisplay);
-    displayAvailableMoves(movesToDisplay);
+    if (!cell.canCapture){
+      board.selectedCell = cell;
+      console.log(cell);
+      board.pawnMoveDisplay.displayMoves(cell);
+      const movesToDisplay = board.cellsToMoveDisplay;
+      console.log(movesToDisplay);
+      displayAvailableMoves(movesToDisplay);
+    }
+
   }
 
   useEffect(() => {
@@ -62,6 +65,7 @@ function PawnElement({ row, col }: PawnElementProps) {
         onDragEnd={() => {
           board.selectedCell = null;
           clearMoves();
+          board.clearCapturesDisplay();
         }}>
 
             <img src={`src/images/figures/${pawnImage}`} alt=""/>

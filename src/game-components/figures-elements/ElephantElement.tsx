@@ -14,10 +14,13 @@ function ElephantElement({row, col}: ElephantElementProps) {
   let elephantImage: string;
 
   const onElephantClick = () => {
-    board.selectedCell = cell;
-    board.elephantMoveDisplay.displayMoves(cell);
-    const movesToDisplay = board.cellsToMoveDisplay;
-    displayAvailableMoves(movesToDisplay);
+    if(!cell.canCapture){
+
+      board.selectedCell = cell;
+      board.elephantMoveDisplay.displayMoves(cell);
+      const movesToDisplay = board.cellsToMoveDisplay;
+      displayAvailableMoves(movesToDisplay);
+    }
   }
 
   useEffect(() => {
@@ -60,6 +63,7 @@ function ElephantElement({row, col}: ElephantElementProps) {
       onDragEnd = {() => {
         board.selectedCell = null;
         clearMoves();
+        board.clearCapturesDisplay();
       }}>
           <img src={`src/images/figures/${elephantImage}`} alt=""/>
       </div>

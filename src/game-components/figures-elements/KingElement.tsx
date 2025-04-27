@@ -13,6 +13,11 @@ function KingElement({row, col}: KingElementProps) {
   const [tick, setTick] = useState(0);
 
   const onKingClicked = () => {
+    if (cell.canCapture){
+      cell.canCapture = false;
+
+
+    }
     board.selectedCell = cell;
     board.kingMoveDisplay.displayMoves(cell);
     const movesToDisplay = board.cellsToMoveDisplay;
@@ -42,6 +47,7 @@ function KingElement({row, col}: KingElementProps) {
         onDragEnd={() => {
           board.selectedCell = null;
           clearMoves();
+          board.clearCapturesDisplay();
         }}>
             <img src="src/images/figures/king.png" alt=""/>
         </div>

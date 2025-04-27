@@ -146,7 +146,7 @@ class Elephant extends Figure {
         return false;
     }
 
-    checkCaptures(cells: Cell[]) :Cell[] {
+    public checkCaptures(cells: Cell[]) :Cell[] {
         const board = Board.instance;
         const startCell = board.getCell(this.getRow(), this.getCol());
         const cellsToCapture :Cell[] = [];
@@ -155,6 +155,8 @@ class Elephant extends Figure {
                 cellsToCapture.push(cell);
             }
         })
+
+
 
         return cellsToCapture;
     }

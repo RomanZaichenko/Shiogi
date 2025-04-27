@@ -14,10 +14,12 @@ function SpearElement({row, col}: SpearElementProps) {
   let spearImage: string;
 
   const onSpearClick = () => {
-    board.selectedCell = cell;
-    board.spearMoveDisplay.displayMoves(cell);
-    const movesToDisplay = board.cellsToMoveDisplay;
-    displayAvailableMoves(movesToDisplay);
+    if (!cell.canCapture){
+      board.selectedCell = cell;
+      board.spearMoveDisplay.displayMoves(cell);
+      const movesToDisplay = board.cellsToMoveDisplay;
+      displayAvailableMoves(movesToDisplay);
+    }
   }
 
   useEffect(() => {
@@ -59,6 +61,7 @@ function SpearElement({row, col}: SpearElementProps) {
         onDragEnd={() => {
           board.selectedCell = null;
           clearMoves();
+          board.clearCapturesDisplay();
         }}>
             <img src={`src/images/figures/${spearImage}`} alt=""/>
         </div>

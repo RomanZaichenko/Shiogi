@@ -15,11 +15,13 @@ function HorseElement({ row, col }: HorseElementProps) {
   let horseImage : string;
 
   const onHorseClick = () => {
-    board.selectedCell = cell;
-    board.horseMoveDisplay.displayMoves(cell);
-    const movesToDisplay = board.cellsToMoveDisplay;
-    console.log(movesToDisplay);
-    displayAvailableMoves(movesToDisplay);
+    if (!cell.displayRotated) {
+      board.selectedCell = cell;
+      board.horseMoveDisplay.displayMoves(cell);
+      const movesToDisplay = board.cellsToMoveDisplay;
+      console.log(movesToDisplay);
+      displayAvailableMoves(movesToDisplay);
+    }
   }
 
   useEffect(() => {
@@ -61,6 +63,7 @@ function HorseElement({ row, col }: HorseElementProps) {
         onDragEnd={() => {
           board.selectedCell = null;
           clearMoves();
+          board.clearCapturesDisplay();
         }}>
             <img src={`src/images/figures/${horseImage}`} alt=""/>
         </div>

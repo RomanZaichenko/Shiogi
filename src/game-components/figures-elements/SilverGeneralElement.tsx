@@ -15,12 +15,15 @@ function SilverGeneralElement({row, col}: SilverGeneralElementProps) {
   let silverGeneralImage: string;
 
   const onSilverGeneralClick = () => {
+    if(!cell.canCapture){
+
     board.selectedCell = cell;
     console.log("g general");
     board.silverGeneralMoveDisplay.displayMoves(cell);
     const movesToDisplay = board.cellsToMoveDisplay;
     console.log(movesToDisplay);
     displayAvailableMoves(movesToDisplay);
+    }
   }
 
   useEffect(() => {
@@ -61,6 +64,7 @@ function SilverGeneralElement({row, col}: SilverGeneralElementProps) {
         onDragEnd={() => {
           board.selectedCell = null;
           clearMoves();
+          board.clearCapturesDisplay();
         }}>
             <img src={`src/images/figures/${silverGeneralImage}`} alt=""/>
         </div>

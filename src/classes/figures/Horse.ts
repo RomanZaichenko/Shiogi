@@ -73,6 +73,21 @@ class Horse extends Figure{
         return false;
 
     }
+
+    public checkCaptures(cells: Cell[]) :Cell[] {
+        const board = Board.instance;
+        const startCell = board.getCell(this.getRow(), this.getCol());
+        const cellsToCapture :Cell[] = [];
+        cells.forEach((cell: Cell) => {
+            if(cell.displayRotated != startCell.displayRotated){
+                cellsToCapture.push(cell);
+            }
+        })
+
+
+
+        return cellsToCapture;
+    }
 }
 
 export default Horse;

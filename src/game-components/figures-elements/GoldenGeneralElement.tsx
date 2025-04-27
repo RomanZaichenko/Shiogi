@@ -13,12 +13,14 @@ function GoldenGeneralElement({row, col}: GoldenGeneralElementProps){
   const [tick, setTick] = useState(0);
 
   const onGoldenGeneralClick = () => {
-    board.selectedCell = cell;
-    console.log("g general");
-    board.goldenGeneralMoveDisplay.displayMoves(cell);
-    const movesToDisplay = board.cellsToMoveDisplay;
-    console.log(movesToDisplay);
-    displayAvailableMoves(movesToDisplay);
+    if (!cell.canCapture) {
+      board.selectedCell = cell;
+      console.log("g general");
+      board.goldenGeneralMoveDisplay.displayMoves(cell);
+      const movesToDisplay = board.cellsToMoveDisplay;
+      console.log(movesToDisplay);
+      displayAvailableMoves(movesToDisplay);
+    }
   }
 
   useEffect(() => {
@@ -43,6 +45,7 @@ function GoldenGeneralElement({row, col}: GoldenGeneralElementProps){
         onDragEnd={() => {
           board.selectedCell = null;
           clearMoves();
+          board.clearCapturesDisplay();
         }}>
             <img src="src/images/figures/golden_general.png" alt=""/>
         </div>

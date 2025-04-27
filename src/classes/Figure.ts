@@ -40,6 +40,10 @@ abstract class Figure {
         this.mediator.getMoveOrder(this, cell);
     }
 
+    requestForCapture(cell: Cell) {
+        this.mediator.getCaptureOrder(this, cell);
+    }
+
     getRow(): number {
         return this.figureCoordinates.row;
     }

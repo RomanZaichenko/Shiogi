@@ -48,7 +48,7 @@ function CellElement({row, col}: CellElementProps) {
     let figureElement = null;
 
     const onCellClick = () => {
-        if (cell.isOccupied) {
+        if (cell.isOccupied && !cell.canCapture) {
             board.selectedCell = cell;
         } else if (cell.canMoveTo) {
             if (board.selectedCell) {
@@ -62,15 +62,17 @@ function CellElement({row, col}: CellElementProps) {
                 }
             }
         } else if (cell.canCapture) {
+
             if (board.selectedCell) {
                 const figureToCapture = board.selectedCell.figureOn;
 
+                console.log("Selected")
+                console.log(figureToCapture);
                 if (figureToCapture) {
                     board.mediator.setMoveImplementation(clickImplementation);
-                    board.moveFigure(cell);
+                    board.captureFigure(cell, board.selectedCell);
                     board.clearMoves();
                     board.selectedCell = null;
-                    board.capturedFigures.push(figureToCapture);
                 }
             }
         } else {

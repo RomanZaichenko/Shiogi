@@ -153,6 +153,7 @@ class Board {
     public removeFigureFromCell(cell: Cell) {
         cell.isOccupied = false;
         cell.figureOn = null;
+        cell.canCapture = false;
     }
 
     public kingInitiation(row:number, column:number, rotated: boolean) {
@@ -231,14 +232,23 @@ class Board {
         this._notifyListeners();
     }
 
+    public clearCapturesDisplay(): void{
+        this.coordinates.forEach(row => row.forEach(cell => cell.canCapture = false));
+    }
+
     public moveFigure(cell: Cell) {
         const figureToMove = this.selectedCell?.figureOn;
-
         figureToMove?.requestForMove(cell);
-
+        this.clearCapturesDisplay()
         this._notifyListeners();
     }
 
+    public captureFigure(cell: Cell, startedCell: Cell) {
+        const figure = this.selectedCell.figureOn;
+        figure?.requestForCapture(cell);
+
+        this._notifyListeners()
+    }
 }
 
 export { Board, BoardContext};
