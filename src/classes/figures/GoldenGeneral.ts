@@ -14,7 +14,8 @@ class GoldenGeneral extends Figure {
         const availableCells: Cell[] = [];
         if (this.isCaptured){
             return super.commonCheck(availableCells);
-        }else {
+        }
+        else {
 
             const board = Board.instance;
             const row = this.figureCoordinates.row;
@@ -23,46 +24,84 @@ class GoldenGeneral extends Figure {
             const startCell = board.getCell(row, col);
             let cellToCheck: Cell;
 
+            if (board.currentTurn == "sente") {
+                if (row - 1 >= 0) {
+                    for (let i = col - 1; i <= col + 1; i++) {
+                        if ((i == col - 1 && i < 0) || (i == col + 1 && i > 8)) {
+                            continue;
+                        }
 
 
-            if (row - 1 >= 0) {
+                        cellToCheck = board.getCell(row - 1, i);
+
+                        if (!cellToCheck.isOccupied ||
+                          (cellToCheck.displayRotated != startCell.displayRotated)) {
+                            availableCells.push(cellToCheck);
+                        }
+                    }
+                }
+
+
                 for (let i = col - 1; i <= col + 1; i++) {
                     if ((i == col - 1 && i < 0) || (i == col + 1 && i > 8)) {
                         continue;
                     }
-
-
-                    cellToCheck = board.getCell(row - 1, i);
+                    cellToCheck = board.getCell(row, i);
 
                     if (!cellToCheck.isOccupied ||
                       (cellToCheck.displayRotated != startCell.displayRotated)) {
                         availableCells.push(cellToCheck);
                     }
                 }
-            }
 
 
-            for (let i = col - 1; i <= col + 1; i++) {
-                if ((i == col - 1 && i < 0) || (i == col + 1 && i > 8)) {
-                    continue;
-                }
-                cellToCheck = board.getCell(row, i);
-
-                if (!cellToCheck.isOccupied ||
-                  (cellToCheck.displayRotated != startCell.displayRotated)) {
-                    availableCells.push(cellToCheck);
+                if (row + 1 <= 8) {
+                    cellToCheck = board.getCell(row + 1, col);
+                    if (!cellToCheck.isOccupied ||
+                      (cellToCheck.displayRotated != startCell.displayRotated)) {
+                        availableCells.push(cellToCheck);
+                    }
                 }
             }
+            else {
+                if (row + 1 <= 8) {
+                    for (let i = col - 1; i <= col + 1; i++) {
+                        if ((i == col - 1 && i < 0) || (i == col + 1 && i > 8)) {
+                            continue;
+                        }
 
 
-            if (row + 1 <= 8) {
-                cellToCheck = board.getCell(row + 1, col);
-                if (!cellToCheck.isOccupied ||
-                  (cellToCheck.displayRotated != startCell.displayRotated)) {
-                    availableCells.push(cellToCheck);
+                        cellToCheck = board.getCell(row + 1, i);
+
+                        if (!cellToCheck.isOccupied ||
+                          (cellToCheck.displayRotated != startCell.displayRotated)) {
+                            availableCells.push(cellToCheck);
+                        }
+                    }
+                }
+
+
+                for (let i = col - 1; i <= col + 1; i++) {
+                    if ((i == col - 1 && i < 0) || (i == col + 1 && i > 8)) {
+                        continue;
+                    }
+                    cellToCheck = board.getCell(row, i);
+
+                    if (!cellToCheck.isOccupied ||
+                      (cellToCheck.displayRotated != startCell.displayRotated)) {
+                        availableCells.push(cellToCheck);
+                    }
+                }
+
+
+                if (row - 1 >= 0) {
+                    cellToCheck = board.getCell(row - 1, col);
+                    if (!cellToCheck.isOccupied ||
+                      (cellToCheck.displayRotated != startCell.displayRotated)) {
+                        availableCells.push(cellToCheck);
+                    }
                 }
             }
-
 
             return availableCells;
         }

@@ -5,10 +5,11 @@ interface SpearElementProps {
   row: number;
   col: number;
   isCaptured: boolean;
-  figure: number;
+  figure: Figure;
+  owner: string;
 }
 
-function SpearElement({row, col, isCaptured, figure}: SpearElementProps) {
+function SpearElement({row, col, isCaptured, figure, owner}: SpearElementProps) {
   const {getBoardCell, displayAvailableMoves, clearMoves} = useBoard();
   const board = Board.instance;
   let spearImage: string;
@@ -16,10 +17,12 @@ function SpearElement({row, col, isCaptured, figure}: SpearElementProps) {
   if (isCaptured) {
     spearImage = "spear.png";
     const onSpearClick = () => {
-      board.selectCapturedFigure(figure);
-      board.spearMoveDisplay.displayDropIn(figure);
-      const movesToDisplay = board.cellsToMoveDisplay; //change
-      displayAvailableMoves(movesToDisplay);
+      if (owner == board.currentTurn) {
+        board.selectCapturedFigure(figure);
+        board.spearMoveDisplay.displayDropIn(figure);
+        const movesToDisplay = board.cellsToMoveDisplay; //change
+        displayAvailableMoves(movesToDisplay);
+      }
     }
     return (<div className="figure" onClick={onSpearClick}
                  draggable
@@ -38,11 +41,15 @@ function SpearElement({row, col, isCaptured, figure}: SpearElementProps) {
     const [tick, setTick] = useState(0);
 
     const onSpearClick = () => {
-      if (!cell.canCapture){
-        board.selectedCell = cell;
-        board.spearMoveDisplay.displayMoves(cell);
-        const movesToDisplay = board.cellsToMoveDisplay;
-        displayAvailableMoves(movesToDisplay);
+      if ((board.currentTurn == "sente" && !cell.displayRotated) ||
+        (board.currentTurn == "gote" && cell.displayRotated)) {
+
+        if (!cell.canCapture){
+          board.selectedCell = cell;
+          board.spearMoveDisplay.displayMoves(cell);
+          const movesToDisplay = board.cellsToMoveDisplay;
+          displayAvailableMoves(movesToDisplay);
+        }
       }
     }
 

@@ -8,9 +8,10 @@ interface ElephantElementProps {
   col: number;
   isCaptured: boolean;
   figure: Figure;
+  owner: string;
 }
 
-function ElephantElement({row, col, isCaptured, figure}: ElephantElementProps) {
+function ElephantElement({row, col, isCaptured, figure, owner}: ElephantElementProps) {
   const {getBoardCell, displayAvailableMoves, clearMoves} = useBoard();
   const board = Board.instance;
   let elephantImage: string;
@@ -18,10 +19,13 @@ function ElephantElement({row, col, isCaptured, figure}: ElephantElementProps) {
   if(isCaptured) {
     elephantImage = "elephant.png";
     const onElephantClick = () => {
-      board.figureToDrop = figure;
-      board.elephantMoveDisplay.displayDropIn(figure);
-      const movesToDisplay = board.cellsToMoveDisplay; //change
-      displayAvailableMoves(movesToDisplay);
+      if (board.currentTurn == owner)
+      {
+        board.figureToDrop = figure;
+        board.elephantMoveDisplay.displayDropIn(figure);
+        const movesToDisplay = board.cellsToMoveDisplay; //change
+        displayAvailableMoves(movesToDisplay);
+      }
     }
     return (<div className="figure" onClick={onElephantClick}
                  draggable
@@ -40,12 +44,23 @@ function ElephantElement({row, col, isCaptured, figure}: ElephantElementProps) {
     const [tick, setTick] = useState(0);
 
     const onElephantClick = () => {
-      if(!cell.canCapture){
+      if (board.currentTurn == "sente" && !cell.displayRotated){
+        if(!cell.canCapture){
 
-        board.selectedCell = cell;
-        board.elephantMoveDisplay.displayMoves(cell);
-        const movesToDisplay = board.cellsToMoveDisplay;
-        displayAvailableMoves(movesToDisplay);
+          board.selectedCell = cell;
+          board.elephantMoveDisplay.displayMoves(cell);
+          const movesToDisplay = board.cellsToMoveDisplay;
+          displayAvailableMoves(movesToDisplay);
+        }
+      }
+      else if (board.currentTurn == "gote" && cell.displayRotated){
+        if(!cell.canCapture){
+
+          board.selectedCell = cell;
+          board.elephantMoveDisplay.displayMoves(cell);
+          const movesToDisplay = board.cellsToMoveDisplay;
+          displayAvailableMoves(movesToDisplay);
+        }
       }
     }
 

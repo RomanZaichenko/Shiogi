@@ -40,8 +40,15 @@ class Pawn extends Figure{
             const startCell = board.getCell(row, col);
             let cellToCheck: Cell = board.getCell(row, col);
 
-            if (row - 1 >= 0) {
-                cellToCheck = board.getCell(row - 1, col);
+            if(board.currentTurn == "sente") {
+                if (row - 1 >= 0) {
+                    cellToCheck = board.getCell(row - 1, col);
+                }
+            }
+            else {
+                if (row + 1 <= 8) {
+                    cellToCheck = board.getCell(row + 1, col);
+                }
             }
 
 
@@ -56,14 +63,30 @@ class Pawn extends Figure{
     }
 
     checkPromotion() :boolean {
-        if (this.figureCoordinates.row == 0) {
-            return true;
-        }
-        if (this.figureCoordinates.row == 1 || this.figureCoordinates.row == 2 ) {
-            const answer = confirm("Do you want to promote this pawn?");
+        const currentTurn = Board.instance.currentTurn;
 
-            if (answer) {
+        if (currentTurn == "sente") {
+            if (this.figureCoordinates.row == 0) {
                 return true;
+            }
+            if (this.figureCoordinates.row == 1 || this.figureCoordinates.row == 2 ) {
+                const answer = confirm("Do you want to promote this pawn?");
+
+                if (answer) {
+                    return true;
+                }
+            }
+        }
+        else {
+            if (this.figureCoordinates.row == 8) {
+                return true;
+            }
+            if (this.figureCoordinates.row == 6 || this.figureCoordinates.row == 7 ) {
+                const answer = confirm("Do you want to promote this pawn?");
+
+                if (answer) {
+                    return true;
+                }
             }
         }
 

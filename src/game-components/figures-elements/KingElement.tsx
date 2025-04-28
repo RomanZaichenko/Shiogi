@@ -4,24 +4,26 @@ import {Board, useBoard} from "../../classes/Board.ts";
 interface KingElementProps {
   row: number;
   col: number;
+  owner: string;
 }
 
-function KingElement({row, col}: KingElementProps) {
+function KingElement({row, col, owner}: KingElementProps) {
   const {getBoardCell, displayAvailableMoves, clearMoves} = useBoard();
   const cell = getBoardCell(row, col);
   const board = Board.instance;
   const [tick, setTick] = useState(0);
 
   const onKingClicked = () => {
-    if (cell.canCapture){
-      cell.canCapture = false;
-
-
+    if ((board.currentTurn == "sente" && !cell.displayRotated) ||
+      (board.currentTurn == "gote" && cell.displayRotated)) {
+      if (cell.canCapture){
+        cell.canCapture = false;
+      }
+      board.selectedCell = cell;
+      board.kingMoveDisplay.displayMoves(cell);
+      const movesToDisplay = board.cellsToMoveDisplay;
+      displayAvailableMoves(movesToDisplay);
     }
-    board.selectedCell = cell;
-    board.kingMoveDisplay.displayMoves(cell);
-    const movesToDisplay = board.cellsToMoveDisplay;
-    displayAvailableMoves(movesToDisplay);
   }
 
   useEffect(() => {

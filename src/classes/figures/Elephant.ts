@@ -138,11 +138,24 @@ class Elephant extends Figure {
         if (this.getState().checkPromotion()){
             return false;
         }
-        if (this.figureCoordinates.row <= 2) {
-            const answer = confirm("Do you want to promote this elephant?");
+        const currentTurn = Board.instance.currentTurn;
 
-            if (answer) {
-                return true;
+        if (currentTurn == "sente") {
+            if (this.figureCoordinates.row <= 2) {
+                const answer = confirm("Do you want to promote this elephant?");
+
+                if (answer) {
+                    return true;
+                }
+            }
+        }
+        else {
+            if (this.figureCoordinates.row >= 6) {
+                const answer = confirm("Do you want to promote this elephant?");
+
+                if (answer) {
+                    return true;
+                }
             }
         }
         return false;

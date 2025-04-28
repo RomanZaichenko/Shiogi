@@ -21,7 +21,7 @@ function MainMenu(props: MainMenuProps) {
     return (
         <>
             <main id='menu' ref={menuElement}>
-                <h1 id="menu-title">Shiogi</h1>
+                <h1 id="menu-title">Shogi</h1>
                 <MenuButton buttonName={"Play"} clickHandler={() => {
                     setHidden(true);
                     props.setGameAreaDisplay(true);

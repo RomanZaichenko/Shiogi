@@ -1,23 +1,27 @@
 import {useEffect, useState} from "react";
 import {Board, useBoard} from "../../classes/Board.ts";
+import Figure from "../../classes/Figure.ts";
 
 interface GoldenGeneralElementProps {
   row: number;
   col: number;
   isCaptured: boolean;
   figure: Figure;
+  owner: string;
 }
 
-function GoldenGeneralElement({row, col, isCaptured, figure}: GoldenGeneralElementProps){
+function GoldenGeneralElement({row, col, isCaptured, figure, owner}: GoldenGeneralElementProps){
   const {getBoardCell, displayAvailableMoves, clearMoves} = useBoard();
   const board = Board.instance;
 
   if(isCaptured){
     const onGoldenGeneralClick = () => {
-      board.selectCapturedFigure(figure);
-      board.goldenGeneralMoveDisplay.displayDropIn(figure);
-      const movesToDisplay = board.cellsToMoveDisplay; //change
-      displayAvailableMoves(movesToDisplay);
+      if (owner === board.currentTurn) {
+        board.selectCapturedFigure(figure);
+        board.goldenGeneralMoveDisplay.displayDropIn(figure);
+        const movesToDisplay = board.cellsToMoveDisplay; //change
+        displayAvailableMoves(movesToDisplay);
+      }
     }
     return (<div className="figure" onClick={onGoldenGeneralClick}
                  draggable
@@ -36,13 +40,16 @@ function GoldenGeneralElement({row, col, isCaptured, figure}: GoldenGeneralEleme
     const [tick, setTick] = useState(0);
 
     const onGoldenGeneralClick = () => {
-      if (!cell.canCapture) {
-        board.selectedCell = cell;
+      if ((board.currentTurn == "sente" && !cell.displayRotated) ||
+        (board.currentTurn == "gote" && cell.displayRotated)) {
+        if (!cell.canCapture) {
+          board.selectedCell = cell;
 
-        board.goldenGeneralMoveDisplay.displayMoves(cell);
-        const movesToDisplay = board.cellsToMoveDisplay;
+          board.goldenGeneralMoveDisplay.displayMoves(cell);
+          const movesToDisplay = board.cellsToMoveDisplay;
 
-        displayAvailableMoves(movesToDisplay);
+          displayAvailableMoves(movesToDisplay);
+        }
       }
     }
 

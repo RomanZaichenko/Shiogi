@@ -7,9 +7,10 @@ interface HorseElementProps {
   col: number;
   isCaptured: boolean;
   figure: Figure;
+  owner: string;
 }
 
-function HorseElement({ row, col, isCaptured, figure }: HorseElementProps) {
+function HorseElement({ row, col, isCaptured, figure, owner }: HorseElementProps) {
   const {getBoardCell, displayAvailableMoves, clearMoves} = useBoard();
   const board = Board.instance;
   let horseImage : string;
@@ -17,10 +18,13 @@ function HorseElement({ row, col, isCaptured, figure }: HorseElementProps) {
   if(isCaptured) {
     horseImage = "horse.png";
     const onHorseClick = () => {
-      board.selectCapturedFigure(figure);
-      board.horseMoveDisplay.displayDropIn(figure);
-      const movesToDisplay = board.cellsToMoveDisplay; //change
-      displayAvailableMoves(movesToDisplay);
+
+      if (owner === board.currentTurn) {
+        board.selectCapturedFigure(figure);
+        board.horseMoveDisplay.displayDropIn(figure);
+        const movesToDisplay = board.cellsToMoveDisplay; //change
+        displayAvailableMoves(movesToDisplay);
+      }
     }
     return (<div className="figure" onClick={onHorseClick}
                  draggable
@@ -39,11 +43,15 @@ function HorseElement({ row, col, isCaptured, figure }: HorseElementProps) {
     const [tick, setTick] = useState(0);
 
     const onHorseClick = () => {
-      if (!cell.displayRotated) {
-        board.selectedCell = cell;
-        board.horseMoveDisplay.displayMoves(cell);
-        const movesToDisplay = board.cellsToMoveDisplay;
-        displayAvailableMoves(movesToDisplay);
+      if ((board.currentTurn == "sente" && !cell.displayRotated) ||
+        (board.currentTurn == "gote" && cell.displayRotated)) {
+
+        if (!cell.canCapture) {
+          board.selectedCell = cell;
+          board.horseMoveDisplay.displayMoves(cell);
+          const movesToDisplay = board.cellsToMoveDisplay;
+          displayAvailableMoves(movesToDisplay);
+        }
       }
     }
 

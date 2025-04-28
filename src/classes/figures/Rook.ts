@@ -125,13 +125,27 @@ class Rook extends Figure{
     }
 
     checkPromotion() {
-        if (this.figureCoordinates.row <= 2) {
-            const answer = confirm("Do you want to promote this rook?");
+        const currentTurn = Board.instance.currentTurn;
 
-            if (answer) {
-                return true;
+        if (currentTurn == "sente") {
+            if (this.figureCoordinates.row <= 2) {
+                const answer = confirm("Do you want to promote this rook?");
+
+                if (answer) {
+                    return true;
+                }
             }
         }
+        else {
+            if (this.figureCoordinates.row >= 6) {
+                const answer = confirm("Do you want to promote this rook?");
+
+                if (answer) {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 

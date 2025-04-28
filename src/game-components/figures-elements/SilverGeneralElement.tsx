@@ -1,15 +1,16 @@
 import {Board, useBoard} from "../../classes/Board.ts";
 import {useEffect, useState} from "react";
-
+import Figure from "../../classes/Figure.ts";
 
 interface SilverGeneralElementProps {
   row: number;
   col: number;
   isCaptured: boolean;
-  figure: number;
+  figure: Figure;
+  owner: string;
 }
 
-function SilverGeneralElement({row, col, isCaptured, figure}: SilverGeneralElementProps) {
+function SilverGeneralElement({row, col, isCaptured, figure, owner}: SilverGeneralElementProps) {
   const {getBoardCell, displayAvailableMoves, clearMoves} = useBoard();
   const board = Board.instance;
   let silverGeneralImage: string;
@@ -18,10 +19,12 @@ function SilverGeneralElement({row, col, isCaptured, figure}: SilverGeneralEleme
   if (isCaptured) {
     silverGeneralImage = "silver_general.png";
     const onSilverGeneralClick = () => {
-      board.selectCapturedFigure(figure);
-      board.silverGeneralMoveDisplay.displayDropIn(figure);
-      const movesToDisplay = board.cellsToMoveDisplay; //change
-      displayAvailableMoves(movesToDisplay);
+      if (owner == board.currentTurn) {
+        board.selectCapturedFigure(figure);
+        board.silverGeneralMoveDisplay.displayDropIn(figure);
+        const movesToDisplay = board.cellsToMoveDisplay; //change
+        displayAvailableMoves(movesToDisplay);
+      }
     }
     return (<div className="figure" onClick={onSilverGeneralClick}
                  draggable
@@ -40,13 +43,17 @@ function SilverGeneralElement({row, col, isCaptured, figure}: SilverGeneralEleme
     const [tick, setTick] = useState(0);
 
     const onSilverGeneralClick = () => {
-      if(!cell.canCapture){
+      if ((board.currentTurn == "sente" && !cell.displayRotated) ||
+        (board.currentTurn == "gote" && cell.displayRotated)) {
 
-        board.selectedCell = cell;
-        board.silverGeneralMoveDisplay.displayMoves(cell);
-        const movesToDisplay = board.cellsToMoveDisplay;
+        if(!cell.canCapture){
 
-        displayAvailableMoves(movesToDisplay);
+          board.selectedCell = cell;
+          board.silverGeneralMoveDisplay.displayMoves(cell);
+          const movesToDisplay = board.cellsToMoveDisplay;
+
+          displayAvailableMoves(movesToDisplay);
+        }
       }
     }
 

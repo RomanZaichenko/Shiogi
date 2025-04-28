@@ -7,10 +7,11 @@ interface PawnElementProps {
   row: number;
   col: number;
   isCaptured: boolean;
-  figure: Figure
+  figure: Figure;
+  owner: string;
 }
 
-function PawnElement({ row, col, isCaptured, figure }: PawnElementProps) {
+function PawnElement({ row, col, isCaptured, figure, owner}: PawnElementProps) {
   const {getBoardCell, displayAvailableMoves, clearMoves} = useBoard();
   const board = Board.instance;
   let pawnImage: string;
@@ -18,10 +19,12 @@ function PawnElement({ row, col, isCaptured, figure }: PawnElementProps) {
   if(isCaptured) {
     pawnImage = "pawn.png";
     const onPawnClick = () => {
-      board.selectCapturedFigure(figure);
-      board.pawnMoveDisplay.displayDropIn(figure);
-      const movesToDisplay = board.cellsToMoveDisplay; //change
-      displayAvailableMoves(movesToDisplay);
+      if (owner === board.currentTurn) {
+        board.selectCapturedFigure(figure);
+        board.pawnMoveDisplay.displayDropIn(figure);
+        const movesToDisplay = board.cellsToMoveDisplay; //change
+        displayAvailableMoves(movesToDisplay);
+      }
     }
     return (<div className="figure" onClick={onPawnClick}
                  draggable
@@ -40,13 +43,17 @@ function PawnElement({ row, col, isCaptured, figure }: PawnElementProps) {
     const [tick, setTick] = useState(0);
 
     const onPawnClick = () => {
-      if (!cell.canCapture){
-        board.selectedCell = cell;
-        board.pawnMoveDisplay.displayMoves(cell);
-        const movesToDisplay = board.cellsToMoveDisplay;
-        displayAvailableMoves(movesToDisplay);
-      }
+      if ((board.currentTurn == "sente" && !cell.displayRotated) ||
+        (board.currentTurn == "gote" && cell.displayRotated)) {
 
+        if (!cell.canCapture){
+          board.selectedCell = cell;
+          board.pawnMoveDisplay.displayMoves(cell);
+          const movesToDisplay = board.cellsToMoveDisplay;
+          displayAvailableMoves(movesToDisplay);
+        }
+
+      }
     }
 
     useEffect(() => {

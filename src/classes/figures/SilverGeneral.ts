@@ -40,51 +40,102 @@ class SilverGeneral extends Figure{
             const startCell = board.getCell(row, col);
             let cellToCheck: Cell;
 
+            if (board.currentTurn == "sente") {
+                if (row - 1 >= 0) {
+                    for (let i = col - 1; i <= col + 1; i++) {
+                        if ((i == col - 1 && i < 0) || (i == col + 1 && i > 8)) {
+                            continue;
+                        }
 
-            if (row - 1 >= 0) {
-                for (let i = col - 1; i <= col + 1; i++) {
-                    if ((i == col - 1 && i < 0) || (i == col + 1 && i > 8)) {
-                        continue;
+
+                        cellToCheck = board.getCell(row - 1, i);
+
+                        if (!cellToCheck.isOccupied ||
+                          (cellToCheck.displayRotated != startCell.displayRotated)) {
+                            availableCells.push(cellToCheck);
+                        }
+                    }
+                }
+
+                if (row + 1 <= 8) {
+                    if (col - 1 >= 0) {
+                        cellToCheck = board.getCell(row + 1, col - 1);
+                        if (!cellToCheck.isOccupied ||
+                          (cellToCheck.displayRotated != startCell.displayRotated)) {
+                            availableCells.push(cellToCheck);
+                        }
                     }
 
-
-                    cellToCheck = board.getCell(row - 1, i);
-
-                    if (!cellToCheck.isOccupied ||
-                      (cellToCheck.displayRotated != startCell.displayRotated)) {
-                        availableCells.push(cellToCheck);
+                    if (col + 1 <= 8) {
+                        cellToCheck = board.getCell(row + 1, col + 1);
+                        if (!cellToCheck.isOccupied ||
+                          (cellToCheck.displayRotated != startCell.displayRotated)) {
+                            availableCells.push(cellToCheck);
+                        }
                     }
+
+                }
+            }
+            else {
+                if (row + 1 <= 8) {
+                    for (let i = col - 1; i <= col + 1; i++) {
+                        if ((i == col - 1 && i < 0) || (i == col + 1 && i > 8)) {
+                            continue;
+                        }
+
+
+                        cellToCheck = board.getCell(row + 1, i);
+
+                        if (!cellToCheck.isOccupied ||
+                          (cellToCheck.displayRotated != startCell.displayRotated)) {
+                            availableCells.push(cellToCheck);
+                        }
+                    }
+                }
+
+                if (row - 1 >= 0) {
+                    if (col - 1 >= 0) {
+                        cellToCheck = board.getCell(row - 1, col - 1);
+                        if (!cellToCheck.isOccupied ||
+                          (cellToCheck.displayRotated != startCell.displayRotated)) {
+                            availableCells.push(cellToCheck);
+                        }
+                    }
+
+                    if (col + 1 <= 8) {
+                        cellToCheck = board.getCell(row - 1, col + 1);
+                        if (!cellToCheck.isOccupied ||
+                          (cellToCheck.displayRotated != startCell.displayRotated)) {
+                            availableCells.push(cellToCheck);
+                        }
+                    }
+
                 }
             }
 
-            if (row + 1 <= 8) {
-                if (col - 1 >= 0) {
-                    cellToCheck = board.getCell(row + 1, col - 1);
-                    if (!cellToCheck.isOccupied ||
-                      (cellToCheck.displayRotated != startCell.displayRotated)) {
-                        availableCells.push(cellToCheck);
-                    }
-                }
-
-                if (col + 1 <= 8) {
-                    cellToCheck = board.getCell(row + 1, col + 1);
-                    if (!cellToCheck.isOccupied ||
-                      (cellToCheck.displayRotated != startCell.displayRotated)) {
-                        availableCells.push(cellToCheck);
-                    }
-                }
-
-            }
             return availableCells;
         }
     }
 
     checkPromotion() {
-        if (this.figureCoordinates.row <= 2) {
-            const answer = confirm("Do you want to promote this silver general?");
+        const currentTurn = Board.instance.currentTurn;
 
-            if (answer) {
-                return true;
+        if (currentTurn == "sente") {
+            if (this.figureCoordinates.row <= 2) {
+                const answer = confirm("Do you want to promote this silver general?");
+
+                if (answer) {
+                    return true;
+                }
+            }
+        }
+        else{
+            if (this.figureCoordinates.row >= 8) {
+                const answer = confirm("Do you want to promote this silver general?");
+
+                if (answer) {
+                    return true;
+                }
             }
         }
         return false;

@@ -26,12 +26,16 @@ function CapturedElement({ figure }: CapturedElementProps) {
   const rookCreator = new RookCreator();
   const board = Board.instance
 
-  const mediator = figure.mediator;
-  const row = figure.getRow()
-  const col = figure.getCol()
+  if (figure == undefined) {
+    return;
+  }
+
+  const mediator = figure?.mediator;
+  const row = figure?.getRow()
+  const col = figure?.getCol()
 
 
-  let name = figure.constructor.name;
+  let name = figure?.constructor.name;
   if (name === "GeneralPromotionDecorator") {
     const decorateCell: GeneralPromotionDecorator = figure;
 
@@ -56,10 +60,10 @@ function CapturedElement({ figure }: CapturedElementProps) {
         figure = spearCreator.createFigure(mediator, row, col, new DefaultState())
         break;
     }
-  } else if (figure.constructor.name === "ElephantPromotionDecorator") {
+  } else if (figure?.constructor.name === "ElephantPromotionDecorator") {
     name = "Elephant";
     figure = elephantCreator.createFigure(mediator, row, col, new DefaultState())
-  } else if (figure.constructor.name === "RookPromotionDecorator") {
+  } else if (figure?.constructor.name === "RookPromotionDecorator") {
     name = "Rook";
     figure = rookCreator.createFigure(mediator, row, col, new DefaultState())
   }

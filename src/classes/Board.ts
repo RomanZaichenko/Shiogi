@@ -54,6 +54,7 @@ class Board {
     cellsToMoveDisplay: Cell[] = [];
     capturedFigures: Figure[] = [];
     figureToDrop: Figure;
+    currentTurn: "sente" | "gote" = "sente";
     private _listeners: (() => void)[] = [];
 
 
@@ -245,6 +246,8 @@ class Board {
         console.log(figureToMove);
         figureToMove?.requestForMove(cell);
         this.clearCapturesDisplay()
+        
+        this.currentTurn = this.currentTurn == "sente" ? "gote" : "sente";
 
         if (figureToMove === this.figureToDrop) {
             // if (this.capturedFigures.length === 1){

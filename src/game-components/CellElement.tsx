@@ -95,9 +95,9 @@ function CellElement({row, col}: CellElementProps) {
     const onFigureDrop = () => {
         console.log(cell.canMoveTo)
         if (cell.canMoveTo) {
-            const startingCell = board.selectedCell;
-            if (startingCell) {
-                const figureToDrop = startingCell.figureOn;
+            const startingCell = board.selectedCell ? board.selectedCell : null;
+            if (startingCell || board.figureToDrop) {
+                const figureToDrop = startingCell?.figureOn || board.figureToDrop;
 
                 if (figureToDrop) {
                     board.mediator.setMoveImplementation(dragImplementation);

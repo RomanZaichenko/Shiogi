@@ -8,9 +8,10 @@ interface RookElementProps {
   col: number;
   isCaptured: boolean;
   figure: Figure;
+  owner: string;
 }
 
-function RookElement({row, col, isCaptured, figure}: RookElementProps) {
+function RookElement({row, col, isCaptured, figure, owner}: RookElementProps) {
   const {getBoardCell, displayAvailableMoves, clearMoves} = useBoard();
   const board = Board.instance;
   let rookImage: string;
@@ -18,10 +19,12 @@ function RookElement({row, col, isCaptured, figure}: RookElementProps) {
   if (isCaptured) {
     rookImage = "pawn.png";
     const onRookClick = () => {
-      board.selectCapturedFigure(figure);
-      board.rookMoveDisplay.displayDropIn(figure);
-      const movesToDisplay = board.cellsToMoveDisplay; //change
-      displayAvailableMoves(movesToDisplay);
+      if (owner === board.currentTurn) {
+        board.selectCapturedFigure(figure);
+        board.rookMoveDisplay.displayDropIn(figure);
+        const movesToDisplay = board.cellsToMoveDisplay; //change
+        displayAvailableMoves(movesToDisplay);
+      }
     }
     return (<div className="figure" onClick={onRookClick}
                  draggable
@@ -39,12 +42,15 @@ function RookElement({row, col, isCaptured, figure}: RookElementProps) {
     const [tick, setTick] = useState(0);
 
     const onRookClick = () => {
-      if (!cell.canCapture){
+      if ((board.currentTurn == "sente" && !cell.displayRotated) ||
+        (board.currentTurn == "gote" && cell.displayRotated)) {
 
-        board.selectedCell = cell;
-        board.rookMoveDisplay.displayMoves(cell);
-        const movesToDisplay = board.cellsToMoveDisplay;
-        displayAvailableMoves(movesToDisplay);
+        if (!cell.canCapture){
+          board.selectedCell = cell;
+          board.rookMoveDisplay.displayMoves(cell);
+          const movesToDisplay = board.cellsToMoveDisplay;
+          displayAvailableMoves(movesToDisplay);
+        }
       }
     }
 

@@ -42,38 +42,76 @@ class Spear extends Figure{
             const startCell = board.getCell(row, col);
             let cellToCheck: Cell;
 
+            if (board.currentTurn == "sente") {
+                if (row - 1 >= 0) {
+                    do {
+                        cellToCheck = board.getCell(row - 1, col);
+                        if (!cellToCheck.isOccupied ||
+                          (cellToCheck.displayRotated != startCell.displayRotated)) {
+                            availableCells.push(cellToCheck);
 
-            if (row - 1 >= 0) {
-                do {
-                    cellToCheck = board.getCell(row - 1, col);
-                    if (!cellToCheck.isOccupied ||
-                      (cellToCheck.displayRotated != startCell.displayRotated)) {
-                        availableCells.push(cellToCheck);
-
-                        if (cellToCheck.isOccupied) {
+                            if (cellToCheck.isOccupied) {
+                                break;
+                            }
+                        } else {
                             break;
                         }
-                    } else {
-                        break;
-                    }
 
-                    row--;
+                        row--;
+                    }
+                    while (!cellToCheck.isOccupied);
                 }
-                while (!cellToCheck.isOccupied);
             }
+            else {
+                if (row + 1 <= 8) {
+                    do {
+                        cellToCheck = board.getCell(row + 1, col);
+                        if (!cellToCheck.isOccupied ||
+                          (cellToCheck.displayRotated != startCell.displayRotated)) {
+                            availableCells.push(cellToCheck);
+
+                            if (cellToCheck.isOccupied) {
+                                break;
+                            }
+                        } else {
+                            break;
+                        }
+
+                        row++;
+                    }
+                    while (!cellToCheck.isOccupied);
+                }
+            }
+
             return availableCells;
         }
     }
 
     checkPromotion() :boolean{
-        if (this.figureCoordinates.row == 0) {
-            return true;
-        }
-        if (this.figureCoordinates.row == 1 || this.figureCoordinates.row == 2 ) {
-            const answer = confirm("Do you want to promote this spear?");
+        const currentTurn = Board.instance.currentTurn;
 
-            if (answer) {
+        if (currentTurn == "sente") {
+            if (this.figureCoordinates.row == 0) {
                 return true;
+            }
+            if (this.figureCoordinates.row == 1 || this.figureCoordinates.row == 2 ) {
+                const answer = confirm("Do you want to promote this spear?");
+
+                if (answer) {
+                    return true;
+                }
+            }
+        }
+        else {
+            if (this.figureCoordinates.row == 8) {
+                return true;
+            }
+            if (this.figureCoordinates.row == 6 || this.figureCoordinates.row == 7 ) {
+                const answer = confirm("Do you want to promote this spear?");
+
+                if (answer) {
+                    return true;
+                }
             }
         }
 
