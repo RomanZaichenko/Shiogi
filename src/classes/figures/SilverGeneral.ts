@@ -28,50 +28,55 @@ class SilverGeneral extends Figure{
     }
 
     public checkAvailableCells(){
-        const board = Board.instance;
-        const row = this.figureCoordinates.row;
-        const col = this.figureCoordinates.col;
-
-        const startCell = board.getCell(row, col);
-        let cellToCheck: Cell;
         const availableCells: Cell[] = [];
-
-
-        if (row-1 >= 0){
-            for(let i = col-1; i <= col+1; i++) {
-                if ((i == col-1 && i < 0) || (i == col+1 && i > 8)){
-                    continue;
-                }
-
-
-                cellToCheck = board.getCell(row-1, i);
-
-                if(!cellToCheck.isOccupied ||
-                  (cellToCheck.displayRotated != startCell.displayRotated)) {
-                    availableCells.push(cellToCheck);
-                }
-            }
+        if (this.isCaptured){
+            return super.commonCheck(availableCells);
         }
+        else {
+            const board = Board.instance;
+            const row = this.figureCoordinates.row;
+            const col = this.figureCoordinates.col;
 
-        if (row + 1 <= 8){
-            if (col-1 >= 0){
-                cellToCheck = board.getCell(row+1, col-1);
-                if(!cellToCheck.isOccupied ||
-                  (cellToCheck.displayRotated != startCell.displayRotated)) {
-                    availableCells.push(cellToCheck);
+            const startCell = board.getCell(row, col);
+            let cellToCheck: Cell;
+
+
+            if (row - 1 >= 0) {
+                for (let i = col - 1; i <= col + 1; i++) {
+                    if ((i == col - 1 && i < 0) || (i == col + 1 && i > 8)) {
+                        continue;
+                    }
+
+
+                    cellToCheck = board.getCell(row - 1, i);
+
+                    if (!cellToCheck.isOccupied ||
+                      (cellToCheck.displayRotated != startCell.displayRotated)) {
+                        availableCells.push(cellToCheck);
+                    }
                 }
             }
 
-            if (col+1 <= 8){
-                cellToCheck = board.getCell(row+1, col+1);
-                if(!cellToCheck.isOccupied ||
-                  (cellToCheck.displayRotated != startCell.displayRotated)) {
-                    availableCells.push(cellToCheck);
+            if (row + 1 <= 8) {
+                if (col - 1 >= 0) {
+                    cellToCheck = board.getCell(row + 1, col - 1);
+                    if (!cellToCheck.isOccupied ||
+                      (cellToCheck.displayRotated != startCell.displayRotated)) {
+                        availableCells.push(cellToCheck);
+                    }
                 }
-            }
 
+                if (col + 1 <= 8) {
+                    cellToCheck = board.getCell(row + 1, col + 1);
+                    if (!cellToCheck.isOccupied ||
+                      (cellToCheck.displayRotated != startCell.displayRotated)) {
+                        availableCells.push(cellToCheck);
+                    }
+                }
+
+            }
+            return availableCells;
         }
-        return availableCells;
     }
 
     checkPromotion() {

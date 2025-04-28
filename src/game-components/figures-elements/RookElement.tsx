@@ -1,14 +1,16 @@
 import {useEffect, useState} from "react";
 import {Board, useBoard} from "../../classes/Board.ts";
 import rook from "../../classes/figures/Rook.ts";
+import Figure from "../../classes/Figure.ts";
 
 interface RookElementProps {
   row: number;
   col: number;
   isCaptured: boolean;
+  figure: Figure;
 }
 
-function RookElement({row, col, isCaptured}: RookElementProps) {
+function RookElement({row, col, isCaptured, figure}: RookElementProps) {
   const {getBoardCell, displayAvailableMoves, clearMoves} = useBoard();
   const board = Board.instance;
   let rookImage: string;
@@ -16,7 +18,10 @@ function RookElement({row, col, isCaptured}: RookElementProps) {
   if (isCaptured) {
     rookImage = "pawn.png";
     const onRookClick = () => {
-
+      board.selectCapturedFigure(figure);
+      board.rookMoveDisplay.displayDropIn(figure);
+      const movesToDisplay = board.cellsToMoveDisplay; //change
+      displayAvailableMoves(movesToDisplay);
     }
     return (<div className="figure" onClick={onRookClick}
                  draggable

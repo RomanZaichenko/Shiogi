@@ -1,14 +1,16 @@
 import {createContext, useEffect, useState} from "react";
 import {Board, useBoard} from "../../classes/Board.ts";
+import Figure from "../../classes/Figure.ts";
 
 
 interface PawnElementProps {
   row: number;
   col: number;
   isCaptured: boolean;
+  figure: Figure
 }
 
-function PawnElement({ row, col, isCaptured }: PawnElementProps) {
+function PawnElement({ row, col, isCaptured, figure }: PawnElementProps) {
   const {getBoardCell, displayAvailableMoves, clearMoves} = useBoard();
   const board = Board.instance;
   let pawnImage: string;
@@ -16,7 +18,10 @@ function PawnElement({ row, col, isCaptured }: PawnElementProps) {
   if(isCaptured) {
     pawnImage = "pawn.png";
     const onPawnClick = () => {
-
+      board.selectCapturedFigure(figure);
+      board.pawnMoveDisplay.displayDropIn(figure);
+      const movesToDisplay = board.cellsToMoveDisplay; //change
+      displayAvailableMoves(movesToDisplay);
     }
     return (<div className="figure" onClick={onPawnClick}
                  draggable

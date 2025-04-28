@@ -1,14 +1,16 @@
 import {useEffect, useState} from "react";
 import {Board, useBoard} from "../../classes/Board.ts";
 import BoardProvider from "../BoardProvider.tsx";
+import Figure from "../../classes/Figure.ts";
 
 interface ElephantElementProps {
   row: number;
   col: number;
   isCaptured: boolean;
+  figure: Figure;
 }
 
-function ElephantElement({row, col, isCaptured}: ElephantElementProps) {
+function ElephantElement({row, col, isCaptured, figure}: ElephantElementProps) {
   const {getBoardCell, displayAvailableMoves, clearMoves} = useBoard();
   const board = Board.instance;
   let elephantImage: string;
@@ -16,7 +18,10 @@ function ElephantElement({row, col, isCaptured}: ElephantElementProps) {
   if(isCaptured) {
     elephantImage = "elephant.png";
     const onElephantClick = () => {
-
+      board.figureToDrop = figure;
+      board.elephantMoveDisplay.displayDropIn(figure);
+      const movesToDisplay = board.cellsToMoveDisplay; //change
+      displayAvailableMoves(movesToDisplay);
     }
     return (<div className="figure" onClick={onElephantClick}
                  draggable

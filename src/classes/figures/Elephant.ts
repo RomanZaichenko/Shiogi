@@ -29,104 +29,109 @@ class Elephant extends Figure {
     }
 
     public checkAvailableCells(){
-        const board = Board.instance;
-        const row = this.figureCoordinates.row;
-        const col = this.figureCoordinates.col;
-
-        const startCell = board.getCell(row, col);
-        let cellToCheck: Cell;
         const availableCells: Cell[] = [];
+        if (this.isCaptured){
+            return super.commonCheck(availableCells);
+        }
+        else {
+            const board = Board.instance;
+            const row = this.figureCoordinates.row;
+            const col = this.figureCoordinates.col;
+
+            const startCell = board.getCell(row, col);
+            let cellToCheck: Cell;
 
 
-        if (row - 1 >= 0 && col - 1 >= 0) {
-            let rowCount = row;
-            let colCount = col;
-            do {
-                cellToCheck = board.getCell(rowCount-1, colCount-1);
+            if (row - 1 >= 0 && col - 1 >= 0) {
+                let rowCount = row;
+                let colCount = col;
+                do {
+                    cellToCheck = board.getCell(rowCount-1, colCount-1);
 
-                if(!cellToCheck.isOccupied ||
-                  (cellToCheck.displayRotated != startCell.displayRotated)) {
-                    availableCells.push(cellToCheck);
-                    if (cellToCheck.isOccupied) {
+                    if(!cellToCheck.isOccupied ||
+                      (cellToCheck.displayRotated != startCell.displayRotated)) {
+                        availableCells.push(cellToCheck);
+                        if (cellToCheck.isOccupied) {
+                            break;
+                        }
+                    }
+                    else {
                         break;
                     }
+                    rowCount--;
+                    colCount--;
                 }
-                else {
-                    break;
-                }
-                rowCount--;
-                colCount--;
+                while (rowCount - 1 >= 0 && colCount - 1 >= 0);
             }
-            while (rowCount - 1 >= 0 && colCount - 1 >= 0);
-        }
 
-        if (row - 1 >= 0 && col + 1 <= 8) {
-            let rowCount = row;
-            let colCount = col;
-            do {
-                cellToCheck = board.getCell(rowCount-1, colCount+1);
-                if((cellToCheck.displayRotated != startCell.displayRotated) ||
-                  !cellToCheck.isOccupied ) {
-                    availableCells.push(cellToCheck);
+            if (row - 1 >= 0 && col + 1 <= 8) {
+                let rowCount = row;
+                let colCount = col;
+                do {
+                    cellToCheck = board.getCell(rowCount-1, colCount+1);
+                    if((cellToCheck.displayRotated != startCell.displayRotated) ||
+                      !cellToCheck.isOccupied ) {
+                        availableCells.push(cellToCheck);
 
-                    if (cellToCheck.isOccupied) {
+                        if (cellToCheck.isOccupied) {
+                            break;
+                        }
+                    }
+                    else{
                         break;
                     }
+                    rowCount--;
+                    colCount++;
                 }
-                else{
-                    break;
-                }
-                rowCount--;
-                colCount++;
+                while ((rowCount - 1 >= 0 && colCount + 1 <= 8));
             }
-            while ((rowCount - 1 >= 0 && colCount + 1 <= 8));
-        }
 
-        if (row + 1 <= 8 && col - 1 >= 0) {
-            let rowCount = row;
-            let colCount = col;
-            do {
-                cellToCheck = board.getCell(rowCount+1, colCount-1);
-                if((cellToCheck.displayRotated != startCell.displayRotated) ||
-                  !cellToCheck.isOccupied ) {
-                    availableCells.push(cellToCheck);
+            if (row + 1 <= 8 && col - 1 >= 0) {
+                let rowCount = row;
+                let colCount = col;
+                do {
+                    cellToCheck = board.getCell(rowCount+1, colCount-1);
+                    if((cellToCheck.displayRotated != startCell.displayRotated) ||
+                      !cellToCheck.isOccupied ) {
+                        availableCells.push(cellToCheck);
 
-                    if (cellToCheck.isOccupied) {
+                        if (cellToCheck.isOccupied) {
+                            break;
+                        }
+                    }
+                    else {
                         break;
                     }
+                    rowCount++;
+                    colCount--;
                 }
-                else {
-                    break;
-                }
-                rowCount++;
-                colCount--;
+                while ((rowCount + 1 <= 8 && colCount - 1 >= 0));
             }
-            while ((rowCount + 1 <= 8 && colCount - 1 >= 0));
-        }
 
-        if (row + 1 <= 8 && col + 1 <= 8) {
-            let rowCount = row;
-            let colCount = col;
-            do {
-                cellToCheck = board.getCell(rowCount+1, colCount+1);
-                if((cellToCheck.displayRotated != startCell.displayRotated) ||
-                  !cellToCheck.isOccupied ) {
-                    availableCells.push(cellToCheck);
+            if (row + 1 <= 8 && col + 1 <= 8) {
+                let rowCount = row;
+                let colCount = col;
+                do {
+                    cellToCheck = board.getCell(rowCount+1, colCount+1);
+                    if((cellToCheck.displayRotated != startCell.displayRotated) ||
+                      !cellToCheck.isOccupied ) {
+                        availableCells.push(cellToCheck);
 
-                    if (cellToCheck.isOccupied) {
+                        if (cellToCheck.isOccupied) {
+                            break;
+                        }
+                    }
+                    else {
                         break;
                     }
+                    rowCount++;
+                    colCount++;
                 }
-                else {
-                    break;
-                }
-                rowCount++;
-                colCount++;
+                while ((rowCount + 1 <= 8 && colCount + 1 <= 8));
             }
-            while ((rowCount + 1 <= 8 && colCount + 1 <= 8));
-        }
 
-        return availableCells;
+            return availableCells;
+        }
     }
 
     checkPromotion(): boolean {

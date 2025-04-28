@@ -1,5 +1,6 @@
 import FigureMoveStrategy from "./FigureMoveStrategy.ts";
 import {Cell} from "../../Cell.ts";
+import Figure from "../../Figure.ts";
 
 class ElephantMoveStrategy implements FigureMoveStrategy {
   public getAvailableCells(cell: Cell) : Cell[] {
@@ -22,6 +23,11 @@ class ElephantMoveStrategy implements FigureMoveStrategy {
       return [];
     }
   };
+
+  public getDropInCells(figure: Figure) {
+    return  figure.checkAvailableCells();
+
+  }
 }
 
 export default ElephantMoveStrategy;

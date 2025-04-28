@@ -53,6 +53,7 @@ class Board {
     selectedCell: Cell | null = null;
     cellsToMoveDisplay: Cell[] = [];
     capturedFigures: Figure[] = [];
+    figureToDrop: Figure;
     private _listeners: (() => void)[] = [];
 
 
@@ -237,10 +238,34 @@ class Board {
     }
 
     public moveFigure(cell: Cell) {
-        const figureToMove = this.selectedCell?.figureOn;
+        this.figureToDrop?.setRow(cell.coords.row)
+        this.figureToDrop?.setCol(cell.coords.column)
+        const figureToMove = this.selectedCell?.figureOn ? this.selectedCell?.figureOn : this.figureToDrop;
+
+        console.log(figureToMove);
         figureToMove?.requestForMove(cell);
         this.clearCapturesDisplay()
+
+        if (figureToMove === this.figureToDrop) {
+            // if (this.capturedFigures.length === 1){
+            //     this.capturedFigures = []
+            // }
+            this.capturedFigures = this.capturedFigures.filter((item) => {
+                return !((item.constructor.name === this.figureToDrop.constructor.name) &&
+                  (item.getRow() === this.figureToDrop.getRow()) &&
+                  (item.getCol() === this.figureToDrop.getCol()))
+            })
+            console.log(this.capturedFigures);
+            figureToMove.isCaptured = false;
+            this.figureToDrop = null;
+
+
+        }
         this._notifyListeners();
+    }
+
+    public selectCapturedFigure(figure: Figure): void {
+        this.figureToDrop = figure;
     }
 
 }

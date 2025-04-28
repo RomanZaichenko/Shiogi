@@ -28,98 +28,100 @@ class Rook extends Figure{
     }
 
     public checkAvailableCells(){
-        const board = Board.instance;
-        const row = this.figureCoordinates.row;
-        const col = this.figureCoordinates.col;
-
-        const startCell = board.getCell(row, col);
-        let cellToCheck: Cell;
         const availableCells: Cell[] = [];
+        if (this.isCaptured){
+            return super.commonCheck(availableCells);
+        }
+        else {
+            const board = Board.instance;
+            const row = this.figureCoordinates.row;
+            const col = this.figureCoordinates.col;
 
+            const startCell = board.getCell(row, col);
+            let cellToCheck: Cell;
 
-        if (row - 1 >= 0) {
-            let rowCount = row;
-            do {
-                cellToCheck = board.getCell(rowCount-1, col);
-                if((cellToCheck.displayRotated != startCell.displayRotated) ||
-                  !cellToCheck.isOccupied ) {
-                    availableCells.push(cellToCheck);
+            if (row - 1 >= 0) {
+                let rowCount = row;
+                do {
+                    cellToCheck = board.getCell(rowCount - 1, col);
+                    if ((cellToCheck.displayRotated != startCell.displayRotated) ||
+                      !cellToCheck.isOccupied) {
+                        availableCells.push(cellToCheck);
 
-                    if (cellToCheck.isOccupied) {
+                        if (cellToCheck.isOccupied) {
+                            break;
+                        }
+                    } else {
                         break;
                     }
+                    rowCount--;
                 }
-                else {
-                    break;
-                }
-                rowCount--;
+                while (rowCount - 1 >= 0);
             }
-            while (rowCount - 1 >= 0);
-        }
 
-        if (row + 1 <= 8) {
-            let rowCount = row;
+            if (row + 1 <= 8) {
+                let rowCount = row;
 
-            do {
-                cellToCheck = board.getCell(rowCount+1, col);
-                if((cellToCheck.displayRotated != startCell.displayRotated) ||
-                  !cellToCheck.isOccupied ) {
-                    availableCells.push(cellToCheck);
+                do {
+                    cellToCheck = board.getCell(rowCount + 1, col);
+                    if ((cellToCheck.displayRotated != startCell.displayRotated) ||
+                      !cellToCheck.isOccupied) {
+                        availableCells.push(cellToCheck);
 
-                    if (cellToCheck.isOccupied) {
+                        if (cellToCheck.isOccupied) {
+                            break;
+                        }
+                    } else {
                         break;
                     }
+                    rowCount++;
                 }
-                else{
-                    break;
-                }
-                rowCount++;
+                while (rowCount + 1 <= 8);
             }
-            while (rowCount + 1 <= 8);
-        }
 
-        if (col - 1 >= 0) {
+            if (col - 1 >= 0) {
 
-            let colCount = col;
-            do {
-                cellToCheck = board.getCell(row, colCount-1);
-                if((cellToCheck.displayRotated != startCell.displayRotated) ||
-                  !cellToCheck.isOccupied ) {
-                    availableCells.push(cellToCheck);
+                let colCount = col;
+                do {
+                    cellToCheck = board.getCell(row, colCount - 1);
+                    if ((cellToCheck.displayRotated != startCell.displayRotated) ||
+                      !cellToCheck.isOccupied) {
+                        availableCells.push(cellToCheck);
 
-                    if (cellToCheck.isOccupied) {
+                        if (cellToCheck.isOccupied) {
+                            break;
+                        }
+                    } else {
                         break;
                     }
+
+                    colCount--;
                 }
-                else {break;}
-
-                colCount--;
+                while (colCount - 1 >= 0);
             }
-            while (colCount - 1 >= 0);
-        }
 
-        if (col + 1 <= 8) {
-            let colCount = col;
-            do {
-                cellToCheck = board.getCell(row, colCount+1);
-                if((cellToCheck.displayRotated != startCell.displayRotated) ||
-                  !cellToCheck.isOccupied ) {
-                    availableCells.push(cellToCheck);
+            if (col + 1 <= 8) {
+                let colCount = col;
+                do {
+                    cellToCheck = board.getCell(row, colCount + 1);
+                    if ((cellToCheck.displayRotated != startCell.displayRotated) ||
+                      !cellToCheck.isOccupied) {
+                        availableCells.push(cellToCheck);
 
-                    if (cellToCheck.isOccupied) {
+                        if (cellToCheck.isOccupied) {
+                            break;
+                        }
+                    } else {
                         break;
                     }
-                }
-                else {
-                    break;
-                }
 
-                colCount++;
+                    colCount++;
+                }
+                while (colCount + 1 <= 8);
             }
-            while (colCount + 1 <= 8);
-        }
 
-        return availableCells;
+            return availableCells;
+        }
     }
 
     checkPromotion() {

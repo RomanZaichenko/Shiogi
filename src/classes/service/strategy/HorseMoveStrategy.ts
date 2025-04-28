@@ -1,5 +1,6 @@
 import FigureMoveStrategy from "./FigureMoveStrategy.ts";
 import {Cell} from "../../Cell.ts";
+import Figure from "../../Figure.ts";
 
 class HorseMoveStrategy implements FigureMoveStrategy {
   public getAvailableCells(cell: Cell) : Cell[] {
@@ -20,6 +21,11 @@ class HorseMoveStrategy implements FigureMoveStrategy {
       return [];
     }
   };
+
+  public getDropInCells(figure: Figure) {
+    return  figure.checkAvailableCells();
+
+  }
 }
 
 export default HorseMoveStrategy;

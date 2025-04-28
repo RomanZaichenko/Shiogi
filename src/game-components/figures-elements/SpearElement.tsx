@@ -5,9 +5,10 @@ interface SpearElementProps {
   row: number;
   col: number;
   isCaptured: boolean;
+  figure: number;
 }
 
-function SpearElement({row, col, isCaptured}: SpearElementProps) {
+function SpearElement({row, col, isCaptured, figure}: SpearElementProps) {
   const {getBoardCell, displayAvailableMoves, clearMoves} = useBoard();
   const board = Board.instance;
   let spearImage: string;
@@ -15,7 +16,10 @@ function SpearElement({row, col, isCaptured}: SpearElementProps) {
   if (isCaptured) {
     spearImage = "spear.png";
     const onSpearClick = () => {
-
+      board.selectCapturedFigure(figure);
+      board.spearMoveDisplay.displayDropIn(figure);
+      const movesToDisplay = board.cellsToMoveDisplay; //change
+      displayAvailableMoves(movesToDisplay);
     }
     return (<div className="figure" onClick={onSpearClick}
                  draggable

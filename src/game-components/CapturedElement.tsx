@@ -24,6 +24,7 @@ function CapturedElement({ figure }: CapturedElementProps) {
   const spearCreator = new SpearCreator();
   const elephantCreator = new ElephantCreator();
   const rookCreator = new RookCreator();
+  const board = Board.instance
 
   const mediator = figure.mediator;
   const row = figure.getRow()
@@ -64,7 +65,7 @@ function CapturedElement({ figure }: CapturedElementProps) {
   }
 
   const FigureComponent = FigureComponents[name];
-  figureElement = <FigureComponent rotated={false} row={row} col={col} isCaptured={true}/>;
+  figureElement = <FigureComponent rotated={false} row={row} col={col} isCaptured={true} figure={figure}/>;
 
   return (
     <div className="captured-figure">

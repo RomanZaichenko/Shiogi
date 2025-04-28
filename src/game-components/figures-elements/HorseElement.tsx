@@ -1,14 +1,15 @@
 import {Board, useBoard} from "../../classes/Board.ts";
 import {useEffect, useState} from "react";
-
+import Figure from "../../classes/Figure.ts";
 
 interface HorseElementProps {
   row: number;
   col: number;
   isCaptured: boolean;
+  figure: Figure;
 }
 
-function HorseElement({ row, col, isCaptured }: HorseElementProps) {
+function HorseElement({ row, col, isCaptured, figure }: HorseElementProps) {
   const {getBoardCell, displayAvailableMoves, clearMoves} = useBoard();
   const board = Board.instance;
   let horseImage : string;
@@ -16,7 +17,10 @@ function HorseElement({ row, col, isCaptured }: HorseElementProps) {
   if(isCaptured) {
     horseImage = "horse.png";
     const onHorseClick = () => {
-
+      board.selectCapturedFigure(figure);
+      board.horseMoveDisplay.displayDropIn(figure);
+      const movesToDisplay = board.cellsToMoveDisplay; //change
+      displayAvailableMoves(movesToDisplay);
     }
     return (<div className="figure" onClick={onHorseClick}
                  draggable

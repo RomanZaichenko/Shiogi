@@ -5,15 +5,19 @@ interface GoldenGeneralElementProps {
   row: number;
   col: number;
   isCaptured: boolean;
+  figure: Figure;
 }
 
-function GoldenGeneralElement({row, col, isCaptured}: GoldenGeneralElementProps){
+function GoldenGeneralElement({row, col, isCaptured, figure}: GoldenGeneralElementProps){
   const {getBoardCell, displayAvailableMoves, clearMoves} = useBoard();
   const board = Board.instance;
 
   if(isCaptured){
     const onGoldenGeneralClick = () => {
-
+      board.selectCapturedFigure(figure);
+      board.goldenGeneralMoveDisplay.displayDropIn(figure);
+      const movesToDisplay = board.cellsToMoveDisplay; //change
+      displayAvailableMoves(movesToDisplay);
     }
     return (<div className="figure" onClick={onGoldenGeneralClick}
                  draggable

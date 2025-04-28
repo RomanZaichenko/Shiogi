@@ -27,34 +27,39 @@ class Horse extends Figure{
 
 
     public checkAvailableCells(){
-        const board = Board.instance;
-        const row = this.figureCoordinates.row;
-        const col = this.figureCoordinates.col;
-
-        const startCell = board.getCell(row, col);
-        let cellToCheck: Cell;
         const availableCells: Cell[] = [];
-
-        if (row - 2 >= 0){
-            if (col-1 >= 0){
-                cellToCheck = board.getCell(row-2, col-1);
-
-                if(!cellToCheck.isOccupied ||
-                  (cellToCheck.displayRotated != startCell.displayRotated)) {
-                    availableCells.push(cellToCheck);
-                }
-            }
-
-            if (col+1 <= 8){
-                cellToCheck = board.getCell(row-2, col+1);
-                if(!cellToCheck.isOccupied ||
-                  (cellToCheck.displayRotated != startCell.displayRotated)) {
-                    availableCells.push(cellToCheck);
-                }
-            }
-
+        if (this.isCaptured){
+            return super.commonCheck(availableCells);
         }
-        return availableCells;
+        else {
+            const board = Board.instance;
+            const row = this.figureCoordinates.row;
+            const col = this.figureCoordinates.col;
+
+            const startCell = board.getCell(row, col);
+            let cellToCheck: Cell;
+
+            if (row - 2 >= 0) {
+                if (col - 1 >= 0) {
+                    cellToCheck = board.getCell(row - 2, col - 1);
+
+                    if (!cellToCheck.isOccupied ||
+                      (cellToCheck.displayRotated != startCell.displayRotated)) {
+                        availableCells.push(cellToCheck);
+                    }
+                }
+
+                if (col + 1 <= 8) {
+                    cellToCheck = board.getCell(row - 2, col + 1);
+                    if (!cellToCheck.isOccupied ||
+                      (cellToCheck.displayRotated != startCell.displayRotated)) {
+                        availableCells.push(cellToCheck);
+                    }
+                }
+
+            }
+            return availableCells;
+        }
     }
 
     checkPromotion() :boolean {

@@ -29,35 +29,40 @@ class Spear extends Figure{
     }
 
     public checkAvailableCells(){
-        const board = Board.instance;
-
-        let row = this.figureCoordinates.row;
-        const col = this.figureCoordinates.col;
-
-        const startCell = board.getCell(row, col);
-        let cellToCheck: Cell;
         const availableCells: Cell[] = [];
+        if (this.isCaptured){
+            return super.commonCheck(availableCells);
+        }
+        else {
+            const board = Board.instance;
+
+            let row = this.figureCoordinates.row;
+            const col = this.figureCoordinates.col;
+
+            const startCell = board.getCell(row, col);
+            let cellToCheck: Cell;
 
 
-        if (row - 1 >= 0) {
-            do {
-                cellToCheck = board.getCell(row-1, col);
-                if(!cellToCheck.isOccupied ||
-                  (cellToCheck.displayRotated != startCell.displayRotated)) {
-                    availableCells.push(cellToCheck);
+            if (row - 1 >= 0) {
+                do {
+                    cellToCheck = board.getCell(row - 1, col);
+                    if (!cellToCheck.isOccupied ||
+                      (cellToCheck.displayRotated != startCell.displayRotated)) {
+                        availableCells.push(cellToCheck);
 
-                    if (cellToCheck.isOccupied) {
+                        if (cellToCheck.isOccupied) {
+                            break;
+                        }
+                    } else {
                         break;
                     }
-                }else {
-                    break;
-                }
 
-                row--;
+                    row--;
+                }
+                while (!cellToCheck.isOccupied);
             }
-            while (!cellToCheck.isOccupied);
+            return availableCells;
         }
-        return availableCells;
     }
 
     checkPromotion() :boolean{
@@ -65,7 +70,7 @@ class Spear extends Figure{
             return true;
         }
         if (this.figureCoordinates.row == 1 || this.figureCoordinates.row == 2 ) {
-            const answer = confirm("Do you want to promote this pawn?");
+            const answer = confirm("Do you want to promote this spear?");
 
             if (answer) {
                 return true;

@@ -37,6 +37,18 @@ abstract class Figure {
         this.mediator.getMoveOrder(this, cell);
     }
 
+    commonCheck(cells: Cell[]): Cell[] {
+        const board = Board.instance;
+
+        board.coordinates.forEach((cellRow) => {
+            cellRow.forEach((cell) => {
+                if (!cell.isOccupied) {
+                    cells.push(cell);
+                }
+            })
+        })
+        return cells;
+    }
 
 
     getRow(): number {

@@ -1,5 +1,6 @@
 import FigureMoveStrategy from "./FigureMoveStrategy.ts";
 import {Cell} from "../../Cell.ts";
+import Figure from "../../Figure.ts";
 
 class KingMoveStrategy implements FigureMoveStrategy {
   public getAvailableCells(cell: Cell) : Cell[] {
@@ -21,6 +22,7 @@ class KingMoveStrategy implements FigureMoveStrategy {
       return [];
     }
   };
+
 }
 
 export default KingMoveStrategy;

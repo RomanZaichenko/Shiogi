@@ -6,9 +6,10 @@ interface SilverGeneralElementProps {
   row: number;
   col: number;
   isCaptured: boolean;
+  figure: number;
 }
 
-function SilverGeneralElement({row, col, isCaptured}: SilverGeneralElementProps) {
+function SilverGeneralElement({row, col, isCaptured, figure}: SilverGeneralElementProps) {
   const {getBoardCell, displayAvailableMoves, clearMoves} = useBoard();
   const board = Board.instance;
   let silverGeneralImage: string;
@@ -17,7 +18,10 @@ function SilverGeneralElement({row, col, isCaptured}: SilverGeneralElementProps)
   if (isCaptured) {
     silverGeneralImage = "silver_general.png";
     const onSilverGeneralClick = () => {
-
+      board.selectCapturedFigure(figure);
+      board.silverGeneralMoveDisplay.displayDropIn(figure);
+      const movesToDisplay = board.cellsToMoveDisplay; //change
+      displayAvailableMoves(movesToDisplay);
     }
     return (<div className="figure" onClick={onSilverGeneralClick}
                  draggable

@@ -5,7 +5,7 @@ import Mediator from "../service/mediator/Mediator.ts";
 import FigureState from "../service/state/FigureState.ts";
 import PromotionState from "../service/state/PromotionState.ts";
 import GeneralPromotionDecorator from "../service/decorator/GeneralPromotionDecorator.ts";
-import mediator from "../service/mediator/Mediator.ts";
+
 
 class Pawn extends Figure{
 
@@ -28,26 +28,31 @@ class Pawn extends Figure{
 
 
     public checkAvailableCells(){
-        const board = Board.instance;
-        const row = this.figureCoordinates.row;
-        const col = this.figureCoordinates.col;
-
-        const startCell = board.getCell(row, col);
-        let cellToCheck: Cell = board.getCell(row, col);
         const availableCells: Cell[] = [];
-
-        if (row-1 >= 0) {
-            cellToCheck = board.getCell(row-1, col);
+        if (this.isCaptured){
+            return super.commonCheck(availableCells);
         }
+        else {
+            const board = Board.instance;
+            const row = this.figureCoordinates.row;
+            const col = this.figureCoordinates.col;
+
+            const startCell = board.getCell(row, col);
+            let cellToCheck: Cell = board.getCell(row, col);
+
+            if (row - 1 >= 0) {
+                cellToCheck = board.getCell(row - 1, col);
+            }
 
 
-        if(!cellToCheck.isOccupied ||
-            (cellToCheck.displayRotated != startCell.displayRotated)) {
+            if (!cellToCheck.isOccupied ||
+              (cellToCheck.displayRotated != startCell.displayRotated)) {
 
-            availableCells.push(cellToCheck);
+                availableCells.push(cellToCheck);
+            }
+
+            return availableCells;
         }
-
-        return availableCells;
     }
 
     checkPromotion() :boolean {
