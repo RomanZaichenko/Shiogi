@@ -12,7 +12,6 @@ class GoldenGeneral extends Figure {
 
     public checkAvailableCells() {
         const board = Board.instance;
-        console.log(this.figureCoordinates);
         const row = this.figureCoordinates.row;
         const col = this.figureCoordinates.col;
 
@@ -52,7 +51,6 @@ class GoldenGeneral extends Figure {
 
 
         if (row + 1 <= 8){
-            console.log(row);
             cellToCheck = board.getCell(row+1, col);
             if(!cellToCheck.isOccupied ||
               (cellToCheck.displayRotated != startCell.displayRotated)) {

@@ -30,7 +30,7 @@ class Spear extends Figure{
 
     public checkAvailableCells(){
         const board = Board.instance;
-        console.log(this.figureCoordinates);
+
         let row = this.figureCoordinates.row;
         const col = this.figureCoordinates.col;
 

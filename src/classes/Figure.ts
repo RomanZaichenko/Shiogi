@@ -7,6 +7,7 @@ abstract class Figure {
     protected mediator: Mediator;
     protected figureCoordinates: {row: number, col: number};
     private state: FigureState;
+    public isCaptured: boolean = false;
 
     constructor(mediator: Mediator, row: number, col: number, state: FigureState) {
         this.mediator = mediator;
@@ -22,10 +23,6 @@ abstract class Figure {
         const col = this.figureCoordinates.col;
         const startMoveCell = board.getCell(row, col)
 
-        console.clear();
-        console.log(startMoveCell);
-        console.log(cell);
-        console.log(board.selectedCell);
         board.removeFigureFromCell(startMoveCell);
         board.displayFigureOrder(cell, this, startMoveCell.displayRotated);
         this.figureCoordinates.row = cell.coords.row;
@@ -40,16 +37,26 @@ abstract class Figure {
         this.mediator.getMoveOrder(this, cell);
     }
 
-    requestForCapture(cell: Cell) {
-        this.mediator.getCaptureOrder(this, cell);
-    }
+
 
     getRow(): number {
         return this.figureCoordinates.row;
     }
 
+    setRow(row: number) {
+        this.figureCoordinates.row = row;
+    }
+
     getCol(): number {
         return this.figureCoordinates.col;
+    }
+
+    setCaptured() {
+        this.isCaptured = true;
+    }
+
+    setCol(col: number) {
+        this.figureCoordinates.col = col;
     }
 
     public setFigureState(state: FigureState) {

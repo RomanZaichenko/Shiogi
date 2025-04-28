@@ -10,8 +10,6 @@ class MoveDisplayStrategy {
     }
 
     displayMoves(cell: Cell) {
-        console.log(cell)
-        console.log(this.figureMoveStrategy.getAvailableCells(cell))
         Board.instance.cellsToMoveDisplay =  this.figureMoveStrategy.getAvailableCells(cell);
         //this.figureMoveStrategy.displayCaptureCells();
     }

@@ -2,6 +2,7 @@ import './styles/App.css'
 import MainMenu from './game-components/MainMenu.tsx'
 import GameArea from './game-components/GameArea.tsx'
 import {useState} from "react";
+import BoardProvider from "./game-components/BoardProvider.tsx";
 
 
 function App() {
@@ -9,8 +10,10 @@ function App() {
 
   return (
     <>
-      <MainMenu gameAreaDisplay={gameAreaDisplay} setGameAreaDisplay={setGameAreaDisplay}/>
-        {gameAreaDisplay && <GameArea />}
+      <BoardProvider>
+        <MainMenu gameAreaDisplay={gameAreaDisplay} setGameAreaDisplay={setGameAreaDisplay}/>
+          {gameAreaDisplay && <GameArea />}
+      </BoardProvider>
     </>
   )
 }

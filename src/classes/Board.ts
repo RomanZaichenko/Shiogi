@@ -243,12 +243,6 @@ class Board {
         this._notifyListeners();
     }
 
-    public captureFigure(cell: Cell, startedCell: Cell) {
-        const figure = this.selectedCell.figureOn;
-        figure?.requestForCapture(cell);
-
-        this._notifyListeners()
-    }
 }
 
 export { Board, BoardContext};

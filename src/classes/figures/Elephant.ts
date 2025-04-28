@@ -30,7 +30,6 @@ class Elephant extends Figure {
 
     public checkAvailableCells(){
         const board = Board.instance;
-        console.log(this.figureCoordinates);
         const row = this.figureCoordinates.row;
         const col = this.figureCoordinates.col;
 
@@ -44,9 +43,7 @@ class Elephant extends Figure {
             let colCount = col;
             do {
                 cellToCheck = board.getCell(rowCount-1, colCount-1);
-                console.log(`${rowCount} ${colCount}`);
-                console.log("cellToCheck");
-                console.log(cellToCheck);
+
                 if(!cellToCheck.isOccupied ||
                   (cellToCheck.displayRotated != startCell.displayRotated)) {
                     availableCells.push(cellToCheck);

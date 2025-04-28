@@ -29,7 +29,6 @@ class SilverGeneral extends Figure{
 
     public checkAvailableCells(){
         const board = Board.instance;
-        console.log(this.figureCoordinates);
         const row = this.figureCoordinates.row;
         const col = this.figureCoordinates.col;
 
@@ -55,7 +54,6 @@ class SilverGeneral extends Figure{
         }
 
         if (row + 1 <= 8){
-            console.log(row);
             if (col-1 >= 0){
                 cellToCheck = board.getCell(row+1, col-1);
                 if(!cellToCheck.isOccupied ||

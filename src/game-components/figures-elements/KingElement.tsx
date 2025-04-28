@@ -21,7 +21,6 @@ function KingElement({row, col}: KingElementProps) {
     board.selectedCell = cell;
     board.kingMoveDisplay.displayMoves(cell);
     const movesToDisplay = board.cellsToMoveDisplay;
-    console.log(movesToDisplay);
     displayAvailableMoves(movesToDisplay);
   }
 

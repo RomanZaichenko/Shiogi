@@ -9,7 +9,6 @@ class KingMoveStrategy implements FigureMoveStrategy {
     availableCells?.forEach((cell: Cell) => {
       figuresToCapture?.forEach(capture => {
         if (cell == capture) {
-          console.log("suit")
           cell.canCapture = true;
         }
       })

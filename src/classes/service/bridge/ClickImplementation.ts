@@ -4,8 +4,6 @@ import {Cell} from "../../Cell.ts";
 
 class ClickImplementation implements MoveImplementation {
   public executeMove(figure: Figure, targetCell: Cell) : void {
-    console.log("clicking");
-
     const availableCells = figure.checkAvailableCells();
 
     if (availableCells.includes(targetCell)) {

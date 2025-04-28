@@ -4,52 +4,72 @@ import {Board, useBoard} from "../../classes/Board.ts";
 interface GoldenGeneralElementProps {
   row: number;
   col: number;
+  isCaptured: boolean;
 }
 
-function GoldenGeneralElement({row, col}: GoldenGeneralElementProps){
+function GoldenGeneralElement({row, col, isCaptured}: GoldenGeneralElementProps){
   const {getBoardCell, displayAvailableMoves, clearMoves} = useBoard();
-  const cell = getBoardCell(row, col);
   const board = Board.instance;
-  const [tick, setTick] = useState(0);
 
-  const onGoldenGeneralClick = () => {
-    if (!cell.canCapture) {
-      board.selectedCell = cell;
-      console.log("g general");
-      board.goldenGeneralMoveDisplay.displayMoves(cell);
-      const movesToDisplay = board.cellsToMoveDisplay;
-      console.log(movesToDisplay);
-      displayAvailableMoves(movesToDisplay);
+  if(isCaptured){
+    const onGoldenGeneralClick = () => {
+
     }
+    return (<div className="figure" onClick={onGoldenGeneralClick}
+                 draggable
+                 onDragStart={onGoldenGeneralClick}
+                 onDragEnd={() => {
+                   board.selectedCell = null;
+                   clearMoves();
+                   board.clearCapturesDisplay();
+                 }}>
+
+      <img src={`src/images/figures/golden_general.png`} alt=""/>
+    </div>)
   }
+  else{
+    const cell = getBoardCell(row, col);
+    const [tick, setTick] = useState(0);
 
-  useEffect(() => {
+    const onGoldenGeneralClick = () => {
+      if (!cell.canCapture) {
+        board.selectedCell = cell;
 
-  }, [cell]);
+        board.goldenGeneralMoveDisplay.displayMoves(cell);
+        const movesToDisplay = board.cellsToMoveDisplay;
 
-  useEffect(() => {
-    const listener = () => {
-      setTick(prevTick => prevTick+1);
-    };
-
-    board.subscribe(listener);
-
-    return () => {
-      board.unsubscribe(listener);
+        displayAvailableMoves(movesToDisplay);
+      }
     }
-  }, [board]);
+
+    useEffect(() => {
+
+    }, [cell]);
+
+    useEffect(() => {
+      const listener = () => {
+        setTick(prevTick => prevTick+1);
+      };
+
+      board.subscribe(listener);
+
+      return () => {
+        board.unsubscribe(listener);
+      }
+    }, [board]);
     return (
-        <div className="figure" onClick={onGoldenGeneralClick}
-        draggable
-        onDragStart={onGoldenGeneralClick}
-        onDragEnd={() => {
-          board.selectedCell = null;
-          clearMoves();
-          board.clearCapturesDisplay();
-        }}>
-            <img src="src/images/figures/golden_general.png" alt=""/>
-        </div>
+      <div className="figure" onClick={onGoldenGeneralClick}
+           draggable
+           onDragStart={onGoldenGeneralClick}
+           onDragEnd={() => {
+             board.selectedCell = null;
+             clearMoves();
+             board.clearCapturesDisplay();
+           }}>
+        <img src="src/images/figures/golden_general.png" alt=""/>
+      </div>
     )
+  }
 }
 
 export default GoldenGeneralElement;

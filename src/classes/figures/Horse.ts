@@ -28,7 +28,6 @@ class Horse extends Figure{
 
     public checkAvailableCells(){
         const board = Board.instance;
-        console.log(this.figureCoordinates);
         const row = this.figureCoordinates.row;
         const col = this.figureCoordinates.col;
 

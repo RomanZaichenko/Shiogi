@@ -6,7 +6,6 @@ class GeneralPromotionDecorator extends FigurePromotionDecorator{
 
   public checkAvailableCells(): Cell[] {
     const board = Board.instance;
-    console.log(this.figureCoordinates);
     const row = this.figureCoordinates.row;
     const col = this.figureCoordinates.col;
 
@@ -46,7 +45,7 @@ class GeneralPromotionDecorator extends FigurePromotionDecorator{
 
 
     if (row + 1 <= 8){
-      console.log(row);
+
       cellToCheck = board.getCell(row+1, col);
       if(!cellToCheck.isOccupied ||
         (cellToCheck.displayRotated != startCell.displayRotated)) {

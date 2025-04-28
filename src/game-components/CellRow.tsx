@@ -14,7 +14,7 @@ function CellRow({row, coordinates}: CellRowProps) {
             <div className="row-container">
                 <div className="cell-row">
                     {coordinates[row].map((cell, col) => (
-                        <CellElement  key={`${row}-${col}`} row={row} col={col} onCl/>
+                        <CellElement  key={`${row}-${col}`} row={row} col={col}/>
                     ))}
                 </div>
                 <p className="row-number">{row+1}</p>

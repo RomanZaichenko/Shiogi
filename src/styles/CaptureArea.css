@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+.captured-figure-area {
+    @apply absolute top-15;
+}
+
+.left {
+    @apply left-[25%];
+}
+
+.right {
+    @apply right-[-15%];
+}

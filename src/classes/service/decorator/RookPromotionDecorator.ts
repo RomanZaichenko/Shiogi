@@ -9,7 +9,6 @@ class RookPromotionDecorator extends FigurePromotionDecorator {
     //TODO use super.checkAvailableCells for checking default moves
 
     const board = Board.instance;
-    console.log(this.figureCoordinates);
     const row = this.figureCoordinates.row;
     const col = this.figureCoordinates.col;
 

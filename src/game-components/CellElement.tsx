@@ -12,6 +12,7 @@ import RookElement from "./figures-elements/RookElement.tsx";
 import ClickImplementation from "../classes/service/bridge/ClickImplementation.ts";
 import DragImplementation from "../classes/service/bridge/DragImplementation.ts";
 import GeneralPromotionDecorator from "../classes/service/decorator/GeneralPromotionDecorator.ts";
+import DefaultState from "../classes/service/state/DefaultState.ts";
 
 
 interface CellElementProps {
@@ -21,7 +22,7 @@ interface CellElementProps {
 
 export const CanMoveToContext = createContext(false);
 
-const FigureComponents = {
+export const FigureComponents = {
     "King": KingElement,
     "GoldenGeneral": GoldenGeneralElement,
     "SilverGeneral": SilverGeneralElement,
@@ -56,32 +57,42 @@ function CellElement({row, col}: CellElementProps) {
 
                 if (figureToMove) {
                     board.mediator.setMoveImplementation(clickImplementation);
+
+                    console.log(cell.canCapture)
+                    if (cell.canCapture) {
+                        const figure = cell.figureOn;
+                        figure?.setRow(-1)
+                        figure?.setCol(-1)
+                        figure?.setFigureState(new DefaultState())
+                        figure?.setCaptured();
+                        board.capturedFigures.push(figure);
+                        console.log(board.capturedFigures);
+                    }
                     board.moveFigure(cell);
                     board.clearMoves();
                     board.selectedCell = null;
                 }
             }
-        } else if (cell.canCapture) {
-
-            if (board.selectedCell) {
-                const figureToCapture = board.selectedCell.figureOn;
-
-                console.log("Selected")
-                console.log(figureToCapture);
-                if (figureToCapture) {
-                    board.mediator.setMoveImplementation(clickImplementation);
-                    board.captureFigure(cell, board.selectedCell);
-                    board.clearMoves();
-                    board.selectedCell = null;
-                }
-            }
-        } else {
-            board.clearMoves();
         }
+        // } else if (cell.canCapture) {
+        //
+        //     if (board.selectedCell) {
+        //         const figureToCapture = board.selectedCell.figureOn;
+        //
+        //         console.log(figureToCapture);
+        //         if (figureToCapture) {
+        //             board.mediator.setMoveImplementation(clickImplementation);
+        //             board.clearMoves();
+        //             board.selectedCell = null;
+        //         }
+        //     }
+        // } else {
+        //     board.clearMoves();
+        // }
     };
 
     const onFigureDrop = () => {
-        console.log("Figure Drop");
+        console.log(cell.canMoveTo)
         if (cell.canMoveTo) {
             const startingCell = board.selectedCell;
             if (startingCell) {
@@ -89,26 +100,42 @@ function CellElement({row, col}: CellElementProps) {
 
                 if (figureToDrop) {
                     board.mediator.setMoveImplementation(dragImplementation);
+
+                    console.log(cell.canCapture)
+                    if (cell.canCapture) {
+                        const figure  = cell.figureOn;
+                        figure?.setRow(-1)
+                        figure?.setCol(-1)
+                        figure?.setFigureState(new DefaultState())
+                        figure?.setCaptured();
+                        board.capturedFigures.push(figure);
+                        console.log(board.capturedFigures);
+                    }
                     board.moveFigure(cell);
                     board.clearMoves();
                     board.selectedCell = null;
+                }
                 }
             } else {
                 board.clearMoves();
             }
-        } else if (cell.canCapture) {
-            if (board.selectedCell) {
-                const figureToCapture = board.selectedCell.figureOn;
-
-                if (figureToCapture) {
-                    board.mediator.setMoveImplementation(clickImplementation);
-                    board.moveFigure(cell);
-                    board.clearMoves();
-                    board.selectedCell = null;
-                    board.capturedFigures.push(figureToCapture);
-                }
-            }
-        }
+        // } else if (cell.canCapture) {
+        //     const startingCell = board.selectedCell;
+        //     if (startingCell) {
+        //         const figureToCapture = startingCell.figureOn;
+        //
+        //         if (figureToCapture) {
+        //             board.mediator.setMoveImplementation(clickImplementation);
+        //             const row = figureToCapture.getRow();
+        //             const col = figureToCapture.getCol();
+        //             const capturingCell = getBoardCell(row, col);
+        //             board.captureFigure(capturingCell);
+        //             board.clearMoves();
+        //             board.selectedCell = null;
+        //             // board.capturedFigures.push(figureToCapture);
+        //         }
+        //     }
+        // }
 
     }
 
@@ -171,7 +198,7 @@ function CellElement({row, col}: CellElementProps) {
 
 
         const FigureComponent = FigureComponents[name];
-        figureElement = <FigureComponent rotated={cell.displayRotated} row={row} col={col}/>;
+        figureElement = <FigureComponent rotated={cell.displayRotated} row={row} col={col} isCaptured={false}/>;
 
         if (cell.canCapture) {
             return (

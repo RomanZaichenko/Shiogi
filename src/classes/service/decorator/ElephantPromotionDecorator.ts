@@ -9,7 +9,6 @@ class ElephantPromotionDecorator extends FigurePromotionDecorator {
     //TODO: Implement super from contructor taking available cells
 
     const board = Board.instance;
-    console.log(this.figureCoordinates);
     const row = this.figureCoordinates.row;
     const col = this.figureCoordinates.col;
 
@@ -23,9 +22,6 @@ class ElephantPromotionDecorator extends FigurePromotionDecorator {
       let colCount = col;
       do {
         cellToCheck = board.getCell(rowCount-1, colCount-1);
-        console.log(`${rowCount} ${colCount}`);
-        console.log("cellToCheck");
-        console.log(cellToCheck);
         if(!cellToCheck.isOccupied ||
           (cellToCheck.displayRotated != startCell.displayRotated)) {
           availableCells.push(cellToCheck);
@@ -118,12 +114,8 @@ class ElephantPromotionDecorator extends FigurePromotionDecorator {
       availableCells.push(board.getCell(row, col-1));
     }
     if (this.isCellAvailable(row, col+1, board)) {
-      console.log("true")
       availableCells.push(board.getCell(row, col+1));
     }
-    console.log("ele dec")
-    console.log(this.figure.getRow())
-    console.log(this.figure.getCol())
     return availableCells;
   }
 
@@ -140,8 +132,7 @@ class ElephantPromotionDecorator extends FigurePromotionDecorator {
       return false;
     }
 
-    console.log("isCellAvailable");
-    console.log(cellToCheck);
+
     return (!cellToCheck?.isOccupied ||
       (cellToCheck.displayRotated != startCell?.displayRotated));
   }
