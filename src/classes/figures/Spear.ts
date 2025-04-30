@@ -59,7 +59,7 @@ class Spear extends Figure{
 
                         row--;
                     }
-                    while (!cellToCheck.isOccupied);
+                    while (!cellToCheck.isOccupied && row-1 >= 0);
                 }
             }
             else {
@@ -79,7 +79,7 @@ class Spear extends Figure{
 
                         row++;
                     }
-                    while (!cellToCheck.isOccupied);
+                    while (!cellToCheck.isOccupied && row+1 <= 8);
                 }
             }
 

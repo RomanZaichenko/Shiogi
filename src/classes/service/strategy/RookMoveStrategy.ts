@@ -24,7 +24,6 @@ class RookMoveStrategy implements FigureMoveStrategy {
   };
   public getDropInCells(figure: Figure) {
     return  figure.checkAvailableCells();
-
   }
 }
 

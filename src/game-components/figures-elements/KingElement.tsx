@@ -22,6 +22,10 @@ function KingElement({row, col, owner}: KingElementProps) {
       board.selectedCell = cell;
       board.kingMoveDisplay.displayMoves(cell);
       const movesToDisplay = board.cellsToMoveDisplay;
+
+      movesToDisplay.filter((move) => {
+        board.mediator.isLegalMove(cell.figureOn, cell, move);
+      })
       displayAvailableMoves(movesToDisplay);
     }
   }

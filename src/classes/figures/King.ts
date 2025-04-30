@@ -6,7 +6,7 @@ import FigureState from "../service/state/FigureState.ts";
 
 
 class King extends Figure {
-    public isChecked: boolean = false;
+    //public isChecked: boolean = false;
 
     constructor(mediator: Mediator, row: number, col: number, state: FigureState) {
         super(mediator, row, col, state);

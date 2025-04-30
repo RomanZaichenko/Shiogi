@@ -90,7 +90,7 @@ class Horse extends Figure{
         const currentTurn = Board.instance.currentTurn;
 
         if (currentTurn == "sente") {
-            if (this.figureCoordinates.row == 1 || this.figureCoordinates.col == 0) {
+            if (this.figureCoordinates.row == 1 || this.figureCoordinates.row == 0) {
                 return true;
             }
             if (this.figureCoordinates.row == 2 ) {
@@ -102,7 +102,7 @@ class Horse extends Figure{
             }
         }
         else {
-            if (this.figureCoordinates.row == 7 || this.figureCoordinates.col == 8) {
+            if (this.figureCoordinates.row == 7 || this.figureCoordinates.row == 8) {
                 return true;
             }
             if (this.figureCoordinates.row == 6 ) {

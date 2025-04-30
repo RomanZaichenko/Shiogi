@@ -60,14 +60,44 @@ function CellElement({row, col}: CellElementProps) {
                     board.mediator.setMoveImplementation(clickImplementation);
 
                     if (cell.canCapture) {
-                        const figure = cell.figureOn;
-                        figure?.setRow(-1)
-                        figure?.setCol(-1)
-                        figure?.setFigureState(new DefaultState())
-                        figure?.setCaptured();
-                        board.capturedFigures.push(figure);
-                        console.log(board.capturedFigures);
+                        if (board.currentTurn == "sente") {
+                            let figure = cell.figureOn;
+
+                            figure?.setFigureState(new DefaultState())
+                            figure?.setRow(-1)
+                            figure?.setCol(-1)
+                            figure?.setCaptured();
+                            if (cell.isOccupied) {
+                                board.senteCapturedFigures.push(figure);
+                            }
+                            console.log("Sente pushed")
+                            console.log(board.senteCapturedFigures);
+                        }
+                        else {
+                            const figure = cell.figureOn;
+
+                            figure?.setFigureState(new DefaultState())
+                            figure?.setRow(-1)
+                            figure?.setCol(-1)
+                            figure?.setCaptured();
+                            if (cell.isOccupied) {
+                                board.goteCapturedFigures.push(figure);
+                            }
+                            console.log("Gote pushed")
+                            console.log(board.goteCapturedFigures);
+                        }
+
                     }
+
+                    if (!cell.canCapture) {
+                        if (board.currentTurn == "sente") {
+                            cell.displayRotated = false;
+                        }
+                        else{
+                            cell.displayRotated = true;
+                        }
+                    }
+
                     board.moveFigure(cell);
                     board.clearMoves();
                     board.selectedCell = null;
@@ -75,21 +105,7 @@ function CellElement({row, col}: CellElementProps) {
                 }
             }
         }
-        // } else if (cell.canCapture) {
-        //
-        //     if (board.selectedCell) {
-        //         const figureToCapture = board.selectedCell.figureOn;
-        //
-        //         console.log(figureToCapture);
-        //         if (figureToCapture) {
-        //             board.mediator.setMoveImplementation(clickImplementation);
-        //             board.clearMoves();
-        //             board.selectedCell = null;
-        //         }
-        //     }
-        // } else {
-        //     board.clearMoves();
-        // }
+
     };
 
     const onFigureDrop = () => {
@@ -99,18 +115,40 @@ function CellElement({row, col}: CellElementProps) {
             if (startingCell || board.figureToDrop) {
                 const figureToDrop = startingCell?.figureOn || board.figureToDrop;
 
+
                 if (figureToDrop) {
                     board.mediator.setMoveImplementation(dragImplementation);
 
-                    console.log(cell.canCapture)
                     if (cell.canCapture) {
-                        const figure  = cell.figureOn;
-                        figure?.setRow(-1)
-                        figure?.setCol(-1)
-                        figure?.setFigureState(new DefaultState())
-                        figure?.setCaptured();
-                        board.capturedFigures.push(figure);
-                        console.log(board.capturedFigures);
+                        if (board.currentTurn == "sente") {
+                            const figure = cell.figureOn;
+
+                            figure?.setFigureState(new DefaultState())
+                            figure?.setRow(-1)
+                            figure?.setCol(-1)
+                            figure?.setCaptured();
+                            if (cell.isOccupied) {
+                                board.senteCapturedFigures.push(figure);
+                            }
+                            console.log("Sente pushed")
+                            console.log(board.senteCapturedFigures);
+                        }
+                        else {
+                            const figure = cell.figureOn;
+
+
+                            figure?.setFigureState(new DefaultState())
+                            figure?.setRow(-1)
+                            figure?.setCol(-1)
+                            figure?.setCaptured();
+                            if (cell.isOccupied) {
+                                board.goteCapturedFigures.push(figure);
+
+                            }
+                            console.log("Just pushed")
+                            console.log(board.goteCapturedFigures);
+                        }
+
                     }
                     board.moveFigure(cell);
                     board.clearMoves();

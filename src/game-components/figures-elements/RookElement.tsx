@@ -17,7 +17,7 @@ function RookElement({row, col, isCaptured, figure, owner}: RookElementProps) {
   let rookImage: string;
 
   if (isCaptured) {
-    rookImage = "pawn.png";
+    rookImage = "rook.png";
     const onRookClick = () => {
       if (owner === board.currentTurn) {
         board.selectCapturedFigure(figure);

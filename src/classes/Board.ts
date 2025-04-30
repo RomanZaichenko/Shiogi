@@ -20,6 +20,7 @@ import SpearMoveStrategy from "./service/strategy/SpearMoveStrategy.ts";
 import ElephantMoveStrategy from "./service/strategy/ElephantMoveStrategy.ts";
 import RookMoveStrategy from "./service/strategy/RookMoveStrategy.ts";
 import DefaultState from "./service/state/DefaultState.ts";
+import King from "./figures/King.ts";
 
 interface BoardContextType {
     board: Board;
@@ -52,9 +53,12 @@ class Board {
     mediator: MoveMediator;
     selectedCell: Cell | null = null;
     cellsToMoveDisplay: Cell[] = [];
-    capturedFigures: Figure[] = [];
+    senteCapturedFigures: Figure[] = [];
+    goteCapturedFigures: Figure[] = [];
     figureToDrop: Figure;
     currentTurn: "sente" | "gote" = "sente";
+    senteKing: King;
+    goteKing: King;
     private _listeners: (() => void)[] = [];
 
 
@@ -162,6 +166,12 @@ class Board {
         const kingCell = this.getCell(row, column);
         const kingCreator = new KingCreator()
         const king = kingCreator.createFigure(this.mediator, row, column, new DefaultState());
+        if (rotated) {
+            this.goteKing = king;
+        }
+        else {
+            this.senteKing = king;
+        }
         this.displayFigureOrder(kingCell, king, rotated);
     }
 
@@ -241,24 +251,34 @@ class Board {
     public moveFigure(cell: Cell) {
         this.figureToDrop?.setRow(cell.coords.row)
         this.figureToDrop?.setCol(cell.coords.column)
+        console.log(this.figureToDrop)
         const figureToMove = this.selectedCell?.figureOn ? this.selectedCell?.figureOn : this.figureToDrop;
 
-        console.log(figureToMove);
         figureToMove?.requestForMove(cell);
         this.clearCapturesDisplay()
-        
-        this.currentTurn = this.currentTurn == "sente" ? "gote" : "sente";
 
+        const previousMove = this.currentTurn;
+        this.currentTurn = this.currentTurn == "sente" ? "gote" : "sente";
+        console.log(this.currentTurn);
         if (figureToMove === this.figureToDrop) {
-            // if (this.capturedFigures.length === 1){
-            //     this.capturedFigures = []
-            // }
-            this.capturedFigures = this.capturedFigures.filter((item) => {
-                return !((item.constructor.name === this.figureToDrop.constructor.name) &&
-                  (item.getRow() === this.figureToDrop.getRow()) &&
-                  (item.getCol() === this.figureToDrop.getCol()))
-            })
-            console.log(this.capturedFigures);
+
+            if (previousMove == "sente") {
+                console.log("sente", figureToMove);
+                this.senteCapturedFigures = this.senteCapturedFigures.filter((item) => {
+                    return !((item.constructor.name === this.figureToDrop.constructor.name) &&
+                      (item.getRow() === this.figureToDrop.getRow()) &&
+                      (item.getCol() === this.figureToDrop.getCol()))
+                })
+            }
+            else {
+                console.log("gote", figureToMove);
+                this.goteCapturedFigures = this.goteCapturedFigures.filter((item) => {
+                    return !((item.constructor.name === this.figureToDrop.constructor.name) &&
+                      (item.getRow() === this.figureToDrop.getRow()) &&
+                      (item.getCol() === this.figureToDrop.getCol()))
+                })
+            }
+
             figureToMove.isCaptured = false;
             this.figureToDrop = null;
 

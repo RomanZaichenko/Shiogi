@@ -7,9 +7,9 @@ function GameArea() {
 
     return (
         <main id="game-area">
-          <CapturedFiguresArea side="left"/>
+          <CapturedFiguresArea side="left" owner="gote"/>
           <BoardElement/>
-          <CapturedFiguresArea side="right"/>
+          <CapturedFiguresArea side="right" owner="sente"/>
         </main>
     );
 }

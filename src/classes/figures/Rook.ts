@@ -29,7 +29,9 @@ class Rook extends Figure{
 
     public checkAvailableCells(){
         const availableCells: Cell[] = [];
+        console.log("capture", this.isCaptured)
         if (this.isCaptured){
+            console.log("Available cells");
             return super.commonCheck(availableCells);
         }
         else {
@@ -127,21 +129,23 @@ class Rook extends Figure{
     checkPromotion() {
         const currentTurn = Board.instance.currentTurn;
 
-        if (currentTurn == "sente") {
-            if (this.figureCoordinates.row <= 2) {
-                const answer = confirm("Do you want to promote this rook?");
+        if(!this.isCaptured){
+            if (currentTurn == "sente") {
+                if (this.figureCoordinates.row <= 2) {
+                    const answer = confirm("Do you want to promote this rook?");
 
-                if (answer) {
-                    return true;
+                    if (answer) {
+                        return true;
+                    }
                 }
             }
-        }
-        else {
-            if (this.figureCoordinates.row >= 6) {
-                const answer = confirm("Do you want to promote this rook?");
+            else {
+                if (this.figureCoordinates.row >= 6) {
+                    const answer = confirm("Do you want to promote this rook?");
 
-                if (answer) {
-                    return true;
+                    if (answer) {
+                        return true;
+                    }
                 }
             }
         }

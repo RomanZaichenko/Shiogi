@@ -141,10 +141,10 @@ class RookPromotionDecorator extends FigurePromotionDecorator {
       }
     })
 
-
-
     return cellsToCapture;
   }
+
+
 }
 
 export default RookPromotionDecorator;

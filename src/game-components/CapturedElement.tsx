@@ -14,9 +14,10 @@ import {FigureComponents} from "./CellElement.tsx";
 
 interface CapturedElementProps {
   figure: Figure;
+  owner: string;
 }
 
-function CapturedElement({ figure }: CapturedElementProps) {
+function CapturedElement({ figure, owner }: CapturedElementProps) {
   let figureElement = null;
   const pawnCreator = new PawnCreator();
   const horseCreator = new HorseCreator();
@@ -68,8 +69,12 @@ function CapturedElement({ figure }: CapturedElementProps) {
     figure = rookCreator.createFigure(mediator, row, col, new DefaultState())
   }
 
+
+  const checkRotation = owner != "sente" ? false : true;
+
   const FigureComponent = FigureComponents[name];
-  figureElement = <FigureComponent rotated={false} row={row} col={col} isCaptured={true} figure={figure}/>;
+  figureElement = <FigureComponent rotated={checkRotation} row={row} col={col}
+                                   isCaptured={true} figure={figure} owner={owner}/>;
 
   return (
     <div className="captured-figure">

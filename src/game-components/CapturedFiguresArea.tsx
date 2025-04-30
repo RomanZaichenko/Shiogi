@@ -6,16 +6,22 @@ import "../styles/CaptureArea.css"
 
 interface CapturedFiguresAreaProps {
   side: string;
+  owner: string;
 }
 
-function CapturedFiguresArea({side}: CapturedFiguresAreaProps) {
+function CapturedFiguresArea({side, owner}: CapturedFiguresAreaProps) {
   const [capturedFigures, setCapturedFigures] = useState<Figure[]>([]);
   const board = Board.instance
 
 
   useEffect(() => {
     const listener = () => {
-      setCapturedFigures([...board.capturedFigures]);
+      if (owner == "sente") {
+        setCapturedFigures([...board.senteCapturedFigures]);
+      }
+      else {
+        setCapturedFigures([...board.goteCapturedFigures]);
+      }
     };
 
     board.subscribe(listener);
@@ -30,7 +36,7 @@ function CapturedFiguresArea({side}: CapturedFiguresAreaProps) {
   return (
     <div className={`captured-figure-area ${side}`}>
       {capturedFigures.map((figure: Figure, index) => (
-        <CapturedElement key={index} figure={figure}/>
+        <CapturedElement key={index} figure={figure} owner={owner} />
       ))}
     </div>
   )
