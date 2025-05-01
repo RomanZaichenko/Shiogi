@@ -9,7 +9,7 @@ interface GameOverProps {
 
 function GameOver({ setGameStage }: GameOverProps) {
   const board = Board.instance;
-  const message: string = board.mediator.isWon ? "You Won!" : "You Lost!";
+  const message: string = board.mediator.isWon ? "Sente Won!" : "Gote Won!";
   return (
     <main id="menu-visible">
       <h1 id="menu-title">Game Over</h1>

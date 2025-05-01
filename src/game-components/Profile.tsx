@@ -13,8 +13,8 @@ function Profile({setGameStage}: ProfileProps) {
 
   return (
     <div className="profile">
-      <h2 className="profile-subtitle">{`Wins: ${wins}`}</h2>
-      <h2 className="profile-subtitle">{`Loses: ${loses}`}</h2>
+      <h2 className="profile-subtitle">{`Sente wins: ${wins}`}</h2>
+      <h2 className="profile-subtitle">{`Gote wins: ${loses}`}</h2>
       <MenuButton buttonName={"Return"} clickHandler={() => setGameStage("menu")} />
     </div>
   );
