@@ -12,7 +12,6 @@ class MoveDisplayStrategy {
 
     displayMoves(cell: Cell) {
         Board.instance.cellsToMoveDisplay =  this.figureMoveStrategy.getAvailableCells(cell);
-        //this.figureMoveStrategy.displayCaptureCells();
     }
 
     displayDropIn(figure: Figure) {

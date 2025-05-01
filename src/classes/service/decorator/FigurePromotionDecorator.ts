@@ -14,6 +14,10 @@ class FigurePromotionDecorator extends Figure {
   checkAvailableCells(): Cell[] {
     return this.figure.checkAvailableCells();
   }
+
+  checkCaptures(cells: Cell[]): Cell[] {
+    return this.figure.checkCaptures(cells);
+  }
 }
 
 export default FigurePromotionDecorator;

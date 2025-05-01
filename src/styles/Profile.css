@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+.profile {
+    @apply pt-4 pl-6;
+}
+
+.profile-subtitle {
+    @apply mb-2 text-xl text-white pl-2;
+}

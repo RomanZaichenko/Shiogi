@@ -29,9 +29,7 @@ class Rook extends Figure{
 
     public checkAvailableCells(){
         const availableCells: Cell[] = [];
-        console.log("capture", this.isCaptured)
         if (this.isCaptured){
-            console.log("Available cells");
             return super.commonCheck(availableCells);
         }
         else {

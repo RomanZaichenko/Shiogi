@@ -3,12 +3,11 @@ import MenuButton from "./MenuButton.tsx";
 import {useEffect, useState, useRef} from "react";
 
 interface MainMenuProps {
-    gameAreaDisplay: boolean;
-    setGameAreaDisplay: (value: boolean) => void;
+    setGameStage: (stage: "menu" | "game" | "gameOver" | "profile") => void;
 }
 
 
-function MainMenu(props: MainMenuProps) {
+function MainMenu({setGameStage}: MainMenuProps) {
     const [hidden, setHidden] = useState(false);
     const menuElement = useRef<HTMLDivElement>(null);
 
@@ -24,10 +23,11 @@ function MainMenu(props: MainMenuProps) {
                 <h1 id="menu-title">Shogi</h1>
                 <MenuButton buttonName={"Play"} clickHandler={() => {
                     setHidden(true);
-                    props.setGameAreaDisplay(true);
+                    setGameStage("game");
                 }}/>
                 <MenuButton buttonName={"Profile"} clickHandler={() => {
                     setHidden(true);
+                    setGameStage("profile");
                 }}/>
                 <MenuButton buttonName={"Rules"} clickHandler={() => {
                     setHidden(true);
@@ -35,10 +35,6 @@ function MainMenu(props: MainMenuProps) {
                 <MenuButton buttonName={"Settings"} clickHandler={() => {
                     setHidden(true);
                 }}/>
-                <MenuButton buttonName={"Exit"} clickHandler={() => {
-                    setHidden(true);
-                }}/>
-
             </main>
         </>
     );

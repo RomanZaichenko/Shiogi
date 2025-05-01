@@ -4,9 +4,6 @@ import {Board} from "../../Board.ts";
 
 class ElephantPromotionDecorator extends FigurePromotionDecorator {
   checkAvailableCells(): Cell[] {
-    //? Бере координати з батьківського елементу
-    //const availableCells = super.checkAvailableCells();
-    //TODO: Implement super from contructor taking available cells
 
     const board = Board.instance;
     const row = this.figureCoordinates.row;

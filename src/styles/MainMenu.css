@@ -10,7 +10,9 @@ body {
     font-family:var(--font-rowdies);
 }
 
-
+#menu-subtitle {
+    @apply text-3xl font-bold text-center text-white mb-10;
+}
 
 #menu-visible {
     @apply flex flex-col items-center justify-center w-full h-full;

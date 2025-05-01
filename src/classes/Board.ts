@@ -3,7 +3,7 @@ import Figure from "./Figure";
 import KingCreator from "./service/abstractFactory/KingCreator.ts";
 import GoldenGeneralCreator from "./service/abstractFactory/GoldenGeneralCreator.ts";
 import SilverGeneralCreator from "./service/abstractFactory/SilverGeneralCreator.ts";
-import {createContext, useContext, useState} from "react";
+import {createContext, useContext} from "react";
 import HorseCreator from "./service/abstractFactory/HorseCreator.ts";
 import SpearCreator from "./service/abstractFactory/SpearCreator.ts";
 import ElephantCreator from "./service/abstractFactory/ElephantCreator.ts";
@@ -55,10 +55,13 @@ class Board {
     cellsToMoveDisplay: Cell[] = [];
     senteCapturedFigures: Figure[] = [];
     goteCapturedFigures: Figure[] = [];
-    figureToDrop: Figure;
+    figureToDrop: Figure | null = null;
     currentTurn: "sente" | "gote" = "sente";
-    senteKing: King;
-    goteKing: King;
+    senteKing: King | null = null;
+    goteKing: King | null = null;
+    winsCounter: number = parseInt(localStorage.getItem("wins"), 10);
+    losesCounter: number = parseInt(localStorage.getItem("loses"), 10);
+    isPlaying: boolean = true;
     private _listeners: (() => void)[] = [];
 
 
@@ -103,44 +106,41 @@ class Board {
     }
 
     public initiateGame() {
-        //Kings initiation
+
         this.kingInitiation(0, 4, true);
         this.kingInitiation(8, 4, false);
 
 
-        //Golden generals initiation
+
         this.goldenGeneralInitiation(0, 3, true);
         this.goldenGeneralInitiation(0, 5, true);
         this.goldenGeneralInitiation(8, 3, false);
         this.goldenGeneralInitiation(8, 5, false);
 
-        //Silver generals initiation
+
         this.silverGeneralInitiation(0, 2, true);
         this.silverGeneralInitiation(0, 6, true);
         this.silverGeneralInitiation(8, 2, false);
         this.silverGeneralInitiation(8, 6, false);
 
-        //Horses initiation
         this.horseInitiation(0, 1, true);
         this.horseInitiation(0, 7, true);
         this.horseInitiation(8, 1, false);
         this.horseInitiation(8, 7, false);
 
-        //Spears initiation
+
         this.spearInitiation(0, 0, true);
         this.spearInitiation(0, 8, true);
         this.spearInitiation(8, 0, false);
         this.spearInitiation(8, 8, false);
 
-        //Elephants initiation
         this.elephantInitiation(1, 7, true);
         this.elephantInitiation(7, 1, false);
 
-        //Rooks initiation
         this.rookInitiation(1, 1, true);
         this.rookInitiation(7, 7, false);
 
-        //Pawns initiation
+
         for (let i=0; i < 9; i++) {
             this.pawnInitiation(2, i, true);
         }
@@ -233,7 +233,7 @@ class Board {
         this.clearMoves();
         this.cellsToMoveDisplay = availableMoves;
         availableMoves.forEach(moveVariant => {
-            (moveVariant.canMoveTo = true)
+            moveVariant.canMoveTo = true
         })
         this._notifyListeners();
     }
@@ -251,7 +251,6 @@ class Board {
     public moveFigure(cell: Cell) {
         this.figureToDrop?.setRow(cell.coords.row)
         this.figureToDrop?.setCol(cell.coords.column)
-        console.log(this.figureToDrop)
         const figureToMove = this.selectedCell?.figureOn ? this.selectedCell?.figureOn : this.figureToDrop;
 
         figureToMove?.requestForMove(cell);
@@ -259,27 +258,26 @@ class Board {
 
         const previousMove = this.currentTurn;
         this.currentTurn = this.currentTurn == "sente" ? "gote" : "sente";
-        console.log(this.currentTurn);
-        if (figureToMove === this.figureToDrop) {
 
+        if (figureToMove === this.figureToDrop) {
             if (previousMove == "sente") {
-                console.log("sente", figureToMove);
                 this.senteCapturedFigures = this.senteCapturedFigures.filter((item) => {
-                    return !((item.constructor.name === this.figureToDrop.constructor.name) &&
+                    return !((item.constructor.name === this.figureToDrop?.constructor.name) &&
                       (item.getRow() === this.figureToDrop.getRow()) &&
                       (item.getCol() === this.figureToDrop.getCol()))
                 })
             }
             else {
-                console.log("gote", figureToMove);
                 this.goteCapturedFigures = this.goteCapturedFigures.filter((item) => {
-                    return !((item.constructor.name === this.figureToDrop.constructor.name) &&
+                    return !((item.constructor.name === this.figureToDrop?.constructor.name) &&
                       (item.getRow() === this.figureToDrop.getRow()) &&
                       (item.getCol() === this.figureToDrop.getCol()))
                 })
             }
 
-            figureToMove.isCaptured = false;
+            if (figureToMove) {
+                figureToMove.isCaptured = false;
+            }
             this.figureToDrop = null;
 
 
@@ -289,6 +287,14 @@ class Board {
 
     public selectCapturedFigure(figure: Figure): void {
         this.figureToDrop = figure;
+    }
+
+    clearBoard(): void {
+        this.coordinates.forEach((row) => {
+            row.forEach((cell) => {
+                this.removeFigureFromCell(cell);
+            })
+        })
     }
 
 }

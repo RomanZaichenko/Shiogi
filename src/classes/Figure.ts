@@ -8,6 +8,7 @@ abstract class Figure {
     protected figureCoordinates: {row: number, col: number};
     private state: FigureState;
     public isCaptured: boolean = false;
+    public isChecked: boolean = false;
 
     constructor(mediator: Mediator, row: number, col: number, state: FigureState) {
         this.mediator = mediator;

@@ -1,4 +1,3 @@
-import {useState, useEffect} from "react";
 import Figure from "../classes/Figure.ts";
 import {Board} from "../classes/Board.ts";
 import GeneralPromotionDecorator from "../classes/service/decorator/GeneralPromotionDecorator.ts";
@@ -15,9 +14,10 @@ import {FigureComponents} from "./CellElement.tsx";
 interface CapturedElementProps {
   figure: Figure;
   owner: string;
+  setGameStage: (stage: "menu" | "game" | "gameOver") => void;
 }
 
-function CapturedElement({ figure, owner }: CapturedElementProps) {
+function CapturedElement({ figure, owner, setGameStage }: CapturedElementProps) {
   let figureElement = null;
   const pawnCreator = new PawnCreator();
   const horseCreator = new HorseCreator();
@@ -25,7 +25,6 @@ function CapturedElement({ figure, owner }: CapturedElementProps) {
   const spearCreator = new SpearCreator();
   const elephantCreator = new ElephantCreator();
   const rookCreator = new RookCreator();
-  const board = Board.instance
 
   if (figure == undefined) {
     return;
@@ -74,7 +73,8 @@ function CapturedElement({ figure, owner }: CapturedElementProps) {
 
   const FigureComponent = FigureComponents[name];
   figureElement = <FigureComponent rotated={checkRotation} row={row} col={col}
-                                   isCaptured={true} figure={figure} owner={owner}/>;
+                                   isCaptured={true} figure={figure} owner={owner}
+                                    setGameStage={setGameStage}/>;
 
   return (
     <div className="captured-figure">

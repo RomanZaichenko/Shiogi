@@ -6,4 +6,4 @@ interface FigureCreator {
     createFigure(mediator: Mediator, x: number, y: number, state: FigureState): Figure;
 }
 
-export default FigureCreator;{}
+export default FigureCreator;

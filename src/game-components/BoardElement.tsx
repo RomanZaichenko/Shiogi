@@ -1,7 +1,6 @@
 import CellRow from "./CellRow.tsx";
 import {Board} from "../classes/Board.ts";
 import '../styles/BoardElement.css';
-import React from "react";
 import BoardProvider from "./BoardProvider.tsx";
 
 

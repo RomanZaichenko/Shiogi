@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {Board, useBoard} from "../../classes/Board.ts";
-import rook from "../../classes/figures/Rook.ts";
+
 import Figure from "../../classes/Figure.ts";
 
 interface RookElementProps {

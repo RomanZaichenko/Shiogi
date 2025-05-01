@@ -19,7 +19,7 @@ function GoldenGeneralElement({row, col, isCaptured, figure, owner}: GoldenGener
       if (owner === board.currentTurn) {
         board.selectCapturedFigure(figure);
         board.goldenGeneralMoveDisplay.displayDropIn(figure);
-        const movesToDisplay = board.cellsToMoveDisplay; //change
+        const movesToDisplay = board.cellsToMoveDisplay;
         displayAvailableMoves(movesToDisplay);
       }
     }

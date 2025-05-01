@@ -7,9 +7,10 @@ import "../styles/CaptureArea.css"
 interface CapturedFiguresAreaProps {
   side: string;
   owner: string;
+  setGameStage: (stage: "menu" | "game" | "gameOver") => void;
 }
 
-function CapturedFiguresArea({side, owner}: CapturedFiguresAreaProps) {
+function CapturedFiguresArea({side, owner, setGameStage}: CapturedFiguresAreaProps) {
   const [capturedFigures, setCapturedFigures] = useState<Figure[]>([]);
   const board = Board.instance
 
@@ -36,7 +37,7 @@ function CapturedFiguresArea({side, owner}: CapturedFiguresAreaProps) {
   return (
     <div className={`captured-figure-area ${side}`}>
       {capturedFigures.map((figure: Figure, index) => (
-        <CapturedElement key={index} figure={figure} owner={owner} />
+        <CapturedElement key={index} figure={figure} owner={owner} setGameStage={setGameStage} />
       ))}
     </div>
   )

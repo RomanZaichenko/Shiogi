@@ -1,5 +1,6 @@
 import {Board, useBoard} from "../../classes/Board.ts";
 import {useEffect, useState} from "react";
+import Figure from "../../classes/Figure.ts";
 
 interface SpearElementProps {
   row: number;

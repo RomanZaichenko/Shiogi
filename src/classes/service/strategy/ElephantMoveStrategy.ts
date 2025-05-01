@@ -5,7 +5,11 @@ import Figure from "../../Figure.ts";
 class ElephantMoveStrategy implements FigureMoveStrategy {
   public getAvailableCells(cell: Cell) : Cell[] {
     const availableCells = cell.figureOn?.checkAvailableCells();
-    const figuresToCapture = cell.figureOn?.checkCaptures(availableCells);
+    let figuresToCapture: Cell[] | undefined = [];
+    if (availableCells) {
+      figuresToCapture = cell.figureOn?.checkCaptures(availableCells);
+    }
+
 
     availableCells?.forEach((cell: Cell) => {
       figuresToCapture?.forEach(capture => {

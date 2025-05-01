@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
 import {Board, useBoard} from "../../classes/Board.ts";
-import BoardProvider from "../BoardProvider.tsx";
 import Figure from "../../classes/Figure.ts";
 
 interface ElephantElementProps {
@@ -23,7 +22,7 @@ function ElephantElement({row, col, isCaptured, figure, owner}: ElephantElementP
       {
         board.figureToDrop = figure;
         board.elephantMoveDisplay.displayDropIn(figure);
-        const movesToDisplay = board.cellsToMoveDisplay; //change
+        const movesToDisplay = board.cellsToMoveDisplay;
         displayAvailableMoves(movesToDisplay);
       }
     }

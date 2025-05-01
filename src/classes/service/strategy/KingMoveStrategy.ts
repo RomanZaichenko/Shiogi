@@ -5,7 +5,11 @@ import Figure from "../../Figure.ts";
 class KingMoveStrategy implements FigureMoveStrategy {
   public getAvailableCells(cell: Cell) : Cell[] {
     const availableCells = cell.figureOn?.checkAvailableCells();
-    const figuresToCapture = cell.figureOn?.checkCaptures(availableCells);
+    let figuresToCapture: Cell[] | undefined = [];
+
+    if (availableCells) {
+      figuresToCapture = cell.figureOn?.checkCaptures(availableCells);
+    }
 
     availableCells?.forEach((cell: Cell) => {
       figuresToCapture?.forEach(capture => {
@@ -23,6 +27,10 @@ class KingMoveStrategy implements FigureMoveStrategy {
     }
   };
 
+  getDropInCells(figure: Figure): Cell[] {
+    figure.checkAvailableCells()
+    return []
+  }
 }
 
 export default KingMoveStrategy;
