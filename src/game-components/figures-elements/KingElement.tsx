@@ -12,15 +12,19 @@ interface KingElementProps {
 function KingElement({row, col, isCaptured, setGameStage}: KingElementProps) {
   const board = Board.instance;
 
+
+
   useEffect(() => {
     if (isCaptured) {
+      console.log("worked")
       setGameStage("gameOver");
     }
+
   }, [isCaptured, setGameStage]);
 
  if (isCaptured) {
    board.clearBoard();
-   return;
+   return null;
  }
   const {getBoardCell, displayAvailableMoves, clearMoves} = useBoard();
   const cell = getBoardCell(row, col);

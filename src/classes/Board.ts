@@ -21,6 +21,9 @@ import ElephantMoveStrategy from "./service/strategy/ElephantMoveStrategy.ts";
 import RookMoveStrategy from "./service/strategy/RookMoveStrategy.ts";
 import DefaultState from "./service/state/DefaultState.ts";
 import King from "./figures/King.ts";
+import StatsInvoker from "./service/command/StatsInvoker.ts";
+import LoadStatsCommand from "./service/command/LoadStatsCommand.ts";
+
 
 interface BoardContextType {
     board: Board;
@@ -51,6 +54,7 @@ class Board {
     elephantMoveDisplay: MoveDisplayStrategy;
     rookMoveDisplay: MoveDisplayStrategy;
     mediator: MoveMediator;
+    statsInvoker: StatsInvoker = new StatsInvoker();
     selectedCell: Cell | null = null;
     cellsToMoveDisplay: Cell[] = [];
     senteCapturedFigures: Figure[] = [];
@@ -59,9 +63,9 @@ class Board {
     currentTurn: "sente" | "gote" = "sente";
     senteKing: King | null = null;
     goteKing: King | null = null;
-    winsCounter: number = parseInt(localStorage.getItem("wins"), 10);
-    losesCounter: number = parseInt(localStorage.getItem("loses"), 10);
-    isPlaying: boolean = true;
+    winsCounter: number = 0;
+    losesCounter: number = 0;
+    isPlaying: boolean;
     private _listeners: (() => void)[] = [];
 
 
@@ -82,7 +86,10 @@ class Board {
         this.elephantMoveDisplay = new MoveDisplayStrategy(new ElephantMoveStrategy())
         this.rookMoveDisplay = new MoveDisplayStrategy(new RookMoveStrategy())
         this.mediator = new MoveMediator();
+
+
     }
+
 
 
 
@@ -106,7 +113,13 @@ class Board {
     }
 
     public initiateGame() {
+        this.resetGameState();
+        console.clear()
+        console.log("Game Starting");
+        this.statsInvoker.setCommand(new LoadStatsCommand())
+        this.statsInvoker.executeStorageOperation();
 
+        this.isPlaying = true;
         this.kingInitiation(0, 4, true);
         this.kingInitiation(8, 4, false);
 
@@ -295,6 +308,20 @@ class Board {
                 this.removeFigureFromCell(cell);
             })
         })
+    }
+
+    resetGameState(): void {
+        this.clearBoard(); // clears the cells
+        this.selectedCell = null;
+        this.cellsToMoveDisplay = [];
+        this.figureToDrop = null;
+        this.senteCapturedFigures = [];
+        this.goteCapturedFigures = [];
+        this.senteKing = null;
+        this.goteKing = null;
+        this.currentTurn = "sente";
+        this.isPlaying = true;
+        this._notifyListeners();
     }
 
 }

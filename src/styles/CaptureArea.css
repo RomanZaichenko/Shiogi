@@ -9,5 +9,5 @@
 }
 
 .right {
-    @apply right-[-15%];
+    @apply right-0;
 }

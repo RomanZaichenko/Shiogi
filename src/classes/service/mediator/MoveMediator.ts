@@ -4,6 +4,7 @@ import {Cell} from "../../Cell.ts";
 import King from "../../figures/King.ts";
 import MoveImplementation from "../bridge/MoveImplementation.ts";
 import {Board} from "../../Board.ts";
+import SaveStatsCommand from "../command/SaveStatsCommand.ts";
 
 
 class MoveMediator implements Mediator {
@@ -53,17 +54,18 @@ class MoveMediator implements Mediator {
     isGameOver() : boolean {
         const board = Board.instance;
 
-        if(board.goteKing.isCaptured) {
+        if(board.goteKing?.isCaptured) {
             this.isWon = true;
             board.winsCounter++;
-            localStorage.setItem("wins", (board.winsCounter).toString())
+            board.statsInvoker.setCommand(new SaveStatsCommand(board.winsCounter, board.losesCounter));
+            board.statsInvoker.executeStorageOperation();
             return true;
         }
-        if (board.senteKing.isCaptured) {
+        if (board.senteKing?.isCaptured) {
             this.isWon = false;
             board.losesCounter++;
-
-            localStorage.setItem("loses", (board.losesCounter).toString())
+            board.statsInvoker.setCommand(new SaveStatsCommand(board.winsCounter, board.losesCounter));
+            board.statsInvoker.executeStorageOperation();
             return true;
         }
 
