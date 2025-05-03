@@ -158,24 +158,6 @@ function CellElement({row, col}: CellElementProps) {
             } else {
                 board.clearMoves();
             }
-        // } else if (cell.canCapture) {
-        //     const startingCell = board.selectedCell;
-        //     if (startingCell) {
-        //         const figureToCapture = startingCell.figureOn;
-        //
-        //         if (figureToCapture) {
-        //             board.mediator.setMoveImplementation(clickImplementation);
-        //             const row = figureToCapture.getRow();
-        //             const col = figureToCapture.getCol();
-        //             const capturingCell = getBoardCell(row, col);
-        //             board.captureFigure(capturingCell);
-        //             board.clearMoves();
-        //             board.selectedCell = null;
-        //             // board.capturedFigures.push(figureToCapture);
-        //         }
-        //     }
-        // }
-
     }
 
     useEffect(() => {

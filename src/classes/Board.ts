@@ -42,6 +42,7 @@ export const useBoard = () : BoardContextType => {
     }
     return context;
 }
+
 class Board {
     static #instance: Board;
     coordinates: Cell[][] = [];
@@ -89,9 +90,6 @@ class Board {
 
 
     }
-
-
-
 
     public static get instance(): Board {
         if (!Board.#instance) {
